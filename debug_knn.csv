@@ -1,0 +1,385 @@
+﻿equipo;rank;vecino;distancia;peso
+Croatia;1;Wales;0,9841;0,1638
+Croatia;2;France;0,9865;0,1634
+Croatia;3;Belgium;1,1137;0,1439
+Croatia;4;Portugal;1,2005;0,1319
+Croatia;5;USA;1,2773;0,1222
+Croatia;6;Spain;1,4829;0,0995
+Croatia;7;Denmark;1,558;0,0923
+Croatia;8;Austria;1,664;0,083
+Türkiye;1;Saudi Arabia;1,6109;0,1885
+Türkiye;2;Luxembourg;1,9951;0,1284
+Türkiye;3;Denmark;1,9977;0,128
+Türkiye;4;Albania;2,0891;0,1169
+Türkiye;5;Croatia;2,0945;0,1162
+Türkiye;6;Brazil;2,1672;0,1081
+Türkiye;7;Chile;2,169;0,1079
+Türkiye;8;Wales;2,186;0,1061
+Austria;1;Colombia;1,0318;0,2101
+Austria;2;Algeria;1,4254;0,1418
+Austria;3;Mexico;1,5702;0,1227
+Austria;4;Croatia;1,664;0,1117
+Austria;5;USA;1,6794;0,11
+Austria;6;Senegal;1,7004;0,1077
+Austria;7;France;1,7843;0,099
+Austria;8;Romania;1,8034;0,0971
+Belgium;1;Wales;0,8204;0,2188
+Belgium;2;Croatia;1,1137;0,1632
+Belgium;3;Denmark;1,3952;0,1231
+Belgium;4;France;1,5306;0,1075
+Belgium;5;Portugal;1,5978;0,1006
+Belgium;6;Italy;1,6135;0,099
+Belgium;7;Netherlands;1,646;0,0958
+Belgium;8;South Korea;1,6874;0,0919
+Portugal;1;Croatia;1,2005;0,1817
+Portugal;2;France;1,4068;0,1478
+Portugal;3;England;1,4636;0,1397
+Portugal;4;Belgium;1,5978;0,1221
+Portugal;5;Switzerland;1,7222;0,1078
+Portugal;6;Denmark;1,7321;0,1068
+Portugal;7;Wales;1,7948;0,1003
+Portugal;8;Spain;1,8621;0,0938
+France;1;Croatia;0,9865;0,205
+France;2;Portugal;1,4068;0,1346
+France;3;Spain;1,4085;0,1344
+France;4;Germany;1,5054;0,122
+France;5;Belgium;1,5306;0,1189
+France;6;Wales;1,649;0,1057
+France;7;Austria;1,7843;0,0923
+France;8;Brazil;1,8422;0,0871
+Netherlands;1;Norway;1,2836;0,1816
+Netherlands;2;Spain;1,5755;0,1356
+Netherlands;3;Belgium;1,646;0,1264
+Netherlands;4;England;1,676;0,1226
+Netherlands;5;Croatia;1,7104;0,1185
+Netherlands;6;Wales;1,7766;0,1109
+Netherlands;7;Germany;1,7791;0,1106
+Netherlands;8;USA;1,9437;0,0938
+Switzerland;1;Greece;1,1749;0,1676
+Switzerland;2;USA;1,2695;0,1524
+Switzerland;3;South Africa;1,3975;0,1341
+Switzerland;4;Finland;1,4412;0,1284
+Switzerland;5;Brazil;1,5002;0,121
+Switzerland;6;Croatia;1,672;0,1019
+Switzerland;7;Israel;1,7164;0,0975
+Switzerland;8;Portugal;1,7222;0,0969
+Sweden;1;Panama;1,4402;0,1706
+Sweden;2;Algeria;1,4941;0,1617
+Sweden;3;Senegal;1,6279;0,1414
+Sweden;4;Haiti;1,7873;0,1206
+Sweden;5;Colombia;1,855;0,1127
+Sweden;6;Finland;1,8625;0,1118
+Sweden;7;USA;2,039;0,0937
+Sweden;8;Mexico;2,1084;0,0875
+New Zealand;1;Greece;1,8542;0,1443
+New Zealand;2;Chile;1,9087;0,1366
+New Zealand;3;Uganda;1,9378;0,1327
+New Zealand;4;Panama;1,9816;0,127
+New Zealand;5;South Africa;2,0154;0,1228
+New Zealand;6;Suriname;2,029;0,1211
+New Zealand;7;Ecuador;2,1434;0,1081
+New Zealand;8;Finland;2,1502;0,1073
+Qatar;1;Iran;1,673;0,1786
+Qatar;2;Trinidad and Tobago;1,7657;0,1628
+Qatar;3;South Korea;2,0477;0,1228
+Qatar;4;Russia;2,1175;0,1145
+Qatar;5;Serbia;2,1288;0,1132
+Qatar;6;Australia;2,1858;0,107
+Qatar;7;Guadeloupe;2,2441;0,1009
+Qatar;8;Denmark;2,2513;0,1002
+Japan;1;Senegal;1,7003;0,2146
+Japan;2;Algeria;2,0814;0,1466
+Japan;3;Morocco;2,159;0,1356
+Japan;4;Austria;2,2622;0,1223
+Japan;5;South Korea;2,2811;0,12
+Japan;6;Germany;2,5835;0,0887
+Japan;7;USA;2,5841;0,0887
+Japan;8;Australia;2,6441;0,0835
+Iran;1;United Arab Emirates;1,3286;0,2349
+Iran;2;Qatar;1,673;0,1665
+Iran;3;Australia;1,9619;0,1247
+Iran;4;Iceland;2,0309;0,1164
+Iran;5;Trinidad and Tobago;2,1308;0,1053
+Iran;6;Russia;2,3488;0,0847
+Iran;7;Serbia;2,3517;0,0844
+Iran;8;Honduras;2,3677;0,0831
+Iraq;1;Paraguay;1,256;0,1614
+Iraq;2;Venezuela;1,2586;0,161
+Iraq;3;Honduras;1,4051;0,139
+Iraq;4;Hungary;1,4903;0,1277
+Iraq;5;Serbia;1,5285;0,1229
+Iraq;6;North Macedonia;1,6337;0,1106
+Iraq;7;China;1,8507;0,089
+Iraq;8;Northern Ireland;1,859;0,0883
+Uruguay;1;Poland;1,0891;0,1934
+Uruguay;2;Guatemala;1,3507;0,1489
+Uruguay;3;Mexico;1,3766;0,1451
+Uruguay;4;Panama;1,5967;0,1164
+Uruguay;5;Chile;1,7028;0,1047
+Uruguay;6;Romania;1,7641;0,0984
+Uruguay;7;Ecuador;1,7726;0,0976
+Uruguay;8;Tunisia;1,7936;0,0956
+Colombia;1;Austria;1,0318;0,1935
+Colombia;2;Algeria;1,231;0,1586
+Colombia;3;Mexico;1,4544;0,1268
+Colombia;4;Panama;1,457;0,1265
+Colombia;5;Romania;1,6421;0,1051
+Colombia;6;Senegal;1,7035;0,0989
+Colombia;7;Haiti;1,7283;0,0964
+Colombia;8;Morocco;1,7515;0,0942
+Paraguay;1;Iraq;1,256;0,1858
+Paraguay;2;Palestine;1,5215;0,1425
+Paraguay;3;Venezuela;1,5459;0,1391
+Paraguay;4;Costa Rica;1,744;0,1141
+Paraguay;5;Jordan;1,7917;0,1088
+Paraguay;6;Montenegro;1,8284;0,1049
+Paraguay;7;Belarus;1,8345;0,1042
+Paraguay;8;China;1,8692;0,1007
+Brazil;1;Switzerland;1,5002;0,1746
+Brazil;2;Ecuador;1,7476;0,1363
+Brazil;3;Mexico;1,8319;0,1253
+Brazil;4;France;1,8422;0,124
+Brazil;5;Greece;1,8694;0,1207
+Brazil;6;Israel;1,9451;0,1119
+Brazil;7;Germany;2,0015;0,1058
+Brazil;8;Croatia;2,0448;0,1013
+Mexico;1;Poland;0,9925;0,1766
+Mexico;2;Panama;1,1141;0,1563
+Mexico;3;Uruguay;1,3766;0,1202
+Mexico;4;Chile;1,4228;0,1148
+Mexico;5;Ecuador;1,4371;0,1132
+Mexico;6;Colombia;1,4544;0,1112
+Mexico;7;Egypt;1,4792;0,1085
+Mexico;8;Austria;1,5702;0,0991
+Germany;1;Spain;0,802;0,2754
+Germany;2;France;1,5054;0,1363
+Germany;3;Croatia;1,6743;0,1151
+Germany;4;Netherlands;1,7791;0,1037
+Germany;5;Argentina;1,7921;0,1023
+Germany;6;Belgium;1,9207;0,09
+Germany;7;USA;1,922;0,0899
+Germany;8;Portugal;1,952;0,0872
+Australia;1;Scotland;1,4073;0,1839
+Australia;2;Iceland;1,4302;0,1798
+Australia;3;United Arab Emirates;1,9312;0,1089
+Australia;4;Senegal;1,9421;0,1078
+Australia;5;Russia;1,9504;0,1069
+Australia;6;Iran;1,9619;0,1056
+Australia;7;USA;1,9772;0,104
+Australia;8;Uzbekistan;1,9869;0,103
+South Africa;1;Greece;1,2388;0,1881
+South Africa;2;Switzerland;1,3975;0,1605
+South Africa;3;USA;1,4949;0,1456
+South Africa;4;Russia;1,7734;0,1102
+South Africa;5;Ukraine;1,8603;0,101
+South Africa;6;Croatia;1,8845;0,0986
+South Africa;7;Egypt;1,8887;0,0982
+South Africa;8;Chile;1,8922;0,0979
+DR Congo;1;Cameroon;1,618;0,2047
+DR Congo;2;Angola;2,0195;0,137
+DR Congo;3;Jordan;2,0665;0,1307
+DR Congo;4;Costa Rica;2,1084;0,1253
+DR Congo;5;Tanzania;2,1613;0,1189
+DR Congo;6;Congo Republic;2,3281;0,1006
+DR Congo;7;Peru;2,405;0,0932
+DR Congo;8;Sudan;2,4428;0,0897
+South Korea;1;Belgium;1,6874;0,158
+South Korea;2;Denmark;1,7271;0,1519
+South Korea;3;USA;1,8618;0,1327
+South Korea;4;Croatia;1,9336;0,1235
+South Korea;5;Qatar;2,0477;0,1102
+South Korea;6;Netherlands;2,0564;0,1093
+South Korea;7;Wales;2,065;0,1083
+South Korea;8;South Africa;2,0868;0,106
+Ghana;1;Mozambique;2,4596;0,1501
+Ghana;2;Albania;2,4872;0,146
+Ghana;3;Georgia;2,5007;0,1441
+Ghana;4;Bolivia;2,5887;0,1319
+Ghana;5;Mali;2,6171;0,1282
+Ghana;6;Uganda;2,7782;0,1092
+Ghana;7;Greece;2,9137;0,0953
+Ghana;8;Indonesia;2,9158;0,0951
+Cabo Verde;1;Uruguay;1,9942;0,1715
+Cabo Verde;2;Angola;2,0589;0,1607
+Cabo Verde;3;Cameroon;2,2108;0,1381
+Cabo Verde;4;Burkina Faso;2,2894;0,1276
+Cabo Verde;5;Ecuador;2,4912;0,1043
+Cabo Verde;6;Côte d'Ivoire;2,4988;0,1035
+Cabo Verde;7;Bolivia;2,5397;0,0994
+Cabo Verde;8;Zambia;2,587;0,0948
+Egypt;1;Mexico;1,4792;0,1487
+Egypt;2;Chile;1,545;0,1393
+Egypt;3;Mali;1,5771;0,1349
+Egypt;4;Romania;1,5866;0,1336
+Egypt;5;Greece;1,6613;0,124
+Egypt;6;Poland;1,6852;0,121
+Egypt;7;Panama;1,8778;0,0998
+Egypt;8;South Africa;1,8887;0,0987
+Argentina;1;Spain;1,4014;0,2127
+Argentina;2;Germany;1,7921;0,1439
+Argentina;3;France;1,8816;0,1316
+Argentina;4;USA;2,0098;0,1157
+Argentina;5;Switzerland;2,0519;0,111
+Argentina;6;Israel;2,0961;0,1062
+Argentina;7;Croatia;2,2212;0,0937
+Argentina;8;Portugal;2,3157;0,0852
+Ecuador;1;Mexico;1,4371;0,1716
+Ecuador;2;Panama;1,6627;0,1369
+Ecuador;3;Chile;1,6668;0,1364
+Ecuador;4;Brazil;1,7476;0,1258
+Ecuador;5;Uruguay;1,7726;0,1227
+Ecuador;6;Poland;1,8394;0,1147
+Ecuador;7;Bolivia;2,0099;0,0968
+Ecuador;8;Luxembourg;2,0258;0,0952
+Spain;1;Germany;0,802;0,2355
+Spain;2;Argentina;1,4014;0,1293
+Spain;3;France;1,4085;0,1284
+Spain;4;Croatia;1,4829;0,1192
+Spain;5;USA;1,5325;0,1134
+Spain;6;Netherlands;1,5755;0,1087
+Spain;7;Austria;1,8345;0,0839
+Spain;8;Portugal;1,8621;0,0816
+Scotland;1;Australia;1,4073;0,1819
+Scotland;2;Haiti;1,6459;0,1433
+Scotland;3;Jamaica;1,7468;0,1296
+Scotland;4;Ireland;1,7765;0,1258
+Scotland;5;Italy;1,8684;0,1147
+Scotland;6;Serbia;1,9106;0,11
+Scotland;7;Morocco;2,0135;0,0992
+Scotland;8;Guatemala;2,0517;0,0955
+England;1;Portugal;1,4636;0,1984
+England;2;Netherlands;1,676;0,1604
+England;3;Belgium;1,933;0,1241
+England;4;Croatia;2,0248;0,1132
+England;5;Norway;2,0274;0,1129
+England;6;Spain;2,1444;0,1004
+England;7;France;2,1785;0,0971
+England;8;Germany;2,2155;0,0935
+Czechia;1;Bosnia & Herzegovina;2,4584;0,1998
+Czechia;2;Hungary;2,801;0,1418
+Czechia;3;China;2,8614;0,1335
+Czechia;4;Uzbekistan;2,9113;0,127
+Czechia;5;Jordan;3,0759;0,1077
+Czechia;6;Iraq;3,1624;0,0988
+Czechia;7;Paraguay;3,1634;0,0987
+Czechia;8;DR Congo;3,2265;0,0927
+Canada;1;Romania;1,9143;0,1783
+Canada;2;Uruguay;2,0953;0,1488
+Canada;3;Austria;2,2439;0,1283
+Canada;4;Colombia;2,3096;0,1201
+Canada;5;Tunisia;2,3608;0,1141
+Canada;6;Mexico;2,4285;0,1066
+Canada;7;Algeria;2,474;0,1019
+Canada;8;Bermuda;2,4745;0,1018
+Panama;1;Mexico;1,1141;0,1632
+Panama;2;Poland;1,2181;0,147
+Panama;3;Greece;1,4309;0,1189
+Panama;4;Sweden;1,4402;0,1178
+Panama;5;Colombia;1,457;0,1158
+Panama;6;Haiti;1,4673;0,1146
+Panama;7;Suriname;1,482;0,1129
+Panama;8;Guatemala;1,5101;0,1098
+USA;1;Finland;1,1173;0,1685
+USA;2;Switzerland;1,2695;0,1447
+USA;3;Croatia;1,2773;0,1436
+USA;4;Greece;1,4313;0,1231
+USA;5;South Africa;1,4949;0,1155
+USA;6;Spain;1,5325;0,1112
+USA;7;Russia;1,6649;0,0974
+USA;8;Austria;1,6794;0,096
+Haiti;1;Panama;1,4673;0,1595
+Haiti;2;Guatemala;1,5125;0,1524
+Haiti;3;Scotland;1,6459;0,1334
+Haiti;4;Colombia;1,7283;0,1228
+Haiti;5;Italy;1,7724;0,1175
+Haiti;6;Sweden;1,7873;0,1158
+Haiti;7;Poland;1,9058;0,1029
+Haiti;8;Morocco;1,9787;0,0956
+Curaçao;1;Suriname;1,5472;0,1892
+Curaçao;2;Bermuda;1,8044;0,1463
+Curaçao;3;Panama;1,8399;0,1412
+Curaçao;4;Romania;1,9234;0,1299
+Curaçao;5;Poland;2,1827;0,1002
+Curaçao;6;Jordan;2,1897;0,0995
+Curaçao;7;Uzbekistan;2,2063;0,0979
+Curaçao;8;Sweden;2,2277;0,0958
+Norway;1;Netherlands;1,2836;0,2185
+Norway;2;Belgium;1,7116;0,1424
+Norway;3;Wales;1,8297;0,1265
+Norway;4;Croatia;1,9229;0,1153
+Norway;5;USA;1,9671;0,1103
+Norway;6;England;2,0274;0,1039
+Norway;7;Spain;2,1023;0,0963
+Norway;8;Finland;2,2069;0,0868
+Bosnia & Herzegovina;1;Hungary;1,4808;0,1823
+Bosnia & Herzegovina;2;Venezuela;1,6958;0,147
+Bosnia & Herzegovina;3;Jordan;1,7945;0,1332
+Bosnia & Herzegovina;4;United Arab Emirates;1,8979;0,1201
+Bosnia & Herzegovina;5;Iraq;1,9818;0,1104
+Bosnia & Herzegovina;6;Paraguay;2,0029;0,1081
+Bosnia & Herzegovina;7;Honduras;2,0469;0,1035
+Bosnia & Herzegovina;8;Costa Rica;2,1284;0,0954
+Tunisia;1;Algeria;1,7932;0,1438
+Tunisia;2;Uruguay;1,7936;0,1437
+Tunisia;3;Colombia;1,8693;0,1333
+Tunisia;4;Morocco;1,8786;0,132
+Tunisia;5;Guatemala;1,938;0,1244
+Tunisia;6;Haiti;2,0586;0,1103
+Tunisia;7;Panama;2,0669;0,1094
+Tunisia;8;Uzbekistan;2,1252;0,1032
+Côte d'Ivoire;1;Nigeria;2,4521;0,1511
+Côte d'Ivoire;2;Tunisia;2,4794;0,147
+Côte d'Ivoire;3;Cabo Verde;2,4988;0,1442
+Côte d'Ivoire;4;Burkina Faso;2,5474;0,1374
+Côte d'Ivoire;5;Colombia;2,6686;0,1217
+Côte d'Ivoire;6;Algeria;2,8099;0,1057
+Côte d'Ivoire;7;Uruguay;2,8985;0,0967
+Côte d'Ivoire;8;Haiti;2,9032;0,0962
+Algeria;1;Senegal;0,977;0,2006
+Algeria;2;Colombia;1,231;0,1556
+Algeria;3;Austria;1,4254;0,1281
+Algeria;4;Sweden;1,4941;0,1196
+Algeria;5;Morocco;1,5349;0,1148
+Algeria;6;Panama;1,6364;0,1037
+Algeria;7;Finland;1,7897;0,089
+Algeria;8;Tunisia;1,7932;0,0887
+Senegal;1;Algeria;0,977;0,2341
+Senegal;2;Sweden;1,6279;0,1221
+Senegal;3;Japan;1,7003;0,1136
+Senegal;4;Austria;1,7004;0,1135
+Senegal;5;Colombia;1,7035;0,1132
+Senegal;6;Morocco;1,7509;0,108
+Senegal;7;Panama;1,8254;0,1002
+Senegal;8;Uzbekistan;1,8744;0,0954
+Morocco;1;Italy;1,4725;0,1638
+Morocco;2;Algeria;1,5349;0,1539
+Morocco;3;Senegal;1,7509;0,124
+Morocco;4;Colombia;1,7515;0,1239
+Morocco;5;Austria;1,8217;0,1155
+Morocco;6;Wales;1,8616;0,111
+Morocco;7;Tunisia;1,8786;0,1091
+Morocco;8;Haiti;1,9787;0,0987
+Jordan;1;Costa Rica;1,2076;0,2219
+Jordan;2;Paraguay;1,7917;0,1237
+Jordan;3;Bosnia & Herzegovina;1,7945;0,1234
+Jordan;4;Iraq;1,8859;0,1126
+Jordan;5;Hungary;1,8943;0,1116
+Jordan;6;Peru;1,9638;0,1041
+Jordan;7;Venezuela;1,9639;0,1041
+Jordan;8;Guatemala;2,019;0,0986
+Saudi Arabia;1;Trinidad and Tobago;1,2092;0,1972
+Saudi Arabia;2;Greece;1,5965;0,1339
+Saudi Arabia;3;Türkiye;1,6109;0,1319
+Saudi Arabia;4;Luxembourg;1,6602;0,1256
+Saudi Arabia;5;Georgia;1,7106;0,1194
+Saudi Arabia;6;Albania;1,8141;0,1077
+Saudi Arabia;7;Chile;1,9334;0,0956
+Saudi Arabia;8;Mexico;2,0077;0,0887
+Uzbekistan;1;Senegal;1,8744;0,1461
+Uzbekistan;2;Australia;1,9869;0,1305
+Uzbekistan;3;Iceland;2,0042;0,1283
+Uzbekistan;4;Algeria;2,0323;0,1247
+Uzbekistan;5;Panama;2,0364;0,1242
+Uzbekistan;6;Guatemala;2,0626;0,121
+Uzbekistan;7;Tunisia;2,1252;0,1137
+Uzbekistan;8;United Arab Emirates;2,1437;0,1116
