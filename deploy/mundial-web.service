@@ -1,0 +1,26 @@
+# Servicio systemd para el servidor Next.js (next start).
+# Copiar a /etc/systemd/system/mundial-web.service y AJUSTAR User y las rutas.
+#   sudo cp deploy/mundial-web.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mundial-web
+#
+# Ajusta:
+#   User          -> tu usuario (ubuntu en Oracle Ubuntu, opc en Oracle Linux)
+#   WorkingDirectory y la ruta de mundial -> donde clonaste el repo
+
+[Unit]
+Description=Mundial Predict (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/mundial/web
+# bash -lc carga el perfil para tener node/npm en el PATH (también con nvm)
+ExecStart=/usr/bin/env bash -lc 'npm run start'
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

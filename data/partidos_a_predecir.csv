@@ -1,0 +1,73 @@
+﻿partido_id;fecha;equipo_a;equipo_b
+ARG_ALG;2026-06-17;Argentina;Algeria
+ARG_AUT;2026-06-22;Argentina;Austria
+ARG_JOR;2026-06-28;Argentina;Jordan
+AUS_TUR;2026-06-14;Australia;Türkiye
+AUS_USA;2026-06-19;Australia;USA
+AUT_ALG;2026-06-28;Austria;Algeria
+BRA_SCO;2026-06-25;Brazil;Scotland
+CAN_BIH;2026-06-12;Canada;Bosnia & Herzegovina
+CAN_SUI;2026-06-24;Canada;Switzerland
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany
+COD_COL;2026-06-24;DR Congo;Colombia
+COD_POR;2026-06-17;DR Congo;Portugal
+COD_UZB;2026-06-28;DR Congo;Uzbekistan
+COL_POR;2026-06-28;Colombia;Portugal
+COL_UZB;2026-06-18;Colombia;Uzbekistan
+CPV_ESP;2026-06-15;Cabo Verde;Spain
+CPV_URU;2026-06-22;Cabo Verde;Uruguay
+CRO_ENG;2026-06-17;Croatia;England
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire
+CUR_ECU;2026-06-21;Curaçao;Ecuador
+CUR_GER;2026-06-14;Curaçao;Germany
+ECU_GER;2026-06-25;Ecuador;Germany
+EGY_BEL;2026-06-15;Egypt;Belgium
+FRA_NOR;2026-06-26;France;Norway
+GHA_CRO;2026-06-27;Ghana;Croatia
+GHA_ENG;2026-06-23;Ghana;England
+HAI_BRA;2026-06-20;Haiti;Brazil
+HAI_MAR;2026-06-25;Haiti;Morocco
+HAI_SCO;2026-06-14;Haiti;Scotland
+IRN_BEL;2026-06-21;Iran;Belgium
+IRN_EGY;2026-06-27;Iran;Egypt
+IRQ_FRA;2026-06-22;Iraq;France
+IRQ_NOR;2026-06-17;Iraq;Norway
+IRQ_SEN;2026-06-26;Iraq;Senegal
+JOR_ALG;2026-06-23;Jordan;Algeria
+JOR_AUT;2026-06-17;Jordan;Austria
+JPN_NED;2026-06-14;Japan;Netherlands
+JPN_SWE;2026-06-26;Japan;Sweden
+JPN_TUN;2026-06-21;Japan;Tunisia
+KOR_CZE;2026-06-12;South Korea;Czechia
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde
+KSA_ESP;2026-06-21;Saudi Arabia;Spain
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay
+MAR_BRA;2026-06-14;Morocco;Brazil
+MAR_SCO;2026-06-20;Morocco;Scotland
+MEX_CZE;2026-06-25;Mexico;Czechia
+MEX_KOR;2026-06-19;Mexico;South Korea
+MEX_RSA;2026-06-11;Mexico;South Africa
+NED_SWE;2026-06-20;Netherlands;Sweden
+NZL_BEL;2026-06-27;New Zealand;Belgium
+NZL_EGY;2026-06-22;New Zealand;Egypt
+NZL_IRN;2026-06-16;New Zealand;Iran
+PAN_CRO;2026-06-24;Panama;Croatia
+PAN_ENG;2026-06-27;Panama;England
+PAN_GHA;2026-06-18;Panama;Ghana
+PAR_AUS;2026-06-26;Paraguay;Australia
+PAR_TUR;2026-06-20;Paraguay;Türkiye
+PAR_USA;2026-06-13;Paraguay;USA
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina
+QAT_CAN;2026-06-19;Qatar;Canada
+QAT_SUI;2026-06-13;Qatar;Switzerland
+RSA_CZE;2026-06-18;South Africa;Czechia
+RSA_KOR;2026-06-25;South Africa;South Korea
+SEN_FRA;2026-06-16;Senegal;France
+SEN_NOR;2026-06-23;Senegal;Norway
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina
+TUN_NED;2026-06-26;Tunisia;Netherlands
+TUN_SWE;2026-06-15;Tunisia;Sweden
+URU_ESP;2026-06-27;Uruguay;Spain
+USA_TUR;2026-06-26;USA;Türkiye
+UZB_POR;2026-06-23;Uzbekistan;Portugal
