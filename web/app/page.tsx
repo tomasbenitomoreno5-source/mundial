@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { getMatches, getTournamentOdds } from "@/lib/queries";
 import { teamES } from "@/lib/teams";
 
-export const revalidate = 1800; // ISR: refleja el re-seed sin rebuild
+export const revalidate = 60; // ISR: refleja el re-seed sin rebuild
 
 // Gradiente oscuro aplicado inline para garantizar el contraste del hero.
 const HERO_BG: React.CSSProperties = {

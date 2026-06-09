@@ -21,7 +21,7 @@ import {
   type PlayerMarketRow,
 } from "@/lib/queries";
 
-export const revalidate = 1800; // ISR: refleja el re-seed sin rebuild
+export const revalidate = 60; // ISR: refleja el re-seed sin rebuild
 
 export async function generateStaticParams() {
   const ids = await getMatchIds();

@@ -1,7 +1,7 @@
 import { SeleccionesBrowser } from "@/components/SeleccionesBrowser";
 import { getTeams } from "@/lib/queries";
 
-export const revalidate = 1800; // ISR: refleja el re-seed sin rebuild
+export const revalidate = 60; // ISR: refleja el re-seed sin rebuild
 
 export const metadata = {
   title: "Selecciones · Mundial.Predict",

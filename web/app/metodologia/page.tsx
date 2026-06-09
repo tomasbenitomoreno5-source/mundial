@@ -1,7 +1,7 @@
 export const metadata = {
   title: "Metodología · Mundial.Predict",
   description:
-    "Cómo funciona el modelo: estilo (KNN), fuerza ELO, pool de partidos, Dixon-Coles y simulación Monte Carlo.",
+    "Cómo funciona el modelo: estilo (KNN), fuerza ELO, pool de partidos, Dixon-Coles, Monte Carlo, mercados de jugador, probabilidades de torneo y acierto del modelo.",
 };
 
 export default function MetodologiaPage() {
@@ -38,6 +38,21 @@ export default function MetodologiaPage() {
           n="5"
           title="Simulación Monte Carlo + Dixon-Coles"
           body="Remuestreamos ese pool 20.000 veces para simular el partido conservando las correlaciones entre métricas. Los goles se ajustan con el modelo Dixon-Coles, que corrige la dependencia entre los goles de ambos equipos y reparte bien empates y marcadores bajos."
+        />
+        <Block
+          n="6"
+          title="Mercados de jugador"
+          body="Para los jugadores de la convocatoria de cada selección tomamos la media por partido de su telemetría reciente (goles, tiros, asistencias, pases clave, regates, entradas, duelos…) y la modelamos con una distribución de Poisson para estimar cada mercado: marcar gol, dar asistencia, over/under de tiros, pases, entradas, etc. Solo incluimos jugadores con suficientes partidos; las tarjetas no entran porque el dato de alineaciones no las recoge."
+        />
+        <Block
+          n="7"
+          title="Probabilidades de torneo"
+          body="Simulamos el campeonato entero 20.000 veces. La fase de grupos usa las probabilidades 1X2 del propio modelo (puntos 3/1/0; clasifican 1º y 2º de cada grupo más los 8 mejores terceros). Las eliminatorias, cuyos cruces todavía no están fijados, se resuelven por ELO sobre un cuadro aleatorio. De ahí salen las probabilidades de pasar de grupo, llegar a cada ronda y ser campeón."
+        />
+        <Block
+          n="8"
+          title="Acierto del modelo"
+          body="A medida que se juegan los partidos comparamos lo predicho con lo real: porcentaje de aciertos del 1X2 y de los mercados clave, más el Brier score (mide la calidad de las probabilidades, no solo el acierto binario). Se actualiza solo según avanza el Mundial."
         />
       </div>
 

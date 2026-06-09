@@ -6,7 +6,7 @@ import { pct } from "@/lib/format";
 import { getSettledMatches } from "@/lib/queries";
 import { teamES } from "@/lib/teams";
 
-export const revalidate = 1800; // ISR: se refresca a medida que se juegan partidos
+export const revalidate = 60; // ISR: se refresca a medida que se juegan partidos
 
 export const metadata = { title: "Rendimiento del modelo · Mundial.Predict" };
 
