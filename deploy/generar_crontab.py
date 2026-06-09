@@ -1,13 +1,15 @@
-"""Genera las líneas de crontab (Linux) para correr actualizar.sh ~2.5h después
-de cada partido del Mundial, con las horas reales de data/calendario.csv.
+"""Genera las lineas de crontab (Linux) para el auto-update del Mundial:
 
-EJECUTAR EN EL SERVIDOR (usa su zona horaria local para los timestamps).
+  - Cada 6h: red de seguridad.
+  - Por cada partido (data/calendario.csv): a kickoff +1h y +2.5h.
 
-    .venv/bin/python deploy/generar_crontab.py            # imprime las líneas
-    .venv/bin/python deploy/generar_crontab.py | crontab -  # instalarlas
+Todas llaman al wrapper de Docker (deploy/actualizar_docker.sh).
+EJECUTAR EN EL SERVIDOR (usa su zona horaria local para las horas).
 
-Alternativa simple (sin esto): una sola línea cada 2h ->
-    0 */2 * * * /ruta/mundial/actualizar.sh >> /tmp/mundial_update.log 2>&1
+    python3 deploy/generar_crontab.py            # imprime las lineas (revisar)
+    python3 deploy/generar_crontab.py | crontab - # instalarlas (reemplaza el crontab)
+
+Compatible con Python 3.8 (sin anotaciones de tipos modernas).
 """
 
 import csv
@@ -15,25 +17,36 @@ import datetime as dt
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-OFFSET_MIN = 150
-SCRIPT = ROOT / "actualizar.sh"
+WRAPPER = ROOT / "deploy" / "actualizar_docker.sh"
 LOG = "/tmp/mundial_update.log"
+OFFSETS_MIN = [60, 150]  # 1h y 2.5h tras el inicio de cada partido
 
 
 def main():
-    lineas = []
-    with open(ROOT / "data" / "calendario.csv", encoding="utf-8-sig") as f:
+    out = []
+    out.append("# Mundial 2026 - auto-update (generado por generar_crontab.py)")
+    out.append("# Red de seguridad cada 6h")
+    out.append("0 */6 * * * %s >> %s 2>&1" % (WRAPPER, LOG))
+    out.append("# Post-partido: kickoff +1h y +2.5h")
+
+    triggers = []
+    cal = ROOT / "data" / "calendario.csv"
+    with open(cal, encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter=";"):
             if not r.get("kickoff"):
                 continue
-            t = dt.datetime.fromtimestamp(int(r["kickoff"]) + OFFSET_MIN * 60)
-            lineas.append(
-                (t, f"{t.minute} {t.hour} {t.day} {t.month} * {SCRIPT} >> {LOG} 2>&1")
-            )
-    lineas.sort(key=lambda x: x[0])
-    print("# Auto-update post-partido del Mundial (kickoff + 2.5h)")
-    for _, l in lineas:
-        print(l)
+            ko = int(r["kickoff"])
+            for off in OFFSETS_MIN:
+                t = dt.datetime.fromtimestamp(ko + off * 60)
+                line = "%d %d %d %d * %s >> %s 2>&1" % (
+                    t.minute, t.hour, t.day, t.month, WRAPPER, LOG,
+                )
+                triggers.append((t, line))
+
+    triggers.sort(key=lambda x: x[0])
+    for _, line in triggers:
+        out.append(line)
+    print("\n".join(out))
 
 
 if __name__ == "__main__":
