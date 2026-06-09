@@ -8,6 +8,7 @@ import pandas as pd
 from . import config
 from .dataset import Dataset, load_dataset
 from .markets import calcular_mercados
+from .simulate import dixon_coles_matrix
 from .pool import ajustar_pool_por_calidad_rival, construir_pool
 from .simulate import simular_partido_bootstrap
 from .strength import compute_strength
@@ -24,6 +25,7 @@ def predict_all(
     n_sim: int = config.N_SIM,
     seed: int = config.SEED,
     verbose: bool = False,
+    scores_out: list | None = None,
 ) -> pd.DataFrame:
     """Devuelve el DataFrame en formato largo con todos los mercados Fase 1."""
     d = dataset or load_dataset()
@@ -58,6 +60,24 @@ def predict_all(
                 print(f"  [WARN] {pid} sin sims (pool vacío)")
             continue
         filas.extend(calcular_mercados(sims, pid, fecha, eA, eB, rng=rng, n_sim=n_sim))
+
+        # Probabilidad de marcador exacto (matriz Dixon-Coles), opcional.
+        if (
+            scores_out is not None
+            and np.isfinite(sims.lam_a_blend)
+            and np.isfinite(sims.lam_b_blend)
+        ):
+            M = dixon_coles_matrix(sims.lam_a_blend, sims.lam_b_blend)
+            total = float(M.sum())
+            if total > 0:
+                for ga in range(M.shape[0]):
+                    for gb in range(M.shape[1]):
+                        p = float(M[ga, gb]) / total
+                        if p >= 0.001:
+                            scores_out.append(
+                                {"partido_id": pid, "a": ga, "b": gb,
+                                 "prob": round(p, 4)}
+                            )
 
         if verbose and (i + 1) % 12 == 0:
             print(f"  {i + 1}/{len(d.pred)} partidos")
@@ -105,3 +125,13 @@ def write_outputs(largo: pd.DataFrame, prefix: str = "predicciones") -> tuple[st
     build_resumen(largo).to_csv(fout_res, sep=";", decimal=",", index=False,
                                 encoding="utf-8-sig")
     return fout_largo, fout_res
+
+
+def write_scores(scores: list[dict]) -> str:
+    """Escribe las probabilidades de marcador exacto por partido."""
+    config.DATA_DIR.mkdir(exist_ok=True)
+    fout = str(config.DATA_DIR / "marcadores_py.csv")
+    pd.DataFrame(scores, columns=["partido_id", "a", "b", "prob"]).to_csv(
+        fout, sep=";", decimal=",", index=False, encoding="utf-8-sig"
+    )
+    return fout

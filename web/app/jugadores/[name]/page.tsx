@@ -42,7 +42,32 @@ export default async function PlayerPage({
   const name = decodeURIComponent(raw);
   const detail = await getPlayerDetail(name);
   if (!detail) notFound();
-  const { agg, markets, matches } = detail;
+  const { agg, bio, markets, matches } = detail;
+
+  const POS: Record<string, string> = {
+    F: "Delantero",
+    M: "Centrocampista",
+    D: "Defensa",
+    G: "Portero",
+  };
+  const FOOT: Record<string, string> = {
+    Right: "Diestro",
+    Left: "Zurdo",
+    Both: "Ambidiestro",
+  };
+  const valorMercado = (eur: number | null | undefined) =>
+    eur == null
+      ? null
+      : eur >= 1_000_000
+        ? `${(eur / 1_000_000).toFixed(eur % 1_000_000 ? 1 : 0)}M €`
+        : `${Math.round(eur / 1000)}K €`;
+  const bioChips: string[] = [];
+  if (bio?.position && POS[bio.position]) bioChips.push(POS[bio.position]);
+  if (bio?.age) bioChips.push(`${bio.age} años`);
+  if (bio?.height) bioChips.push(`${bio.height} cm`);
+  if (bio?.foot && FOOT[bio.foot]) bioChips.push(FOOT[bio.foot]);
+  const valor = valorMercado(bio?.marketEur);
+  if (valor) bioChips.push(`Valor ${valor}`);
 
   const radar = [
     { label: "Goleador", value: agg.radarGol },
@@ -102,13 +127,38 @@ export default async function PlayerPage({
       </Link>
 
       {/* Cabecera */}
-      <div className="mt-4 rounded-3xl bg-white p-6 ring-1 ring-slate-200 sm:p-8">
-        <h1 className="text-2xl font-black tracking-tight">{agg.player}</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          {flag(agg.team)} {teamES(agg.team)} · {agg.partidos} partidos ·{" "}
-          {agg.goles} goles · {agg.asistencias} asistencias
-          {agg.rating != null && ` · rating ${fmtMetric(agg.rating)}`}
-        </p>
+      <div className="mt-4 flex items-center gap-4 rounded-3xl bg-white p-6 ring-1 ring-slate-200 sm:p-8">
+        {bio?.sofaId && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={`https://img.sofascore.com/api/v1/player/${bio.sofaId}/image`}
+            alt={agg.player}
+            width={72}
+            height={72}
+            className="h-18 w-18 shrink-0 rounded-full bg-slate-100 object-cover ring-1 ring-slate-200"
+            style={{ height: 72, width: 72 }}
+          />
+        )}
+        <div className="min-w-0">
+          <h1 className="text-2xl font-black tracking-tight">{agg.player}</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            {flag(agg.team)} {teamES(agg.team)} · {agg.partidos} partidos ·{" "}
+            {agg.goles} goles · {agg.asistencias} asistencias
+            {agg.rating != null && ` · rating ${fmtMetric(agg.rating)}`}
+          </p>
+          {bioChips.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {bioChips.map((c) => (
+                <span
+                  key={c}
+                  className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">

@@ -81,7 +81,18 @@ function derivarGrupos(
 async function main() {
   const resumen = parseCsv("predicciones_resumen_py.csv");
   const largo = parseCsv("predicciones_largo_py.csv");
-  const teamToGroup = derivarGrupos(resumen);
+  // Fase de cada partido (grupos | eliminatoria) desde partidos_a_predecir.csv.
+  const faseMap = new Map<string, string>();
+  if (existsSync(join(ROOT, "partidos_a_predecir.csv"))) {
+    for (const r of parseCsv("partidos_a_predecir.csv")) {
+      faseMap.set(r.partido_id, r.fase || "grupos");
+    }
+  }
+  // Los grupos se derivan SOLO de los partidos de fase de grupos (si no, las
+  // eliminatorias conectarían grupos distintos y los mezclarían).
+  const teamToGroup = derivarGrupos(
+    resumen.filter((r) => (faseMap.get(r.partido_id) ?? "grupos") === "grupos"),
+  );
 
   // Reset idempotente (orden por las FK)
   await prisma.market.deleteMany();
@@ -131,13 +142,15 @@ async function main() {
   for (const r of resumen) {
     const c = cal.get(r.partido_id);
     const rr = res.get(r.partido_id);
+    const fase = faseMap.get(r.partido_id) ?? "grupos";
     await prisma.match.create({
       data: {
         id: r.partido_id,
         date: r.fecha,
         teamAName: r.equipo_a,
         teamBName: r.equipo_b,
-        groupLabel: teamToGroup.get(r.equipo_a) ?? null,
+        stage: fase,
+        groupLabel: fase === "grupos" ? (teamToGroup.get(r.equipo_a) ?? null) : null,
         kickoff: c?.kickoff ?? null,
         sofaEventId: c?.eventId ?? null,
         p1: num(r.p_1),
@@ -362,6 +375,14 @@ async function main() {
     statsJugador.set(p, { n: rows.length, mean });
   }
 
+  // Amonestaciones: nº de partidos en que cada jugador vio amarilla.
+  const cardMatches = new Map<string, number>();
+  if (existsSync(join(ROOT, "tarjetas.csv"))) {
+    for (const r of parseCsv("tarjetas.csv")) {
+      cardMatches.set(r.jugador, parseInt(r.partidos_amonestado, 10) || 0);
+    }
+  }
+
   // Jugadores por selección.
   const jugadoresPorEquipo = new Map<string, string[]>();
   for (const [p, t] of equipoJugador) {
@@ -400,6 +421,13 @@ async function main() {
         const base: Base = { matchId: r.partido_id, player: p, team: teamName };
         for (const def of PLAYER_MARKETS) {
           if (def.tipo === "binary") {
+            if (def.metric === "__yellow_card__") {
+              // Probabilidad empírica de ser amonestado en un partido.
+              const booked = cardMatches.get(p);
+              if (booked != null)
+                pushSiNo(base, def.key, Math.min(0.95, booked / st.n));
+              continue;
+            }
             let lam: number | null;
             if (def.metric === "__goal_or_assist__") {
               const g = st.mean["goals"];
@@ -476,6 +504,37 @@ async function main() {
     await prisma.playerAggregate.createMany({ data: aggData.slice(i, i + 2000) });
   }
 
+  // --- Bios de jugador ---
+  await prisma.playerBio.deleteMany();
+  if (existsSync(join(ROOT, "bios.csv"))) {
+    const bios = parseCsv("bios.csv").map((r) => ({
+      player: r.jugador,
+      sofaId: r.sofa_id ? parseInt(r.sofa_id, 10) : null,
+      position: r.posicion || null,
+      age: r.edad ? parseInt(r.edad, 10) : null,
+      height: r.altura ? parseInt(r.altura, 10) : null,
+      foot: r.pie || null,
+      marketEur: r.valor_eur ? parseInt(r.valor_eur, 10) : null,
+    }));
+    for (let i = 0; i < bios.length; i += 2000) {
+      await prisma.playerBio.createMany({ data: bios.slice(i, i + 2000) });
+    }
+  }
+
+  // --- Marcadores exactos (Dixon-Coles) ---
+  await prisma.scoreProb.deleteMany();
+  if (existsSync(join(ROOT, "marcadores_py.csv"))) {
+    const sp = parseCsv("marcadores_py.csv").map((r) => ({
+      matchId: r.partido_id,
+      a: parseInt(r.a, 10),
+      b: parseInt(r.b, 10),
+      prob: num(r.prob) ?? 0,
+    }));
+    for (let i = 0; i < sp.length; i += 5000) {
+      await prisma.scoreProb.createMany({ data: sp.slice(i, i + 5000) });
+    }
+  }
+
   // --- Probabilidades de torneo ---
   await prisma.tournamentOdds.deleteMany();
   if (existsSync(join(ROOT, "probabilidades_torneo.csv"))) {
@@ -488,6 +547,9 @@ async function main() {
         pSf: num(r.p_sf) ?? 0,
         pFinal: num(r.p_final) ?? 0,
         pCampeon: num(r.p_campeon) ?? 0,
+        p1Grupo: num(r.p_1grupo) ?? 0,
+        p2Grupo: num(r.p_2grupo) ?? 0,
+        ptsGrupo: num(r.pts_grupo) ?? 0,
       })),
     });
   }

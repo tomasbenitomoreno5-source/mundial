@@ -6,7 +6,7 @@ import argparse
 import time
 
 from . import config
-from .pipeline import predict_all, write_outputs
+from .pipeline import predict_all, write_outputs, write_scores
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -20,8 +20,11 @@ def main(argv: list[str] | None = None) -> int:
 
     t0 = time.time()
     print(f"[*] Prediciendo (n_sim={args.n_sim}, seed={args.seed})...")
-    largo = predict_all(n_sim=args.n_sim, seed=args.seed, verbose=True)
+    scores: list[dict] = []
+    largo = predict_all(n_sim=args.n_sim, seed=args.seed, verbose=True,
+                        scores_out=scores)
     fl, fr = write_outputs(largo, prefix=args.prefix)
+    write_scores(scores)
     print(f"[*] {len(largo)} filas | {largo['partido_id'].nunique()} partidos "
           f"en {time.time() - t0:.1f}s")
     print(f"[*] Escrito: {fl} y {fr}")

@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 
 import { MatchMarkets } from "@/components/MatchMarkets";
 import type { OULine } from "@/components/OverUnderTable";
+import { ScoreHeatmap } from "@/components/ScoreHeatmap";
 import { outcome, pred1x2 } from "@/lib/accuracy";
+import { bestBets } from "@/lib/best-bets";
 import { SECTIONS } from "@/lib/markets-ui";
 import { PLAYER_MARKETS } from "@/lib/player-markets";
 import { ProbBar } from "@/components/ProbBar";
@@ -14,6 +16,7 @@ import {
   getMatch,
   getMatchIds,
   getPlayerMarkets,
+  getScoreProbs,
   type MarketRow,
   type PlayerMarketRow,
 } from "@/lib/queries";
@@ -71,9 +74,10 @@ export default async function MatchPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [match, playerMarkets] = await Promise.all([
+  const [match, playerMarkets, scoreProbs] = await Promise.all([
     getMatch(id),
     getPlayerMarkets(id),
+    getScoreProbs(id),
   ]);
   if (!match) notFound();
 
@@ -130,6 +134,20 @@ export default async function MatchPage({
         (b.binarios["anytime_scorer"] ?? 0) -
         (a.binarios["anytime_scorer"] ?? 0),
     );
+
+  const topScorer =
+    jugadores[0]?.binarios["anytime_scorer"] != null
+      ? {
+          player: jugadores[0].player,
+          prob: jugadores[0].binarios["anytime_scorer"]!,
+        }
+      : null;
+  const destacadas = bestBets(
+    markets,
+    teamES(match.teamAName),
+    teamES(match.teamBName),
+    topScorer,
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
@@ -189,6 +207,38 @@ export default async function MatchPage({
               : "✗ El modelo falló el 1X2."}
           </p>
         </div>
+      )}
+
+      {destacadas.length > 0 && (
+        <section className="mt-4">
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
+            Apuestas destacadas
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {destacadas.map((d, i) => (
+              <span
+                key={i}
+                className="rounded-full bg-white px-3 py-1.5 text-sm ring-1 ring-slate-200"
+              >
+                {d.label}{" "}
+                <span className="font-bold text-indigo-600">{pct(d.prob)}</span>
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {scoreProbs.length > 0 && (
+        <section className="mt-6">
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
+            Mapa de marcadores
+          </h2>
+          <ScoreHeatmap
+            probs={scoreProbs}
+            teamA={match.teamAName}
+            teamB={match.teamBName}
+          />
+        </section>
       )}
 
       <MatchMarkets

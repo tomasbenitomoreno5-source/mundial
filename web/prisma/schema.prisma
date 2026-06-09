@@ -25,6 +25,7 @@ model Match {
   teamAName  String
   teamBName  String
   groupLabel String? // grupo del Mundial (derivado de los cruces)
+  stage       String? // "grupos" | "eliminatoria" (fase)
   kickoff     Int? // startTimestamp (epoch s) del partido real en SofaScore
   sofaEventId Int? // id de evento real en SofaScore (para bajar el resultado)
   teamA     Team   @relation("MatchTeamA", fields: [teamAName], references: [name])
@@ -46,6 +47,18 @@ model Match {
   markets Market[]
 
   @@index([date])
+}
+
+// Probabilidad de marcador exacto por partido (matriz Dixon-Coles). De
+// marcadores_py.csv.
+model ScoreProb {
+  id      Int    @id @default(autoincrement())
+  matchId String
+  a       Int
+  b       Int
+  prob    Float
+
+  @@index([matchId])
 }
 
 model Market {
@@ -169,15 +182,31 @@ model PlayerAggregate {
   @@index([team])
 }
 
+// Bio de jugador (de team/{id}/players). La foto se sirve desde
+// img.sofascore.com/api/v1/player/{sofaId}/image.
+model PlayerBio {
+  id        Int     @id @default(autoincrement())
+  player    String  @unique
+  sofaId    Int?
+  position  String? // F | M | D | G
+  age       Int?
+  height    Int? // cm
+  foot      String? // Right | Left | Both
+  marketEur Int? // valor de mercado en EUR
+}
+
 // Probabilidades de torneo por selección (Monte Carlo del cuadro). De
 // probabilidades_torneo.csv (predictor/tournament.py).
 model TournamentOdds {
-  id       Int    @id @default(autoincrement())
-  team     String @unique
-  pGrupo   Float
-  pR16     Float
-  pQf      Float
-  pSf      Float
-  pFinal   Float
-  pCampeon Float
+  id        Int    @id @default(autoincrement())
+  team      String @unique
+  pGrupo    Float
+  pR16      Float
+  pQf       Float
+  pSf       Float
+  pFinal    Float
+  pCampeon  Float
+  p1Grupo   Float  @default(0)
+  p2Grupo   Float  @default(0)
+  ptsGrupo  Float  @default(0)
 }

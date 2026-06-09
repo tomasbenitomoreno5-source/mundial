@@ -208,20 +208,26 @@ export async function getPlayerDetail(name: string) {
     where: { player: name },
   });
   if (!agg) return null;
-  const markets = await prisma.playerMarket.findMany({
-    where: { player: name },
-  });
+  const [bio, markets] = await Promise.all([
+    prisma.playerBio.findUnique({ where: { player: name } }),
+    prisma.playerMarket.findMany({ where: { player: name } }),
+  ]);
   const matchIds = [...new Set(markets.map((m) => m.matchId))];
   const matches = await prisma.match.findMany({
     where: { id: { in: matchIds } },
     orderBy: [{ kickoff: "asc" }, { date: "asc" }],
   });
-  return { agg, markets, matches };
+  return { agg, bio, markets, matches };
 }
 
 /** Mercados de jugador de un partido. */
 export async function getPlayerMarkets(matchId: string) {
   return prisma.playerMarket.findMany({ where: { matchId } });
+}
+
+/** Probabilidades de marcador exacto de un partido. */
+export async function getScoreProbs(matchId: string) {
+  return prisma.scoreProb.findMany({ where: { matchId } });
 }
 
 /** Probabilidades de torneo de todas las selecciones (ranking de favoritas). */
@@ -232,6 +238,36 @@ export async function getTournamentOdds() {
 export type TournamentOddsRow = Awaited<
   ReturnType<typeof getTournamentOdds>
 >[number];
+
+/** Selecciones agrupadas por grupo, con sus probabilidades de clasificación. */
+export async function getGroupStandings() {
+  const [teams, odds] = await Promise.all([
+    prisma.team.findMany(),
+    prisma.tournamentOdds.findMany(),
+  ]);
+  const oddsByTeam = new Map(odds.map((o) => [o.team, o]));
+  const byGroup = new Map<
+    string,
+    { name: string; p1: number; p2: number; pAdv: number; pts: number }[]
+  >();
+  for (const t of teams) {
+    const g = t.groupLabel ?? "?";
+    if (!byGroup.has(g)) byGroup.set(g, []);
+    const o = oddsByTeam.get(t.name);
+    byGroup.get(g)!.push({
+      name: t.name,
+      p1: o?.p1Grupo ?? 0,
+      p2: o?.p2Grupo ?? 0,
+      pAdv: o?.pGrupo ?? 0,
+      pts: o?.ptsGrupo ?? 0,
+    });
+  }
+  return [...byGroup.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(
+      ([g, ts]) => [g, ts.sort((x, y) => y.pAdv - x.pAdv)] as const,
+    );
+}
 
 export type TeamPlayer = Awaited<ReturnType<typeof getTeamPlayers>>[number];
 export type PlayerMarketRow = Awaited<

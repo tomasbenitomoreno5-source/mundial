@@ -13,11 +13,16 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-echo "[$(date '+%Y-%m-%d %H:%M')] actualizando resultados…"
+echo "[$(date '+%Y-%m-%d %H:%M')] 1/4 resultados…"
 .venv/bin/python extraer_resultados.py
 
-# Si quieres, aquí también podrías re-scrapear telemetría de los partidos
-# jugados (extraer_plantillas.py) para enriquecer mercados/fichas.
+echo "[$(date '+%Y-%m-%d %H:%M')] 2/4 detectar rondas nuevas (eliminatorias)…"
+.venv/bin/python actualizar_fixtures.py
 
+echo "[$(date '+%Y-%m-%d %H:%M')] 3/4 re-predecir (mercados de los partidos nuevos)…"
+.venv/bin/python -m predictor.cli
+.venv/bin/python -m predictor.tournament
+
+echo "[$(date '+%Y-%m-%d %H:%M')] 4/4 recargar DB…"
 cd web && npm run db:seed >/dev/null
-echo "[$(date '+%Y-%m-%d %H:%M')] DB recargada. OK"
+echo "[$(date '+%Y-%m-%d %H:%M')] OK"

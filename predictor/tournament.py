@@ -26,10 +26,21 @@ SEED = config.SEED
 
 
 def _load_matches() -> list[dict]:
+    # Solo partidos de fase de grupos (la simulación del torneo parte de ahí).
+    grupos = set()
+    pred_path = config.DATA_DIR / "partidos_a_predecir.csv"
+    if pred_path.exists():
+        with open(pred_path, encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f, delimiter=";"):
+                if r.get("fase", "grupos") == "grupos":
+                    grupos.add(r["partido_id"])
+
     path = config.DATA_DIR / "predicciones_resumen_py.csv"
     out = []
     with open(path, encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter=";"):
+            if grupos and r["partido_id"] not in grupos:
+                continue
             out.append(
                 {
                     "a": r["equipo_a"].strip(),
@@ -92,7 +103,10 @@ def simulate(n_sim: int = N_SIM, seed: int = SEED) -> dict[str, dict[str, int]]:
 
     rng = random.Random(seed)
     tally = {
-        t: {"grupo": 0, "r16": 0, "qf": 0, "sf": 0, "final": 0, "campeon": 0}
+        t: {
+            "grupo": 0, "r16": 0, "qf": 0, "sf": 0, "final": 0, "campeon": 0,
+            "first": 0, "second": 0, "ptsSum": 0.0,
+        }
         for t in teams
     }
 
@@ -110,10 +124,15 @@ def simulate(n_sim: int = N_SIM, seed: int = SEED) -> dict[str, dict[str, int]]:
                 else:
                     pts[m["b"]] += 3
 
+        for t in teams:
+            tally[t]["ptsSum"] += pts[t]
+
         clasificados: list[str] = []
         terceros: list[tuple[float, float, str]] = []
         for g, ts in groups.items():
             ordenado = sorted(ts, key=lambda t: (pts[t], rng.random()), reverse=True)
+            tally[ordenado[0]]["first"] += 1
+            tally[ordenado[1]]["second"] += 1
             clasificados.extend(ordenado[:2])
             t3 = ordenado[2]
             terceros.append((pts[t3], rng.random(), t3))
@@ -155,6 +174,9 @@ def main() -> None:
                 "p_sf": round(c["sf"] / n, 4),
                 "p_final": round(c["final"] / n, 4),
                 "p_campeon": round(c["campeon"] / n, 4),
+                "p_1grupo": round(c["first"] / n, 4),
+                "p_2grupo": round(c["second"] / n, 4),
+                "pts_grupo": round(c["ptsSum"] / n, 2),
             }
         )
     rows.sort(key=lambda r: r["p_campeon"], reverse=True)
@@ -170,6 +192,9 @@ def main() -> None:
                 "p_sf",
                 "p_final",
                 "p_campeon",
+                "p_1grupo",
+                "p_2grupo",
+                "pts_grupo",
             ],
             delimiter=";",
         )
