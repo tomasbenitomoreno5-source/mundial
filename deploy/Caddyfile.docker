@@ -1,0 +1,10 @@
+# Caddy dentro de docker-compose: HTTPS automático -> contenedor 'web' (puerto 3000).
+# CAMBIA el dominio por tu subdominio DuckDNS.
+mundialpredict.duckdns.org {
+    reverse_proxy web:3000
+}
+
+# Sin dominio (solo IP, HTTP) — comenta lo de arriba y usa:
+# :80 {
+#     reverse_proxy web:3000
+# }

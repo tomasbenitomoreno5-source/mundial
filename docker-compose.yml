@@ -1,0 +1,31 @@
+# Web (Next.js) + Caddy (HTTPS) en Docker. La DB SQLite vive en el volumen dbdata.
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "file:/data/dev.db"
+      NODE_ENV: "production"
+      PORT: "3000"
+    volumes:
+      - dbdata:/data
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile.docker:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  dbdata:
+  caddy_data:
+  caddy_config:
