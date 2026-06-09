@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Paleta de marca: azul índigo + acento ámbar sobre fondo claro. */
+:root {
+  --background: #f5f6fa;
+  --foreground: #0f172a;
+  --brand: #4f46e5; /* indigo-600 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,73 @@
+partido_id;fecha;equipo_a;equipo_b;fase
+ARG_ALG;2026-06-17;Argentina;Algeria;grupos
+ARG_AUT;2026-06-22;Argentina;Austria;grupos
+ARG_JOR;2026-06-28;Argentina;Jordan;grupos
+AUS_TUR;2026-06-14;Australia;Türkiye;grupos
+AUS_USA;2026-06-19;Australia;USA;grupos
+AUT_ALG;2026-06-28;Austria;Algeria;grupos
+BRA_SCO;2026-06-25;Brazil;Scotland;grupos
+CAN_BIH;2026-06-12;Canada;Bosnia & Herzegovina;grupos
+CAN_SUI;2026-06-24;Canada;Switzerland;grupos
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;grupos
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;grupos
+COD_COL;2026-06-24;DR Congo;Colombia;grupos
+COD_POR;2026-06-17;DR Congo;Portugal;grupos
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;grupos
+COL_POR;2026-06-28;Colombia;Portugal;grupos
+COL_UZB;2026-06-18;Colombia;Uzbekistan;grupos
+CPV_ESP;2026-06-15;Cabo Verde;Spain;grupos
+CPV_URU;2026-06-22;Cabo Verde;Uruguay;grupos
+CRO_ENG;2026-06-17;Croatia;England;grupos
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;grupos
+CUR_ECU;2026-06-21;Curaçao;Ecuador;grupos
+CUR_GER;2026-06-14;Curaçao;Germany;grupos
+ECU_GER;2026-06-25;Ecuador;Germany;grupos
+EGY_BEL;2026-06-15;Egypt;Belgium;grupos
+FRA_NOR;2026-06-26;France;Norway;grupos
+GHA_CRO;2026-06-27;Ghana;Croatia;grupos
+GHA_ENG;2026-06-23;Ghana;England;grupos
+HAI_BRA;2026-06-20;Haiti;Brazil;grupos
+HAI_MAR;2026-06-25;Haiti;Morocco;grupos
+HAI_SCO;2026-06-14;Haiti;Scotland;grupos
+IRN_BEL;2026-06-21;Iran;Belgium;grupos
+IRN_EGY;2026-06-27;Iran;Egypt;grupos
+IRQ_FRA;2026-06-22;Iraq;France;grupos
+IRQ_NOR;2026-06-17;Iraq;Norway;grupos
+IRQ_SEN;2026-06-26;Iraq;Senegal;grupos
+JOR_ALG;2026-06-23;Jordan;Algeria;grupos
+JOR_AUT;2026-06-17;Jordan;Austria;grupos
+JPN_NED;2026-06-14;Japan;Netherlands;grupos
+JPN_SWE;2026-06-26;Japan;Sweden;grupos
+JPN_TUN;2026-06-21;Japan;Tunisia;grupos
+KOR_CZE;2026-06-12;South Korea;Czechia;grupos
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;grupos
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;grupos
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;grupos
+MAR_BRA;2026-06-14;Morocco;Brazil;grupos
+MAR_SCO;2026-06-20;Morocco;Scotland;grupos
+MEX_CZE;2026-06-25;Mexico;Czechia;grupos
+MEX_KOR;2026-06-19;Mexico;South Korea;grupos
+MEX_RSA;2026-06-11;Mexico;South Africa;grupos
+NED_SWE;2026-06-20;Netherlands;Sweden;grupos
+NZL_BEL;2026-06-27;New Zealand;Belgium;grupos
+NZL_EGY;2026-06-22;New Zealand;Egypt;grupos
+NZL_IRN;2026-06-16;New Zealand;Iran;grupos
+PAN_CRO;2026-06-24;Panama;Croatia;grupos
+PAN_ENG;2026-06-27;Panama;England;grupos
+PAN_GHA;2026-06-18;Panama;Ghana;grupos
+PAR_AUS;2026-06-26;Paraguay;Australia;grupos
+PAR_TUR;2026-06-20;Paraguay;Türkiye;grupos
+PAR_USA;2026-06-13;Paraguay;USA;grupos
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina;grupos
+QAT_CAN;2026-06-19;Qatar;Canada;grupos
+QAT_SUI;2026-06-13;Qatar;Switzerland;grupos
+RSA_CZE;2026-06-18;South Africa;Czechia;grupos
+RSA_KOR;2026-06-25;South Africa;South Korea;grupos
+SEN_FRA;2026-06-16;Senegal;France;grupos
+SEN_NOR;2026-06-23;Senegal;Norway;grupos
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;grupos
+TUN_NED;2026-06-26;Tunisia;Netherlands;grupos
+TUN_SWE;2026-06-15;Tunisia;Sweden;grupos
+URU_ESP;2026-06-27;Uruguay;Spain;grupos
+USA_TUR;2026-06-26;USA;Türkiye;grupos
+UZB_POR;2026-06-23;Uzbekistan;Portugal;grupos

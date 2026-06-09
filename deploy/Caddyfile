@@ -1,0 +1,12 @@
+# Caddy: reverse proxy a next start (puerto 3000) con HTTPS automático.
+# Copiar a /etc/caddy/Caddyfile y recargar:  sudo systemctl reload caddy
+#
+# CON DOMINIO (HTTPS automático con Let's Encrypt):
+tudominio.com {
+    reverse_proxy localhost:3000
+}
+
+# SIN DOMINIO (solo por IP, HTTP, sin TLS) — comenta lo de arriba y usa esto:
+# :80 {
+#     reverse_proxy localhost:3000
+# }

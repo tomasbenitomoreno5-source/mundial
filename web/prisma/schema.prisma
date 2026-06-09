@@ -1,0 +1,212 @@
+// Esquema de datos del predictor del Mundial 2026.
+// SQLite para dev (cero infra); portable a Postgres cambiando el provider.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Team {
+  id         Int     @id @default(autoincrement())
+  name       String  @unique
+  elo        Int?
+  groupLabel String? // grupo del Mundial (derivado de los cruces)
+  matchesA   Match[] @relation("MatchTeamA")
+  matchesB   Match[] @relation("MatchTeamB")
+}
+
+model Match {
+  id         String  @id // partido_id, p.ej. "ARG_ALG"
+  date       String // fecha tal cual viene del dataset
+  teamAName  String
+  teamBName  String
+  groupLabel String? // grupo del Mundial (derivado de los cruces)
+  stage       String? // "grupos" | "eliminatoria" (fase)
+  kickoff     Int? // startTimestamp (epoch s) del partido real en SofaScore
+  sofaEventId Int? // id de evento real en SofaScore (para bajar el resultado)
+  teamA     Team   @relation("MatchTeamA", fields: [teamAName], references: [name])
+  teamB     Team   @relation("MatchTeamB", fields: [teamBName], references: [name])
+
+  // Mercados clave denormalizados para la lista (evita recorrer Market)
+  p1            Float?
+  pX            Float?
+  p2            Float?
+  bttsSi        Float?
+  golesOver25   Float?
+  cornersOver95 Float?
+
+  // Hueco fase 2: resultado real + acierto (de momento null)
+  scoreA  Int?
+  scoreB  Int?
+  settled Boolean @default(false)
+
+  markets Market[]
+
+  @@index([date])
+}
+
+// Probabilidad de marcador exacto por partido (matriz Dixon-Coles). De
+// marcadores_py.csv.
+model ScoreProb {
+  id      Int    @id @default(autoincrement())
+  matchId String
+  a       Int
+  b       Int
+  prob    Float
+
+  @@index([matchId])
+}
+
+model Market {
+  id           Int    @id @default(autoincrement())
+  matchId      String
+  match        Match  @relation(fields: [matchId], references: [id])
+  mercado      String // 1X2, btts, goles, corner_kicks, ...
+  ambito       String // -, A, B, TOTAL
+  evento       String // gana_A, over, under, si, no, ...
+  linea        String // linea_o_target (string: "-", "2.5", ...)
+  probabilidad Float
+
+  @@index([matchId, mercado])
+}
+
+// --- Datos por selección (cargados de los CSV del motor; ver seed.ts) ---
+
+// Vecinos de estilo (KNN) por selección. De debug_knn.csv.
+model TeamSimilar {
+  id        Int    @id @default(autoincrement())
+  team      String // nombre canónico (inglés), casa con Team.name
+  rank      Int
+  vecino    String
+  distancia Float
+  peso      Float
+
+  @@index([team])
+}
+
+// Perfil estadístico por selección y métrica. De debug_perfiles.csv.
+model TeamMetricProfile {
+  id      Int     @id @default(autoincrement())
+  team    String
+  metrica String
+  n       Int
+  media   Float?
+  mediana Float?
+  moda    Float?
+  sd      Float?
+  min     Float?
+  max     Float?
+
+  @@index([team])
+}
+
+// Historial partido-a-partido (datos crudos). De stats_final.csv. Las métricas
+// se guardan como JSON en `metrics` ({ metrica: número|null }) para no acoplar
+// el schema a las ~50 columnas del CSV.
+model TeamMatchStat {
+  id              Int     @id @default(autoincrement())
+  team            String // equipo_nombre
+  partidoId       String
+  partidoCompleto String?
+  tipoEquipo      String?
+  metrics         String // JSON
+
+  @@index([team])
+}
+
+// Telemetría por jugador y partido. De telemetria_final.csv. `team` es la
+// selección del jugador, inferida en el seed. `metrics` = JSON con ~80 métricas.
+model PlayerMatchStat {
+  id              Int     @id @default(autoincrement())
+  player          String
+  team            String
+  partidoId       String
+  partidoCompleto String?
+  minutes         Float?
+  rating          Float?
+  metrics         String // JSON
+
+  @@index([team])
+  @@index([player])
+}
+
+// Mercados de jugador por partido, calculados en el seed (Poisson sobre la
+// media por partido del jugador). mercado: anytime_scorer | shots | shots_on_target.
+model PlayerMarket {
+  id           Int    @id @default(autoincrement())
+  matchId      String
+  player       String
+  team         String
+  mercado      String
+  evento       String // si | no | over | under
+  linea        String // "-" | "2.5" | ...
+  probabilidad Float
+
+  @@index([matchId])
+}
+
+// Agregado por jugador (precalculado en el seed): totales, medias por partido y
+// percentiles del radar (0-100 entre todos los jugadores). Alimenta la pestaña
+// Jugadores y la página /jugadores/[name].
+model PlayerAggregate {
+  id            Int    @id @default(autoincrement())
+  player        String @unique
+  team          String
+  partidos      Int
+  goles         Int
+  asistencias   Int
+  tiros         Float?
+  sot           Float?
+  xg            Float?
+  xa            Float?
+  pasesClave    Float?
+  pases         Float?
+  regates       Float?
+  entradas      Float?
+  intercep      Float?
+  duelos        Float?
+  recuperaciones Float?
+  minutos       Float?
+  rating        Float?
+  radarGol      Float
+  radarTiro     Float
+  radarCrea     Float
+  radarPase     Float
+  radarRegate   Float
+  radarDef      Float
+
+  @@index([team])
+}
+
+// Bio de jugador (de team/{id}/players). La foto se sirve desde
+// img.sofascore.com/api/v1/player/{sofaId}/image.
+model PlayerBio {
+  id        Int     @id @default(autoincrement())
+  player    String  @unique
+  sofaId    Int?
+  position  String? // F | M | D | G
+  age       Int?
+  height    Int? // cm
+  foot      String? // Right | Left | Both
+  marketEur Int? // valor de mercado en EUR
+}
+
+// Probabilidades de torneo por selección (Monte Carlo del cuadro). De
+// probabilidades_torneo.csv (predictor/tournament.py).
+model TournamentOdds {
+  id        Int    @id @default(autoincrement())
+  team      String @unique
+  pGrupo    Float
+  pR16      Float
+  pQf       Float
+  pSf       Float
+  pFinal    Float
+  pCampeon  Float
+  p1Grupo   Float  @default(0)
+  p2Grupo   Float  @default(0)
+  ptsGrupo  Float  @default(0)
+}
