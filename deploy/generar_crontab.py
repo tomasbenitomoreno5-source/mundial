@@ -30,7 +30,11 @@ def main():
     out.append("# Post-partido: kickoff +1h y +2.5h")
 
     triggers = []
-    cal = ROOT / "data" / "calendario.csv"
+    # calendario_completo.csv = los 104 partidos (grupos + eliminatorias).
+    # Si no existe, cae a calendario.csv (solo los 72 de grupos).
+    cal = ROOT / "data" / "calendario_completo.csv"
+    if not cal.exists():
+        cal = ROOT / "data" / "calendario.csv"
     with open(cal, encoding="utf-8-sig") as f:
         for r in csv.DictReader(f, delimiter=";"):
             if not r.get("kickoff"):
