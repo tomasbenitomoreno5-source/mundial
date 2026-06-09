@@ -17,7 +17,7 @@ import {
 } from "@/lib/queries";
 import { teamES } from "@/lib/teams";
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const names = await getPlayerNames();

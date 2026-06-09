@@ -5,7 +5,7 @@ import { pct } from "@/lib/format";
 import { getGroupStandings } from "@/lib/queries";
 import { teamES } from "@/lib/teams";
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 export const metadata = { title: "Grupos · Mundial.Predict" };
 
