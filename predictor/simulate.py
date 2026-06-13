@@ -71,7 +71,14 @@ def tasa_shrunk(pool: pd.DataFrame, col: str, global_means: dict[str, float],
         return global_means[col]
     pool_mean = np.sum(v * w) / np.sum(w)
     prior_mean = global_means[col]
-    return (pool_mean * 1 + prior_mean * masa_prior) / (1 + masa_prior)
+    # Masa del prior proporcional a la (falta de) evidencia: pools con pocas
+    # filas efectivas (n_eff = 1/Σŵ²) se encogen más hacia la media global.
+    # Con n_eff≈80 (pool típico) masa≈0.25 (≈ comportamiento previo); con
+    # n_eff≈10 sube a 2.0 (encoge fuerte). Reemplaza la masa fija de 0.5.
+    w_norm = w / w.sum()
+    n_eff = 1.0 / np.sum(w_norm ** 2)
+    masa = float(np.clip(masa_prior * 40.0 / n_eff, 0.1, 2.0))
+    return (pool_mean * 1 + prior_mean * masa) / (1 + masa)
 
 
 # --------------------- Bootstrap del partido -------------------------------
@@ -97,6 +104,11 @@ def simular_partido_bootstrap(
     eB: str,
     rng: np.random.Generator,
     n_sim: int = config.N_SIM,
+    w_fifa: float = config.W_FIFA,
+    total_esperado: float = config.ELO_TOTAL_ESPERADO,
+    factor_a: float = 1.0,
+    factor_b: float = 1.0,
+    sharp_k: float = config.LAMBDA_SHARP_K,
 ) -> MatchSim | None:
     if pool_A is None or pool_B is None or len(pool_A) == 0 or len(pool_B) == 0:
         return None
@@ -125,9 +137,16 @@ def simular_partido_bootstrap(
     jg = metricas.index("goles")
     lam_a_pool = sim_A[:, jg].mean()
     lam_b_pool = sim_B[:, jg].mean()
-    el_a, el_b = elo_lambdas(get_elo(eA), get_elo(eB))
-    lam_a_blend = (1 - config.W_FIFA) * lam_a_pool + config.W_FIFA * el_a
-    lam_b_blend = (1 - config.W_FIFA) * lam_b_pool + config.W_FIFA * el_b
+    el_a, el_b = elo_lambdas(get_elo(eA), get_elo(eB), total_esperado=total_esperado)
+    # factor_a/b: ajuste por bajas (Task 4.2); 1.0 = plantilla completa.
+    lam_a_blend = ((1 - w_fifa) * lam_a_pool + w_fifa * el_a) * factor_a
+    lam_b_blend = ((1 - w_fifa) * lam_b_pool + w_fifa * el_b) * factor_b
+    # Sharpening: separa la diferencia por sharp_k manteniendo el total fijo
+    # (corrige la timidez del 1X2 sin mover el O/U de goles). k=1.0 = sin efecto.
+    if sharp_k != 1.0:
+        half = (lam_a_blend + lam_b_blend) / 2.0
+        lam_a_blend = max(0.05, half + sharp_k * (lam_a_blend - half))
+        lam_b_blend = max(0.05, half + sharp_k * (lam_b_blend - half))
     sim_A[:, jg] = rng.poisson(max(lam_a_blend, 1e-6), n_sim)
     sim_B[:, jg] = rng.poisson(max(lam_b_blend, 1e-6), n_sim)
 

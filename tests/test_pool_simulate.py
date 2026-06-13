@@ -23,6 +23,87 @@ def modelo(dataset):
     return knn, fuerza
 
 
+# --------------------- Shrinkage proporcional (3.2) -----------------------
+def test_shrink_mas_fuerte_con_pool_pequeno():
+    import pandas as pd
+    from predictor.simulate import tasa_shrunk
+
+    gm = {"red_cards": 0.10}
+    chico = pd.DataFrame({"red_cards": [1.0] * 5, "peso": [0.2] * 5})
+    grande = pd.DataFrame({"red_cards": [1.0] * 100, "peso": [0.01] * 100})
+    t_chico = tasa_shrunk(chico, "red_cards", gm)
+    t_grande = tasa_shrunk(grande, "red_cards", gm)
+    # ambos observan tasa 1.0; el pool pequeño se encoge más hacia 0.10
+    assert t_chico < t_grande
+    assert 0.10 < t_chico < t_grande < 1.0
+
+
+# --------------------- QoO coherente: jerarquía de tiros (3.4) ------------
+def test_qoo_preserva_jerarquia_de_tiros(dataset, modelo):
+    """El QoO escala la familia de tiros en bloque → no rompe la jerarquía.
+    Antes del fix (3.4) el QoO generaba ~63% de filas con componentes>total;
+    tras el fix solo quedan las pocas incoherencias de los datos crudos."""
+    import pandas as pd
+    from predictor.pool import construir_pool, ajustar_pool_por_calidad_rival
+
+    knn, fuerza = modelo
+    comp = ["shots_on_target", "shots_off_target", "blocked_shots"]
+    viol = tot = 0
+    for eA, eB in (("Brazil", "Morocco"), ("Spain", "Cabo Verde"), ("France", "Canada")):
+        adj = ajustar_pool_por_calidad_rival(
+            construir_pool(eA, eB, dataset.stats, knn, fuerza), fuerza.get(eB, 0.0), fuerza)
+        if adj is None:
+            continue
+        suma = sum(pd.to_numeric(adj[c], errors="coerce").fillna(0) for c in comp)
+        ts = pd.to_numeric(adj["total_shots"], errors="coerce")
+        viol += int((suma > ts + 1e-6).sum())
+        tot += len(adj)
+    # el QoO ya no rompe masivamente la jerarquía (residual = datos crudos)
+    assert viol / max(tot, 1) < 0.03, f"{viol}/{tot} filas con componentes>total"
+
+
+# --------------------- Recencia (2.1) -------------------------------------
+def test_peso_recencia_half_life():
+    import pandas as pd
+    from predictor.pool import _peso_recencia
+
+    fechas = pd.Series(["2026-06-01", "2025-12-03", "2024-06-01"])
+    w = _peso_recencia(fechas, "2026-06-01", half_life=180)
+    assert abs(w[0] - 1.0) < 1e-9          # mismo día
+    assert abs(w[1] - 0.5) < 0.02          # ~180 días → medio peso
+    assert w[2] < 0.07                     # ~2 años → residual
+
+
+def test_peso_recencia_nan_recibe_mediana():
+    import numpy as np
+    import pandas as pd
+    from predictor.pool import _peso_recencia
+
+    w = _peso_recencia(pd.Series(["2026-06-01", None]), "2026-06-01", half_life=180)
+    assert np.isfinite(w).all()
+
+
+# --------------------- Peso por competición (2.3) -------------------------
+def test_peso_torneo():
+    import pandas as pd
+    from predictor import config
+    from predictor.pool import _peso_torneo
+
+    s = pd.Series(["Int. Friendly Games", "World Cup Qualification, CONMEBOL", None])
+    w = _peso_torneo(s)
+    assert w[0] == config.PESO_AMISTOSO   # amistoso atenuado
+    assert w[1] == 1.0                    # competitivo
+    assert w[2] == 1.0                    # sin torneo → neutro
+
+
+# --------------------- Filas imputadas fuera del pool (0.3) ----------------
+def test_pool_sin_filas_imputadas(dataset, modelo):
+    knn, fuerza = modelo
+    pool = construir_pool("Cabo Verde", "Spain", dataset.stats, knn, fuerza)
+    assert pool is not None
+    assert pool["stats_completas"].all(), "el pool contiene filas imputadas"
+
+
 # --------------------- Dixon-Coles (determinista) --------------------------
 def test_dc_matrix_normalizada():
     M = dixon_coles_matrix(1.4, 1.1)

@@ -23,6 +23,24 @@ def _prox_fuerza(team_vec, opp_vec, fuerza_map, fuerza_diff_target, bandwidth):
     return np.exp(-((fuerza_diff_target - diff_pool) ** 2) / (2 * bandwidth ** 2))
 
 
+def _peso_torneo(torneos: pd.Series) -> np.ndarray:
+    """Atenúa los amistosos (menos informativos) frente a partidos competitivos."""
+    es_amistoso = torneos.fillna("").str.contains("Friendl", case=False).to_numpy()
+    return np.where(es_amistoso, config.PESO_AMISTOSO, 1.0)
+
+
+def _peso_recencia(fechas: pd.Series, fecha_ref, half_life: float) -> np.ndarray:
+    """Peso 0.5^(Δdías/half_life) respecto a fecha_ref. Filas sin fecha → mediana."""
+    f = pd.to_datetime(fechas, errors="coerce")
+    delta = (pd.Timestamp(fecha_ref) - f).dt.days
+    delta = delta.clip(lower=0).to_numpy(dtype=float)
+    w = np.power(0.5, delta / half_life)
+    if np.isnan(w).any():
+        med = np.nanmedian(w)
+        w = np.where(np.isnan(w), med if np.isfinite(med) else 1.0, w)
+    return w
+
+
 def construir_pool(
     propio: str,
     rival: str,
@@ -34,8 +52,19 @@ def construir_pool(
     beta: float = config.POOL_BETA,
     gamma: float = config.POOL_GAMMA,
     masa_threshold: float = config.POOL_MASA_THRESHOLD,
+    fecha_ref: str | None = None,
+    half_life: float = config.RECENCIA_HALF_LIFE_DIAS,
 ) -> pd.DataFrame | None:
-    """Devuelve un DataFrame de filas-partido reales con un peso de muestreo."""
+    """Devuelve un DataFrame de filas-partido reales con un peso de muestreo.
+
+    Si ``fecha_ref`` se da y las filas tienen columna ``fecha``, el peso de cada
+    fila se atenúa por recencia (0.5^(Δdías/half_life)) respecto a fecha_ref.
+    """
+    # Solo filas con stats reales: las imputadas (mediana) serían clones que
+    # comprimen varianza y rompen correlaciones del bootstrap (ver dataset 2.5b).
+    if "stats_completas" in stats.columns:
+        stats = stats[stats["stats_completas"]]
+
     w_vec_rival = knn.pesos(rival)
     w_vec_propio = knn.pesos(propio)
 
@@ -43,13 +72,25 @@ def construir_pool(
     f_riv = fuerza_map.get(rival, 0.0)
     fuerza_diff_target = f_prop - f_riv
 
+    usar_recencia = fecha_ref is not None and "fecha" in stats.columns
+    usar_torneo = "torneo" in stats.columns
+
     def prox(team_vec, opp_vec):
         return _prox_fuerza(team_vec, opp_vec, fuerza_map, fuerza_diff_target, bandwidth)
+
+    def rec(rows):
+        """Factor combinado recencia × tipo-de-competición por fila."""
+        f = np.ones(len(rows))
+        if usar_recencia:
+            f = f * _peso_recencia(rows["fecha"], fecha_ref, half_life)
+        if usar_torneo:
+            f = f * _peso_torneo(rows["torneo"])
+        return f
 
     # --- Componente alpha: partidos del propio equipo ---
     rows_a = stats[stats["equipo_nombre"] == propio].copy()
     if len(rows_a):
-        rows_a["peso_raw"] = prox(rows_a["equipo_nombre"], rows_a["oponente"])
+        rows_a["peso_raw"] = prox(rows_a["equipo_nombre"], rows_a["oponente"]) * rec(rows_a)
         rows_a["componente"] = "alpha"
 
     # --- Componente beta: propio vs rivales estilo-rival ---
@@ -60,7 +101,7 @@ def construir_pool(
     if len(rows_b):
         w_sim = rows_b["oponente"].map(w_vec_rival).to_numpy()
         w_prox = prox(rows_b["equipo_nombre"], rows_b["oponente"])
-        rows_b["peso_raw"] = w_sim * w_prox
+        rows_b["peso_raw"] = w_sim * w_prox * rec(rows_b)
         rows_b["componente"] = "beta"
 
     # --- Componente gamma: estilo-propio vs estilo-rival ---
@@ -73,7 +114,7 @@ def construir_pool(
         w_eq = rows_g["equipo_nombre"].map(w_vec_propio).to_numpy()
         w_op = rows_g["oponente"].map(w_vec_rival).to_numpy()
         w_prox = prox(rows_g["equipo_nombre"], rows_g["oponente"])
-        rows_g["peso_raw"] = w_eq * w_op * w_prox
+        rows_g["peso_raw"] = w_eq * w_op * w_prox * rec(rows_g)
         rows_g["componente"] = "gamma"
 
     masa_a = rows_a["peso_raw"].sum() if len(rows_a) else 0.0
@@ -173,6 +214,21 @@ def ajustar_pool_por_calidad_rival(
         pred_target_eff = mean_pred_fila + shift_eff
 
         nuevo = np.maximum(0.0, v_fit - pred_fila + pred_target_eff)
+
+        # Escalar la familia por el mismo factor por-fila para no romper las
+        # jerarquías (a puerta/fuera/bloqueados/área ≤ totales). factor acotado.
+        familia = config.FAMILIAS_QOO.get(m, ())
+        if familia:
+            # factor multiplicativo por fila SIN cap: preserva la identidad
+            # exactamente (suma hijos = total). El shift de la madre ya está
+            # capado al 35%, así que el factor no explota en la práctica.
+            viejo = np.where(v_fit > 0, v_fit, np.nan)
+            factor = np.where(np.isnan(viejo), 1.0, nuevo / viejo)
+            for hijo in familia:
+                if hijo in pool.columns:
+                    h = pd.to_numeric(pool[hijo], errors="coerce").to_numpy(dtype=float)
+                    pool[hijo] = np.maximum(0.0, np.where(np.isnan(h), h, h * factor))
+
         pool[m] = nuevo
 
     pool = pool.drop(columns=["f_oponente"])

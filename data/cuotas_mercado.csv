@@ -1,0 +1,520 @@
+﻿partido_id;fecha;equipo_a;equipo_b;mercado;ambito;evento;linea;periodo;cuota_media;cuota_max;prob_implicita;n_casas
+MAR_BRA;2026-06-14;Morocco;Brazil;1X2;-;gana_A;-;FT;5,6;6,0;0,1711;24
+MAR_BRA;2026-06-14;Morocco;Brazil;1X2;-;empate;-;FT;3,705;3,86;0,2586;24
+MAR_BRA;2026-06-14;Morocco;Brazil;1X2;-;gana_B;-;FT;1,68;1,74;0,5703;24
+MAR_BRA;2026-06-14;Morocco;Brazil;goles;TOTAL;over;2.25;FT;2,0;2,0;0,4885;1
+MAR_BRA;2026-06-14;Morocco;Brazil;goles;TOTAL;under;2.25;FT;1,91;1,91;0,5115;1
+MAR_BRA;2026-06-14;Morocco;Brazil;goles;TOTAL;over;2.5;FT;2,13;2,3;0,4439;12
+MAR_BRA;2026-06-14;Morocco;Brazil;goles;TOTAL;under;2.5;FT;1,7;1,76;0,5561;12
+MAR_BRA;2026-06-14;Morocco;Brazil;goles;TOTAL;over;3.0;FT;3,15;3,15;0,3016;1
+MAR_BRA;2026-06-14;Morocco;Brazil;goles;TOTAL;under;3.0;FT;1,36;1,36;0,6984;1
+HAI_SCO;2026-06-14;Haiti;Scotland;1X2;-;gana_A;-;FT;6,0;6,4;0,1605;24
+HAI_SCO;2026-06-14;Haiti;Scotland;1X2;-;empate;-;FT;4,5;4,8;0,214;24
+HAI_SCO;2026-06-14;Haiti;Scotland;1X2;-;gana_B;-;FT;1,54;1,56;0,6254;24
+HAI_SCO;2026-06-14;Haiti;Scotland;goles;TOTAL;over;3.0;FT;2,09;2,12;0,4641;4
+HAI_SCO;2026-06-14;Haiti;Scotland;goles;TOTAL;under;3.0;FT;1,81;1,85;0,5359;4
+HAI_SCO;2026-06-14;Haiti;Scotland;goles;TOTAL;over;2.5;FT;1,65;1,7;0,5769;10
+HAI_SCO;2026-06-14;Haiti;Scotland;goles;TOTAL;under;2.5;FT;2,25;2,4;0,4231;10
+HAI_SCO;2026-06-14;Haiti;Scotland;goles;TOTAL;over;3.5;FT;2,65;2,65;0,363;1
+HAI_SCO;2026-06-14;Haiti;Scotland;goles;TOTAL;under;3.5;FT;1,51;1,51;0,637;1
+AUS_TUR;2026-06-14;Australia;Türkiye;1X2;-;gana_A;-;FT;5,3;6,0;0,1814;24
+AUS_TUR;2026-06-14;Australia;Türkiye;1X2;-;empate;-;FT;3,8;3,95;0,253;24
+AUS_TUR;2026-06-14;Australia;Türkiye;1X2;-;gana_B;-;FT;1,7;1,74;0,5656;24
+AUS_TUR;2026-06-14;Australia;Türkiye;goles;TOTAL;over;2.5;FT;2,03;2,1;0,47;13
+AUS_TUR;2026-06-14;Australia;Türkiye;goles;TOTAL;under;2.5;FT;1,8;1,85;0,53;13
+AUS_TUR;2026-06-14;Australia;Türkiye;goles;TOTAL;over;3.0;FT;2,85;2,85;0,3341;1
+AUS_TUR;2026-06-14;Australia;Türkiye;goles;TOTAL;under;3.0;FT;1,43;1,43;0,6659;1
+CUR_GER;2026-06-14;Curaçao;Germany;1X2;-;gana_A;-;FT;41,0;70,0;0,0235;24
+CUR_GER;2026-06-14;Curaçao;Germany;1X2;-;empate;-;FT;19,0;25,0;0,0507;24
+CUR_GER;2026-06-14;Curaçao;Germany;1X2;-;gana_B;-;FT;1,04;1,06;0,9258;24
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;over;4.25;FT;1,92;1,92;0,5;1
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;under;4.25;FT;1,92;1,92;0,5;1
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;over;4.5;FT;2,08;2,2;0,4555;10
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;under;4.5;FT;1,74;1,81;0,5445;10
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;over;2.5;FT;1,18;1,18;0,8075;3
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;under;2.5;FT;4,95;4,95;0,1925;3
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;over;4.0;FT;1,74;1,74;0,5469;1
+CUR_GER;2026-06-14;Curaçao;Germany;goles;TOTAL;under;4.0;FT;2,1;2,1;0,4531;1
+JPN_NED;2026-06-14;Japan;Netherlands;1X2;-;gana_A;-;FT;3,8;4,0;0,2528;23
+JPN_NED;2026-06-14;Japan;Netherlands;1X2;-;empate;-;FT;3,6;3,7;0,2669;23
+JPN_NED;2026-06-14;Japan;Netherlands;1X2;-;gana_B;-;FT;2,0;2,06;0,4803;23
+JPN_NED;2026-06-14;Japan;Netherlands;goles;TOTAL;over;2.5;FT;1,92;2,0;0,4974;13
+JPN_NED;2026-06-14;Japan;Netherlands;goles;TOTAL;under;2.5;FT;1,9;1,98;0,5026;13
+JPN_NED;2026-06-14;Japan;Netherlands;goles;TOTAL;over;3.0;FT;2,55;2,55;0,3765;1
+JPN_NED;2026-06-14;Japan;Netherlands;goles;TOTAL;under;3.0;FT;1,54;1,54;0,6235;1
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;1X2;-;gana_A;-;FT;3,6;3,85;0,2669;24
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;1X2;-;empate;-;FT;2,845;2,98;0,3377;24
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;1X2;-;gana_B;-;FT;2,43;2,56;0,3954;24
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;over;1.75;FT;1,83;1,83;0,532;1
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;under;1.75;FT;2,08;2,08;0,468;1
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;over;2.0;FT;2,23;2,28;0,4383;3
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;under;2.0;FT;1,74;1,75;0,5617;3
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;over;2.5;FT;2,95;3,0;0,3226;4
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;under;2.5;FT;1,405;1,41;0,6774;4
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;over;1.5;FT;1,565;1,63;0,5977;6
+CIV_ECU;2026-06-15;Côte d'Ivoire;Ecuador;goles;TOTAL;under;1.5;FT;2,325;2,43;0,4023;6
+TUN_SWE;2026-06-15;Tunisia;Sweden;1X2;-;gana_A;-;FT;4,39;4,75;0,2181;24
+TUN_SWE;2026-06-15;Tunisia;Sweden;1X2;-;empate;-;FT;3,48;3,65;0,2752;24
+TUN_SWE;2026-06-15;Tunisia;Sweden;1X2;-;gana_B;-;FT;1,89;1,96;0,5067;24
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;over;2.5;FT;2,18;2,26;0,4293;11
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;under;2.5;FT;1,64;1,73;0,5707;11
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;over;2.25;FT;1,96;1,96;0,4961;1
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;under;2.25;FT;1,93;1,93;0,5039;1
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;over;2.0;FT;1,71;1,71;0,5671;1
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;under;2.0;FT;2,24;2,24;0,4329;1
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;over;1.5;FT;1,38;1,38;0,6849;1
+TUN_SWE;2026-06-15;Tunisia;Sweden;goles;TOTAL;under;1.5;FT;3,0;3,0;0,3151;1
+CPV_ESP;2026-06-15;Cabo Verde;Spain;1X2;-;gana_A;-;FT;26,0;38,0;0,0367;24
+CPV_ESP;2026-06-15;Cabo Verde;Spain;1X2;-;empate;-;FT;11,5;14,5;0,083;24
+CPV_ESP;2026-06-15;Cabo Verde;Spain;1X2;-;gana_B;-;FT;1,085;1,11;0,8802;24
+CPV_ESP;2026-06-15;Cabo Verde;Spain;goles;TOTAL;over;3.5;FT;1,93;2,04;0,4921;11
+CPV_ESP;2026-06-15;Cabo Verde;Spain;goles;TOTAL;under;3.5;FT;1,87;1,93;0,5079;11
+CPV_ESP;2026-06-15;Cabo Verde;Spain;goles;TOTAL;over;2.5;FT;1,37;1,37;0,6969;3
+CPV_ESP;2026-06-15;Cabo Verde;Spain;goles;TOTAL;under;2.5;FT;3,15;3,15;0,3031;3
+CPV_ESP;2026-06-15;Cabo Verde;Spain;goles;TOTAL;over;4.0;FT;2,75;2,75;0,3437;1
+CPV_ESP;2026-06-15;Cabo Verde;Spain;goles;TOTAL;under;4.0;FT;1,44;1,44;0,6563;1
+EGY_BEL;2026-06-15;Egypt;Belgium;1X2;-;gana_A;-;FT;5,75;6,4;0,1661;24
+EGY_BEL;2026-06-15;Egypt;Belgium;1X2;-;empate;-;FT;4,0;4,25;0,2388;24
+EGY_BEL;2026-06-15;Egypt;Belgium;1X2;-;gana_B;-;FT;1,605;1,69;0,5951;24
+EGY_BEL;2026-06-15;Egypt;Belgium;goles;TOTAL;over;2.5;FT;1,945;2,06;0,4915;14
+EGY_BEL;2026-06-15;Egypt;Belgium;goles;TOTAL;under;2.5;FT;1,88;1,94;0,5085;14
+EGY_BEL;2026-06-15;Egypt;Belgium;goles;TOTAL;over;3.0;FT;2,75;2,75;0,3499;1
+EGY_BEL;2026-06-15;Egypt;Belgium;goles;TOTAL;under;3.0;FT;1,48;1,48;0,6501;1
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;1X2;-;gana_A;-;FT;8,1;9,0;0,1181;24
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;1X2;-;empate;-;FT;4,5;4,7;0,2127;24
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;1X2;-;gana_B;-;FT;1,43;1,47;0,6692;24
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;goles;TOTAL;over;2.25;FT;1,83;1,83;0,532;1
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;goles;TOTAL;under;2.25;FT;2,08;2,08;0,468;1
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;goles;TOTAL;over;2.5;FT;1,975;2,12;0,4782;12
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;goles;TOTAL;under;2.5;FT;1,81;1,85;0,5218;12
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;goles;TOTAL;over;3.0;FT;2,9;2,9;0,3287;1
+KSA_URU;2026-06-16;Saudi Arabia;Uruguay;goles;TOTAL;under;3.0;FT;1,42;1,42;0,6713;1
+NZL_IRN;2026-06-16;New Zealand;Iran;1X2;-;gana_A;-;FT;4,765;5,0;0,2014;24
+NZL_IRN;2026-06-16;New Zealand;Iran;1X2;-;empate;-;FT;3,5;3,6;0,2742;24
+NZL_IRN;2026-06-16;New Zealand;Iran;1X2;-;gana_B;-;FT;1,83;1,89;0,5244;24
+NZL_IRN;2026-06-16;New Zealand;Iran;goles;TOTAL;over;2.0;FT;1,815;1,84;0,534;4
+NZL_IRN;2026-06-16;New Zealand;Iran;goles;TOTAL;under;2.0;FT;2,08;2,1;0,466;4
+NZL_IRN;2026-06-16;New Zealand;Iran;goles;TOTAL;over;2.5;FT;2,33;2,45;0,4041;9
+NZL_IRN;2026-06-16;New Zealand;Iran;goles;TOTAL;under;2.5;FT;1,58;1,62;0,5959;9
+NZL_IRN;2026-06-16;New Zealand;Iran;goles;TOTAL;over;1.5;FT;1,48;1,48;0,6501;1
+NZL_IRN;2026-06-16;New Zealand;Iran;goles;TOTAL;under;1.5;FT;2,75;2,75;0,3499;1
+SEN_FRA;2026-06-16;Senegal;France;1X2;-;gana_A;-;FT;7,25;8,0;0,1326;24
+SEN_FRA;2026-06-16;Senegal;France;1X2;-;empate;-;FT;4,465;4,6;0,2154;24
+SEN_FRA;2026-06-16;Senegal;France;1X2;-;gana_B;-;FT;1,475;1,51;0,652;24
+SEN_FRA;2026-06-16;Senegal;France;goles;TOTAL;over;2.5;FT;1,93;2,02;0,4934;14
+SEN_FRA;2026-06-16;Senegal;France;goles;TOTAL;under;2.5;FT;1,88;1,96;0,5066;14
+SEN_FRA;2026-06-16;Senegal;France;goles;TOTAL;over;3.0;FT;2,75;2,75;0,3499;1
+SEN_FRA;2026-06-16;Senegal;France;goles;TOTAL;under;3.0;FT;1,48;1,48;0,6501;1
+IRQ_NOR;2026-06-17;Iraq;Norway;1X2;-;gana_A;-;FT;15,0;18,0;0,0637;24
+IRQ_NOR;2026-06-17;Iraq;Norway;1X2;-;empate;-;FT;7,125;8,0;0,134;24
+IRQ_NOR;2026-06-17;Iraq;Norway;1X2;-;gana_B;-;FT;1,19;1,22;0,8023;24
+IRQ_NOR;2026-06-17;Iraq;Norway;goles;TOTAL;over;3.0;FT;1,88;1,96;0,5072;4
+IRQ_NOR;2026-06-17;Iraq;Norway;goles;TOTAL;under;3.0;FT;1,935;1,98;0,4928;4
+IRQ_NOR;2026-06-17;Iraq;Norway;goles;TOTAL;over;3.5;FT;2,375;2,45;0,3972;4
+IRQ_NOR;2026-06-17;Iraq;Norway;goles;TOTAL;under;3.5;FT;1,565;1,6;0,6028;4
+IRQ_NOR;2026-06-17;Iraq;Norway;goles;TOTAL;over;2.5;FT;1,58;1,6;0,603;6
+IRQ_NOR;2026-06-17;Iraq;Norway;goles;TOTAL;under;2.5;FT;2,4;2,42;0,397;6
+ARG_ALG;2026-06-17;Argentina;Algeria;1X2;-;gana_A;-;FT;1,4;1,43;0,685;24
+ARG_ALG;2026-06-17;Argentina;Algeria;1X2;-;empate;-;FT;4,6;4,9;0,2085;24
+ARG_ALG;2026-06-17;Argentina;Algeria;1X2;-;gana_B;-;FT;9,0;10,0;0,1066;24
+ARG_ALG;2026-06-17;Argentina;Algeria;goles;TOTAL;over;2.5;FT;1,935;2,06;0,4921;14
+ARG_ALG;2026-06-17;Argentina;Algeria;goles;TOTAL;under;2.5;FT;1,875;1,94;0,5079;14
+ARG_ALG;2026-06-17;Argentina;Algeria;goles;TOTAL;over;3.0;FT;2,7;2,7;0,3571;1
+ARG_ALG;2026-06-17;Argentina;Algeria;goles;TOTAL;under;3.0;FT;1,5;1,5;0,6429;1
+JOR_AUT;2026-06-17;Jordan;Austria;1X2;-;gana_A;-;FT;9,0;10,0;0,1063;24
+JOR_AUT;2026-06-17;Jordan;Austria;1X2;-;empate;-;FT;5,475;6,0;0,1747;24
+JOR_AUT;2026-06-17;Jordan;Austria;1X2;-;gana_B;-;FT;1,33;1,37;0,7191;24
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;over;2.5;FT;1,62;1,7;0,5759;9
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;under;2.5;FT;2,2;2,32;0,4241;9
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;over;2.75;FT;1,9;1,9;0,5116;1
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;under;2.75;FT;1,99;1,99;0,4884;1
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;over;3.0;FT;2,05;2,08;0,4716;3
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;under;3.0;FT;1,83;1,85;0,5284;3
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;over;3.5;FT;2,75;2,75;0,3499;1
+JOR_AUT;2026-06-17;Jordan;Austria;goles;TOTAL;under;3.5;FT;1,48;1,48;0,6501;1
+COD_POR;2026-06-17;DR Congo;Portugal;1X2;-;gana_A;-;FT;10,875;12,5;0,088;22
+COD_POR;2026-06-17;DR Congo;Portugal;1X2;-;empate;-;FT;5,725;6,0;0,1672;22
+COD_POR;2026-06-17;DR Congo;Portugal;1X2;-;gana_B;-;FT;1,285;1,33;0,7448;22
+COD_POR;2026-06-17;DR Congo;Portugal;goles;TOTAL;over;2.5;FT;1,68;1,73;0,5591;10
+COD_POR;2026-06-17;DR Congo;Portugal;goles;TOTAL;under;2.5;FT;2,13;2,21;0,4409;10
+COD_POR;2026-06-17;DR Congo;Portugal;goles;TOTAL;over;2.75;FT;1,92;1,92;0,5064;1
+COD_POR;2026-06-17;DR Congo;Portugal;goles;TOTAL;under;2.75;FT;1,97;1,97;0,4936;1
+COD_POR;2026-06-17;DR Congo;Portugal;goles;TOTAL;over;3.5;FT;2,7;2,7;0,3494;1
+COD_POR;2026-06-17;DR Congo;Portugal;goles;TOTAL;under;3.5;FT;1,45;1,45;0,6506;1
+CRO_ENG;2026-06-17;Croatia;England;1X2;-;gana_A;-;FT;5,0;5,5;0,1918;24
+CRO_ENG;2026-06-17;Croatia;England;1X2;-;empate;-;FT;3,85;3,95;0,2491;24
+CRO_ENG;2026-06-17;Croatia;England;1X2;-;gana_B;-;FT;1,715;1,77;0,5591;24
+CRO_ENG;2026-06-17;Croatia;England;goles;TOTAL;over;2.25;FT;1,93;1,93;0,5039;1
+CRO_ENG;2026-06-17;Croatia;England;goles;TOTAL;under;2.25;FT;1,96;1,96;0,4961;1
+CRO_ENG;2026-06-17;Croatia;England;goles;TOTAL;over;2.5;FT;2,09;2,21;0,4493;12
+CRO_ENG;2026-06-17;Croatia;England;goles;TOTAL;under;2.5;FT;1,705;1,77;0,5507;12
+CRO_ENG;2026-06-17;Croatia;England;goles;TOTAL;over;3.0;FT;3,0;3,0;0,3151;1
+CRO_ENG;2026-06-17;Croatia;England;goles;TOTAL;under;3.0;FT;1,38;1,38;0,6849;1
+PAN_GHA;2026-06-18;Panama;Ghana;1X2;-;gana_A;-;FT;3,47;3,6;0,2757;24
+PAN_GHA;2026-06-18;Panama;Ghana;1X2;-;empate;-;FT;3,4;3,53;0,2814;24
+PAN_GHA;2026-06-18;Panama;Ghana;1X2;-;gana_B;-;FT;2,16;2,28;0,4429;24
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;over;2.25;FT;2,04;2,04;0,4756;1
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;under;2.25;FT;1,85;1,85;0,5244;1
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;over;2.0;FT;1,71;1,73;0,5535;3
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;under;2.0;FT;2,12;2,23;0,4465;3
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;over;2.5;FT;2,255;2,4;0,4203;10
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;under;2.5;FT;1,635;1,69;0,5797;10
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;over;1.5;FT;1,43;1,43;0,6659;1
+PAN_GHA;2026-06-18;Panama;Ghana;goles;TOTAL;under;1.5;FT;2,85;2,85;0,3341;1
+COL_UZB;2026-06-18;Colombia;Uzbekistan;1X2;-;gana_A;-;FT;1,38;1,42;0,6907;24
+COL_UZB;2026-06-18;Colombia;Uzbekistan;1X2;-;empate;-;FT;4,7;4,9;0,2028;24
+COL_UZB;2026-06-18;Colombia;Uzbekistan;1X2;-;gana_B;-;FT;8,95;10,5;0,1065;24
+COL_UZB;2026-06-18;Colombia;Uzbekistan;goles;TOTAL;over;2.5;FT;1,94;2,02;0,4881;14
+COL_UZB;2026-06-18;Colombia;Uzbekistan;goles;TOTAL;under;2.5;FT;1,85;1,95;0,5119;14
+COL_UZB;2026-06-18;Colombia;Uzbekistan;goles;TOTAL;over;2.0;FT;1,48;1,48;0,6501;1
+COL_UZB;2026-06-18;Colombia;Uzbekistan;goles;TOTAL;under;2.0;FT;2,75;2,75;0,3499;1
+RSA_CZE;2026-06-18;South Africa;Czechia;1X2;-;gana_A;-;FT;4,625;5,0;0,206;24
+RSA_CZE;2026-06-18;South Africa;Czechia;1X2;-;empate;-;FT;3,75;4,0;0,2541;24
+RSA_CZE;2026-06-18;South Africa;Czechia;1X2;-;gana_B;-;FT;1,765;1,82;0,5399;24
+RSA_CZE;2026-06-18;South Africa;Czechia;goles;TOTAL;over;2.5;FT;2,08;2,12;0,4569;13
+RSA_CZE;2026-06-18;South Africa;Czechia;goles;TOTAL;under;2.5;FT;1,75;1,8;0,5431;13
+RSA_CZE;2026-06-18;South Africa;Czechia;goles;TOTAL;over;2.25;FT;1,85;1,85;0,5256;1
+RSA_CZE;2026-06-18;South Africa;Czechia;goles;TOTAL;under;2.25;FT;2,05;2,05;0,4744;1
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;1X2;-;gana_A;-;FT;1,57;1,62;0,6081;21
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;1X2;-;empate;-;FT;4,1;4,3;0,2328;21
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;1X2;-;gana_B;-;FT;6,0;6,6;0,1591;21
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;goles;TOTAL;over;2.5;FT;2,05;2,14;0,4548;9
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;goles;TOTAL;under;2.5;FT;1,71;1,8;0,5452;9
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;goles;TOTAL;over;2.25;FT;1,9;1,9;0,4974;1
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;goles;TOTAL;under;2.25;FT;1,88;1,88;0,5026;1
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;goles;TOTAL;over;2.0;FT;1,53;1,53;0,6295;1
+SUI_BIH;2026-06-18;Switzerland;Bosnia & Herzegovina;goles;TOTAL;under;2.0;FT;2,6;2,6;0,3705;1
+QAT_CAN;2026-06-19;Qatar;Canada;1X2;-;gana_A;-;FT;11,0;14,0;0,086;21
+QAT_CAN;2026-06-19;Qatar;Canada;1X2;-;empate;-;FT;5,6;6,25;0,169;21
+QAT_CAN;2026-06-19;Qatar;Canada;1X2;-;gana_B;-;FT;1,27;1,31;0,745;21
+QAT_CAN;2026-06-19;Qatar;Canada;goles;TOTAL;over;2.5;FT;1,79;1,83;0,5277;10
+QAT_CAN;2026-06-19;Qatar;Canada;goles;TOTAL;under;2.5;FT;2,0;2,16;0,4723;10
+QAT_CAN;2026-06-19;Qatar;Canada;goles;TOTAL;over;2.75;FT;2,01;2,01;0,4711;1
+QAT_CAN;2026-06-19;Qatar;Canada;goles;TOTAL;under;2.75;FT;1,79;1,79;0,5289;1
+QAT_CAN;2026-06-19;Qatar;Canada;goles;TOTAL;over;2.0;FT;1,34;1,34;0,7173;1
+QAT_CAN;2026-06-19;Qatar;Canada;goles;TOTAL;under;2.0;FT;3,4;3,4;0,2827;1
+MEX_KOR;2026-06-19;Mexico;South Korea;1X2;-;gana_A;-;FT;1,97;2,03;0,4839;22
+MEX_KOR;2026-06-19;Mexico;South Korea;1X2;-;empate;-;FT;3,325;3,5;0,2867;22
+MEX_KOR;2026-06-19;Mexico;South Korea;1X2;-;gana_B;-;FT;4,155;4,4;0,2294;22
+MEX_KOR;2026-06-19;Mexico;South Korea;goles;TOTAL;over;2.5;FT;2,29;2,4;0,4067;7
+MEX_KOR;2026-06-19;Mexico;South Korea;goles;TOTAL;under;2.5;FT;1,57;1,62;0,5933;7
+MEX_KOR;2026-06-19;Mexico;South Korea;goles;TOTAL;over;2.0;FT;1,795;1,86;0,5307;4
+MEX_KOR;2026-06-19;Mexico;South Korea;goles;TOTAL;under;2.0;FT;2,03;2,1;0,4693;4
+MEX_KOR;2026-06-19;Mexico;South Korea;goles;TOTAL;over;1.5;FT;1,48;1,48;0,6459;1
+MEX_KOR;2026-06-19;Mexico;South Korea;goles;TOTAL;under;1.5;FT;2,7;2,7;0,3541;1
+AUS_USA;2026-06-19;Australia;USA;1X2;-;gana_A;-;FT;5,95;6,75;0,1597;22
+AUS_USA;2026-06-19;Australia;USA;1X2;-;empate;-;FT;4,25;4,75;0,2235;22
+AUS_USA;2026-06-19;Australia;USA;1X2;-;gana_B;-;FT;1,54;1,6;0,6168;22
+AUS_USA;2026-06-19;Australia;USA;goles;TOTAL;over;2.5;FT;1,91;1,99;0,496;13
+AUS_USA;2026-06-19;Australia;USA;goles;TOTAL;under;2.5;FT;1,88;2,0;0,504;13
+MAR_SCO;2026-06-20;Morocco;Scotland;1X2;-;gana_A;-;FT;1,935;2,0;0,4915;22
+MAR_SCO;2026-06-20;Morocco;Scotland;1X2;-;empate;-;FT;3,325;3,6;0,286;22
+MAR_SCO;2026-06-20;Morocco;Scotland;1X2;-;gana_B;-;FT;4,275;4,6;0,2225;22
+MAR_SCO;2026-06-20;Morocco;Scotland;goles;TOTAL;over;2.5;FT;2,26;2,3;0,416;8
+MAR_SCO;2026-06-20;Morocco;Scotland;goles;TOTAL;under;2.5;FT;1,61;1,75;0,584;8
+MAR_SCO;2026-06-20;Morocco;Scotland;goles;TOTAL;over;2.0;FT;1,68;1,74;0,5556;3
+MAR_SCO;2026-06-20;Morocco;Scotland;goles;TOTAL;under;2.0;FT;2,1;2,3;0,4444;3
+MAR_SCO;2026-06-20;Morocco;Scotland;goles;TOTAL;over;2.25;FT;1,99;2,0;0,4777;2
+MAR_SCO;2026-06-20;Morocco;Scotland;goles;TOTAL;under;2.25;FT;1,82;1,83;0,5223;2
+HAI_BRA;2026-06-20;Haiti;Brazil;1X2;-;gana_A;-;FT;30,3;35,0;0,0314;20
+HAI_BRA;2026-06-20;Haiti;Brazil;1X2;-;empate;-;FT;12,1;16,5;0,0787;20
+HAI_BRA;2026-06-20;Haiti;Brazil;1X2;-;gana_B;-;FT;1,07;1,09;0,8899;20
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;over;3.5;FT;1,74;1,79;0,5409;9
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;under;3.5;FT;2,05;2,12;0,4591;9
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;over;3.75;FT;1,94;1,95;0,4881;2
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;under;3.75;FT;1,85;1,87;0,5119;2
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;over;4.0;FT;2,28;2,28;0,4257;1
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;under;4.0;FT;1,69;1,69;0,5743;1
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;over;2.5;FT;1,25;1,25;0,7368;1
+HAI_BRA;2026-06-20;Haiti;Brazil;goles;TOTAL;under;2.5;FT;3,5;3,5;0,2632;1
+PAR_TUR;2026-06-20;Paraguay;Türkiye;1X2;-;gana_A;-;FT;4,0;4,3;0,2377;22
+PAR_TUR;2026-06-20;Paraguay;Türkiye;1X2;-;empate;-;FT;3,3;3,45;0,2881;22
+PAR_TUR;2026-06-20;Paraguay;Türkiye;1X2;-;gana_B;-;FT;2,005;2,1;0,4742;22
+PAR_TUR;2026-06-20;Paraguay;Türkiye;goles;TOTAL;over;2.5;FT;2,235;2,35;0,4232;10
+PAR_TUR;2026-06-20;Paraguay;Türkiye;goles;TOTAL;under;2.5;FT;1,64;1,73;0,5768;10
+PAR_TUR;2026-06-20;Paraguay;Türkiye;goles;TOTAL;over;2.25;FT;1,985;2,0;0,479;2
+PAR_TUR;2026-06-20;Paraguay;Türkiye;goles;TOTAL;under;2.25;FT;1,825;1,83;0,521;2
+PAR_TUR;2026-06-20;Paraguay;Türkiye;goles;TOTAL;over;2.0;FT;1,67;1,67;0,5559;1
+PAR_TUR;2026-06-20;Paraguay;Türkiye;goles;TOTAL;under;2.0;FT;2,09;2,09;0,4441;1
+NED_SWE;2026-06-20;Netherlands;Sweden;1X2;-;gana_A;-;FT;1,62;1,7;0,5863;21
+NED_SWE;2026-06-20;Netherlands;Sweden;1X2;-;empate;-;FT;4,05;4,2;0,2345;21
+NED_SWE;2026-06-20;Netherlands;Sweden;1X2;-;gana_B;-;FT;5,3;5,6;0,1792;21
+NED_SWE;2026-06-20;Netherlands;Sweden;goles;TOTAL;over;2.5;FT;1,89;2,0;0,4993;12
+NED_SWE;2026-06-20;Netherlands;Sweden;goles;TOTAL;under;2.5;FT;1,885;1,96;0,5007;12
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;1X2;-;gana_A;-;FT;5,7;6,5;0,1665;22
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;1X2;-;empate;-;FT;4,325;4,9;0,2194;22
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;1X2;-;gana_B;-;FT;1,545;1,58;0,6141;22
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;goles;TOTAL;over;2.5;FT;1,79;1,82;0,5302;11
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;goles;TOTAL;under;2.5;FT;2,02;2,17;0,4698;11
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;goles;TOTAL;over;2.75;FT;1,985;2,0;0,479;2
+CIV_GER;2026-06-20;Côte d'Ivoire;Germany;goles;TOTAL;under;2.75;FT;1,825;1,83;0,521;2
+CUR_ECU;2026-06-21;Curaçao;Ecuador;1X2;-;gana_A;-;FT;15,0;18,5;0,0632;21
+CUR_ECU;2026-06-21;Curaçao;Ecuador;1X2;-;empate;-;FT;6,75;7,8;0,1404;21
+CUR_ECU;2026-06-21;Curaçao;Ecuador;1X2;-;gana_B;-;FT;1,19;1,23;0,7964;21
+CUR_ECU;2026-06-21;Curaçao;Ecuador;goles;TOTAL;over;2.5;FT;1,665;1,68;0,5653;8
+CUR_ECU;2026-06-21;Curaçao;Ecuador;goles;TOTAL;under;2.5;FT;2,165;2,33;0,4347;8
+CUR_ECU;2026-06-21;Curaçao;Ecuador;goles;TOTAL;over;3.0;FT;2,09;2,12;0,4493;2
+CUR_ECU;2026-06-21;Curaçao;Ecuador;goles;TOTAL;under;3.0;FT;1,705;1,73;0,5507;2
+CUR_ECU;2026-06-21;Curaçao;Ecuador;goles;TOTAL;over;2.75;FT;1,855;1,87;0,5118;2
+CUR_ECU;2026-06-21;Curaçao;Ecuador;goles;TOTAL;under;2.75;FT;1,945;1,95;0,4882;2
+JPN_TUN;2026-06-21;Japan;Tunisia;1X2;-;gana_A;-;FT;1,7;1,78;0,5596;21
+JPN_TUN;2026-06-21;Japan;Tunisia;1X2;-;empate;-;FT;3,6;3,8;0,2642;21
+JPN_TUN;2026-06-21;Japan;Tunisia;1X2;-;gana_B;-;FT;5,4;5,9;0,1762;21
+JPN_TUN;2026-06-21;Japan;Tunisia;goles;TOTAL;over;2.5;FT;2,185;2,23;0,431;8
+JPN_TUN;2026-06-21;Japan;Tunisia;goles;TOTAL;under;2.5;FT;1,655;1,7;0,569;8
+JPN_TUN;2026-06-21;Japan;Tunisia;goles;TOTAL;over;2.0;FT;1,64;1,66;0,5773;2
+JPN_TUN;2026-06-21;Japan;Tunisia;goles;TOTAL;under;2.0;FT;2,24;2,33;0,4227;2
+JPN_TUN;2026-06-21;Japan;Tunisia;goles;TOTAL;over;2.25;FT;1,905;1,91;0,4987;2
+JPN_TUN;2026-06-21;Japan;Tunisia;goles;TOTAL;under;2.25;FT;1,895;1,91;0,5013;2
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;1X2;-;gana_A;-;FT;25,0;30,0;0,0379;21
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;1X2;-;empate;-;FT;9,5;12,5;0,0998;21
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;1X2;-;gana_B;-;FT;1,1;1,13;0,8622;21
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;over;3.5;FT;2,25;2,35;0,4171;6
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;under;3.5;FT;1,61;1,66;0,5829;6
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;over;3.0;FT;1,74;1,78;0,5409;3
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;under;3.0;FT;2,05;2,2;0,4591;3
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;over;3.25;FT;1,945;1,95;0,4888;2
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;under;3.25;FT;1,86;1,87;0,5112;2
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;over;2.5;FT;1,44;1,44;0,6345;1
+KSA_ESP;2026-06-21;Saudi Arabia;Spain;goles;TOTAL;under;2.5;FT;2,5;2,5;0,3655;1
+IRN_BEL;2026-06-21;Iran;Belgium;1X2;-;gana_A;-;FT;7,87;9,0;0,1205;21
+IRN_BEL;2026-06-21;Iran;Belgium;1X2;-;empate;-;FT;4,7;5,0;0,2018;21
+IRN_BEL;2026-06-21;Iran;Belgium;1X2;-;gana_B;-;FT;1,4;1,43;0,6776;21
+IRN_BEL;2026-06-21;Iran;Belgium;goles;TOTAL;over;2.5;FT;1,84;1,91;0,51;12
+IRN_BEL;2026-06-21;Iran;Belgium;goles;TOTAL;under;2.5;FT;1,915;2,0;0,49;12
+CPV_URU;2026-06-22;Cabo Verde;Uruguay;1X2;-;gana_A;-;FT;7,7;8,5;0,1235;21
+CPV_URU;2026-06-22;Cabo Verde;Uruguay;1X2;-;empate;-;FT;4,5;4,7;0,2114;21
+CPV_URU;2026-06-22;Cabo Verde;Uruguay;1X2;-;gana_B;-;FT;1,43;1,47;0,6651;21
+CPV_URU;2026-06-22;Cabo Verde;Uruguay;goles;TOTAL;over;2.5;FT;1,875;2,02;0,5007;12
+CPV_URU;2026-06-22;Cabo Verde;Uruguay;goles;TOTAL;under;2.5;FT;1,88;1,93;0,4993;12
+NZL_EGY;2026-06-22;New Zealand;Egypt;1X2;-;gana_A;-;FT;4,85;5,4;0,1949;21
+NZL_EGY;2026-06-22;New Zealand;Egypt;1X2;-;empate;-;FT;3,7;3,9;0,2555;21
+NZL_EGY;2026-06-22;New Zealand;Egypt;1X2;-;gana_B;-;FT;1,72;1,8;0,5496;21
+NZL_EGY;2026-06-22;New Zealand;Egypt;goles;TOTAL;over;2.5;FT;2,2;2,32;0,4315;9
+NZL_EGY;2026-06-22;New Zealand;Egypt;goles;TOTAL;under;2.5;FT;1,67;1,74;0,5685;9
+NZL_EGY;2026-06-22;New Zealand;Egypt;goles;TOTAL;over;2.0;FT;1,65;1,65;0,5623;1
+NZL_EGY;2026-06-22;New Zealand;Egypt;goles;TOTAL;under;2.0;FT;2,12;2,12;0,4377;1
+NZL_EGY;2026-06-22;New Zealand;Egypt;goles;TOTAL;over;2.25;FT;1,965;1,98;0,4836;2
+NZL_EGY;2026-06-22;New Zealand;Egypt;goles;TOTAL;under;2.25;FT;1,84;1,85;0,5164;2
+ARG_AUT;2026-06-22;Argentina;Austria;1X2;-;gana_A;-;FT;1,61;1,7;0,588;21
+ARG_AUT;2026-06-22;Argentina;Austria;1X2;-;empate;-;FT;3,85;4,3;0,2459;21
+ARG_AUT;2026-06-22;Argentina;Austria;1X2;-;gana_B;-;FT;5,7;6,0;0,1661;21
+ARG_AUT;2026-06-22;Argentina;Austria;goles;TOTAL;over;2.5;FT;1,945;2,01;0,4875;12
+ARG_AUT;2026-06-22;Argentina;Austria;goles;TOTAL;under;2.5;FT;1,85;1,92;0,5125;12
+IRQ_FRA;2026-06-22;Iraq;France;1X2;-;gana_A;-;FT;25,0;30,0;0,038;21
+IRQ_FRA;2026-06-22;Iraq;France;1X2;-;empate;-;FT;9,0;11,0;0,1056;21
+IRQ_FRA;2026-06-22;Iraq;France;1X2;-;gana_B;-;FT;1,11;1,14;0,8564;21
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;over;3.5;FT;2,205;2,27;0,4243;6
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;under;3.5;FT;1,625;1,68;0,5757;6
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;over;3.0;FT;1,78;1,81;0,5352;3
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;under;3.0;FT;2,05;2,08;0,4648;3
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;over;3.25;FT;2,005;2,02;0,4744;2
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;under;3.25;FT;1,81;1,82;0,5256;2
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;over;2.5;FT;1,44;1,44;0,6345;1
+IRQ_FRA;2026-06-22;Iraq;France;goles;TOTAL;under;2.5;FT;2,5;2,5;0,3655;1
+SEN_NOR;2026-06-23;Senegal;Norway;1X2;-;gana_A;-;FT;3,35;3,51;0,2818;21
+SEN_NOR;2026-06-23;Senegal;Norway;1X2;-;empate;-;FT;3,46;3,6;0,2729;21
+SEN_NOR;2026-06-23;Senegal;Norway;1X2;-;gana_B;-;FT;2,12;2,24;0,4453;21
+SEN_NOR;2026-06-23;Senegal;Norway;goles;TOTAL;over;2.5;FT;1,94;1,99;0,4881;12
+SEN_NOR;2026-06-23;Senegal;Norway;goles;TOTAL;under;2.5;FT;1,85;1,88;0,5119;12
+JOR_ALG;2026-06-23;Jordan;Algeria;1X2;-;gana_A;-;FT;6,56;7,25;0,1446;21
+JOR_ALG;2026-06-23;Jordan;Algeria;1X2;-;empate;-;FT;4,25;4,6;0,2232;21
+JOR_ALG;2026-06-23;Jordan;Algeria;1X2;-;gana_B;-;FT;1,5;1,56;0,6323;21
+JOR_ALG;2026-06-23;Jordan;Algeria;goles;TOTAL;over;2.5;FT;1,91;1,98;0,4947;12
+JOR_ALG;2026-06-23;Jordan;Algeria;goles;TOTAL;under;2.5;FT;1,87;1,91;0,5053;12
+UZB_POR;2026-06-23;Uzbekistan;Portugal;1X2;-;gana_A;-;FT;11,0;13,7;0,0862;21
+UZB_POR;2026-06-23;Uzbekistan;Portugal;1X2;-;empate;-;FT;6,1;6,95;0,1554;21
+UZB_POR;2026-06-23;Uzbekistan;Portugal;1X2;-;gana_B;-;FT;1,25;1,28;0,7584;21
+UZB_POR;2026-06-23;Uzbekistan;Portugal;goles;TOTAL;over;2.5;FT;1,57;1,61;0,5974;7
+UZB_POR;2026-06-23;Uzbekistan;Portugal;goles;TOTAL;under;2.5;FT;2,33;2,38;0,4026;7
+UZB_POR;2026-06-23;Uzbekistan;Portugal;goles;TOTAL;over;3.0;FT;1,935;2,02;0,4881;4
+UZB_POR;2026-06-23;Uzbekistan;Portugal;goles;TOTAL;under;3.0;FT;1,845;1,96;0,5119;4
+UZB_POR;2026-06-23;Uzbekistan;Portugal;goles;TOTAL;over;2.75;FT;1,78;1,78;0,5328;1
+UZB_POR;2026-06-23;Uzbekistan;Portugal;goles;TOTAL;under;2.75;FT;2,03;2,03;0,4672;1
+GHA_ENG;2026-06-23;Ghana;England;1X2;-;gana_A;-;FT;9,25;11,1;0,1018;21
+GHA_ENG;2026-06-23;Ghana;England;1X2;-;empate;-;FT;5,25;6,0;0,1794;21
+GHA_ENG;2026-06-23;Ghana;England;1X2;-;gana_B;-;FT;1,31;1,36;0,7188;21
+GHA_ENG;2026-06-23;Ghana;England;goles;TOTAL;over;2.5;FT;1,685;1,81;0,5589;10
+GHA_ENG;2026-06-23;Ghana;England;goles;TOTAL;under;2.5;FT;2,135;2,28;0,4411;10
+GHA_ENG;2026-06-23;Ghana;England;goles;TOTAL;over;2.75;FT;1,885;1,89;0,5046;2
+GHA_ENG;2026-06-23;Ghana;England;goles;TOTAL;under;2.75;FT;1,92;1,93;0,4954;2
+PAN_CRO;2026-06-24;Panama;Croatia;1X2;-;gana_A;-;FT;6,5;7,21;0,1458;21
+PAN_CRO;2026-06-24;Panama;Croatia;1X2;-;empate;-;FT;3,9;4,2;0,2429;21
+PAN_CRO;2026-06-24;Panama;Croatia;1X2;-;gana_B;-;FT;1,55;1,57;0,6113;21
+PAN_CRO;2026-06-24;Panama;Croatia;goles;TOTAL;over;2.5;FT;1,99;2,06;0,4728;10
+PAN_CRO;2026-06-24;Panama;Croatia;goles;TOTAL;under;2.5;FT;1,785;1,83;0,5272;10
+PAN_CRO;2026-06-24;Panama;Croatia;goles;TOTAL;over;2.25;FT;1,805;1,82;0,5269;2
+PAN_CRO;2026-06-24;Panama;Croatia;goles;TOTAL;under;2.25;FT;2,01;2,02;0,4731;2
+COD_COL;2026-06-24;DR Congo;Colombia;1X2;-;gana_A;-;FT;7,5;8,2;0,1257;21
+COD_COL;2026-06-24;DR Congo;Colombia;1X2;-;empate;-;FT;4,2;4,5;0,2244;21
+COD_COL;2026-06-24;DR Congo;Colombia;1X2;-;gana_B;-;FT;1,45;1,5;0,65;21
+COD_COL;2026-06-24;DR Congo;Colombia;goles;TOTAL;over;2.5;FT;2,115;2,21;0,4463;10
+COD_COL;2026-06-24;DR Congo;Colombia;goles;TOTAL;under;2.5;FT;1,705;1,76;0,5537;10
+COD_COL;2026-06-24;DR Congo;Colombia;goles;TOTAL;over;2.25;FT;1,895;1,91;0,5013;2
+COD_COL;2026-06-24;DR Congo;Colombia;goles;TOTAL;under;2.25;FT;1,905;1,91;0,4987;2
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina;1X2;-;gana_A;-;FT;6,265;7,0;0,1501;18
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina;1X2;-;empate;-;FT;4,0;4,4;0,2351;18
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina;1X2;-;gana_B;-;FT;1,53;1,57;0,6147;18
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina;goles;TOTAL;over;2.5;FT;2,01;2,05;0,4683;9
+QAT_BIH;2026-06-24;Qatar;Bosnia & Herzegovina;goles;TOTAL;under;2.5;FT;1,77;1,85;0,5317;9
+CAN_SUI;2026-06-24;Canada;Switzerland;1X2;-;gana_A;-;FT;3,47;3,65;0,27;17
+CAN_SUI;2026-06-24;Canada;Switzerland;1X2;-;empate;-;FT;3,3;3,47;0,2839;17
+CAN_SUI;2026-06-24;Canada;Switzerland;1X2;-;gana_B;-;FT;2,1;2,28;0,4461;17
+CAN_SUI;2026-06-24;Canada;Switzerland;goles;TOTAL;over;2.5;FT;2,075;2,12;0,4511;6
+CAN_SUI;2026-06-24;Canada;Switzerland;goles;TOTAL;under;2.5;FT;1,705;1,74;0,5489;6
+CAN_SUI;2026-06-24;Canada;Switzerland;goles;TOTAL;over;2.25;FT;1,85;1,87;0,5163;2
+CAN_SUI;2026-06-24;Canada;Switzerland;goles;TOTAL;under;2.25;FT;1,975;1,99;0,4837;2
+BRA_SCO;2026-06-25;Brazil;Scotland;1X2;-;gana_A;-;FT;1,44;1,51;0,6501;17
+BRA_SCO;2026-06-25;Brazil;Scotland;1X2;-;empate;-;FT;4,5;5,1;0,208;17
+BRA_SCO;2026-06-25;Brazil;Scotland;1X2;-;gana_B;-;FT;6,6;8,0;0,1418;17
+BRA_SCO;2026-06-25;Brazil;Scotland;goles;TOTAL;over;2.5;FT;1,805;1,9;0,5206;8
+BRA_SCO;2026-06-25;Brazil;Scotland;goles;TOTAL;under;2.5;FT;1,96;2,0;0,4794;8
+HAI_MAR;2026-06-25;Haiti;Morocco;1X2;-;gana_A;-;FT;9,0;11,25;0,104;17
+HAI_MAR;2026-06-25;Haiti;Morocco;1X2;-;empate;-;FT;5,0;5,6;0,1871;17
+HAI_MAR;2026-06-25;Haiti;Morocco;1X2;-;gana_B;-;FT;1,32;1,36;0,7089;17
+HAI_MAR;2026-06-25;Haiti;Morocco;goles;TOTAL;over;2.5;FT;1,705;1,74;0,5489;6
+HAI_MAR;2026-06-25;Haiti;Morocco;goles;TOTAL;under;2.5;FT;2,075;2,14;0,4511;6
+HAI_MAR;2026-06-25;Haiti;Morocco;goles;TOTAL;over;2.75;FT;1,915;1,98;0,4993;2
+HAI_MAR;2026-06-25;Haiti;Morocco;goles;TOTAL;under;2.75;FT;1,91;1,94;0,5007;2
+MEX_CZE;2026-06-25;Mexico;Czechia;1X2;-;gana_A;-;FT;1,8;1,88;0,5204;17
+MEX_CZE;2026-06-25;Mexico;Czechia;1X2;-;empate;-;FT;3,45;3,65;0,2715;17
+MEX_CZE;2026-06-25;Mexico;Czechia;1X2;-;gana_B;-;FT;4,5;5,0;0,2081;17
+MEX_CZE;2026-06-25;Mexico;Czechia;goles;TOTAL;over;2.5;FT;2,07;2,11;0,4509;6
+MEX_CZE;2026-06-25;Mexico;Czechia;goles;TOTAL;under;2.5;FT;1,7;1,76;0,5491;6
+MEX_CZE;2026-06-25;Mexico;Czechia;goles;TOTAL;over;2.25;FT;1,895;1,93;0,5046;2
+MEX_CZE;2026-06-25;Mexico;Czechia;goles;TOTAL;under;2.25;FT;1,93;1,93;0,4954;2
+RSA_KOR;2026-06-25;South Africa;South Korea;1X2;-;gana_A;-;FT;5,5;6,25;0,171;17
+RSA_KOR;2026-06-25;South Africa;South Korea;1X2;-;empate;-;FT;3,9;4,2;0,2412;17
+RSA_KOR;2026-06-25;South Africa;South Korea;1X2;-;gana_B;-;FT;1,6;1,63;0,5878;17
+RSA_KOR;2026-06-25;South Africa;South Korea;goles;TOTAL;over;2.5;FT;1,97;2,03;0,4747;7
+RSA_KOR;2026-06-25;South Africa;South Korea;goles;TOTAL;under;2.5;FT;1,78;1,88;0,5253;7
+RSA_KOR;2026-06-25;South Africa;South Korea;goles;TOTAL;over;2.25;FT;1,88;1,88;0,513;1
+RSA_KOR;2026-06-25;South Africa;South Korea;goles;TOTAL;under;2.25;FT;1,98;1,98;0,487;1
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;1X2;-;gana_A;-;FT;13,0;15,0;0,0721;17
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;1X2;-;empate;-;FT;6,1;7,0;0,1536;17
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;1X2;-;gana_B;-;FT;1,21;1,25;0,7743;17
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;goles;TOTAL;over;2.5;FT;1,67;1,7;0,5628;5
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;goles;TOTAL;under;2.5;FT;2,15;2,2;0,4372;5
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;goles;TOTAL;over;2.75;FT;1,815;1,83;0,5273;2
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;goles;TOTAL;under;2.75;FT;2,025;2,05;0,4727;2
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;goles;TOTAL;over;3.0;FT;2,06;2,06;0,4492;1
+CUR_CIV;2026-06-25;Curaçao;Côte d'Ivoire;goles;TOTAL;under;3.0;FT;1,68;1,68;0,5508;1
+ECU_GER;2026-06-25;Ecuador;Germany;1X2;-;gana_A;-;FT;4,65;5,0;0,2021;15
+ECU_GER;2026-06-25;Ecuador;Germany;1X2;-;empate;-;FT;3,69;3,92;0,2547;15
+ECU_GER;2026-06-25;Ecuador;Germany;1X2;-;gana_B;-;FT;1,73;1,82;0,5432;15
+ECU_GER;2026-06-25;Ecuador;Germany;goles;TOTAL;over;2.5;FT;1,86;1,99;0,502;8
+ECU_GER;2026-06-25;Ecuador;Germany;goles;TOTAL;under;2.5;FT;1,875;1,93;0,498;8
+JPN_SWE;2026-06-26;Japan;Sweden;1X2;-;gana_A;-;FT;2,06;2,15;0,4527;15
+JPN_SWE;2026-06-26;Japan;Sweden;1X2;-;empate;-;FT;3,32;3,53;0,2809;15
+JPN_SWE;2026-06-26;Japan;Sweden;1X2;-;gana_B;-;FT;3,5;3,75;0,2664;15
+JPN_SWE;2026-06-26;Japan;Sweden;goles;TOTAL;over;2.5;FT;2,05;2,14;0,4541;6
+JPN_SWE;2026-06-26;Japan;Sweden;goles;TOTAL;under;2.5;FT;1,705;1,76;0,5459;6
+JPN_SWE;2026-06-26;Japan;Sweden;goles;TOTAL;over;2.25;FT;1,815;1,83;0,5267;2
+JPN_SWE;2026-06-26;Japan;Sweden;goles;TOTAL;under;2.25;FT;2,02;2,04;0,4733;2
+TUN_NED;2026-06-26;Tunisia;Netherlands;1X2;-;gana_A;-;FT;6,4;7,0;0,1454;15
+TUN_NED;2026-06-26;Tunisia;Netherlands;1X2;-;empate;-;FT;4,2;4,6;0,2216;15
+TUN_NED;2026-06-26;Tunisia;Netherlands;1X2;-;gana_B;-;FT;1,47;1,53;0,633;15
+TUN_NED;2026-06-26;Tunisia;Netherlands;goles;TOTAL;over;2.5;FT;1,84;1,92;0,5093;8
+TUN_NED;2026-06-26;Tunisia;Netherlands;goles;TOTAL;under;2.5;FT;1,91;1,97;0,4907;8
+PAR_AUS;2026-06-26;Paraguay;Australia;1X2;-;gana_A;-;FT;2,1;2,23;0,4449;15
+PAR_AUS;2026-06-26;Paraguay;Australia;1X2;-;empate;-;FT;3,2;3,35;0,292;15
+PAR_AUS;2026-06-26;Paraguay;Australia;1X2;-;gana_B;-;FT;3,55;3,85;0,2632;15
+PAR_AUS;2026-06-26;Paraguay;Australia;goles;TOTAL;over;2.5;FT;2,24;2,28;0,4197;5
+PAR_AUS;2026-06-26;Paraguay;Australia;goles;TOTAL;under;2.5;FT;1,62;1,65;0,5803;5
+PAR_AUS;2026-06-26;Paraguay;Australia;goles;TOTAL;over;2.25;FT;2,005;2,04;0,4765;2
+PAR_AUS;2026-06-26;Paraguay;Australia;goles;TOTAL;under;2.25;FT;1,825;1,83;0,5235;2
+PAR_AUS;2026-06-26;Paraguay;Australia;goles;TOTAL;over;2.0;FT;1,66;1,66;0,5573;1
+PAR_AUS;2026-06-26;Paraguay;Australia;goles;TOTAL;under;2.0;FT;2,09;2,09;0,4427;1
+USA_TUR;2026-06-26;USA;Türkiye;1X2;-;gana_A;-;FT;2,45;2,59;0,3811;15
+USA_TUR;2026-06-26;USA;Türkiye;1X2;-;empate;-;FT;3,45;3,75;0,2706;15
+USA_TUR;2026-06-26;USA;Türkiye;1X2;-;gana_B;-;FT;2,68;2,8;0,3483;15
+USA_TUR;2026-06-26;USA;Türkiye;goles;TOTAL;over;2.5;FT;1,82;1,87;0,514;8
+USA_TUR;2026-06-26;USA;Türkiye;goles;TOTAL;under;2.5;FT;1,925;2,0;0,486;8
+FRA_NOR;2026-06-26;France;Norway;1X2;-;gana_A;-;FT;1,82;1,87;0,5139;15
+FRA_NOR;2026-06-26;France;Norway;1X2;-;empate;-;FT;3,55;3,75;0,2634;15
+FRA_NOR;2026-06-26;France;Norway;1X2;-;gana_B;-;FT;4,2;4,4;0,2227;15
+FRA_NOR;2026-06-26;France;Norway;goles;TOTAL;over;2.5;FT;1,935;2,02;0,484;8
+FRA_NOR;2026-06-26;France;Norway;goles;TOTAL;under;2.5;FT;1,815;1,87;0,516;8
+IRQ_SEN;2026-06-26;Iraq;Senegal;1X2;-;gana_A;-;FT;7,8;8,5;0,1201;15
+IRQ_SEN;2026-06-26;Iraq;Senegal;1X2;-;empate;-;FT;4,45;4,75;0,2106;15
+IRQ_SEN;2026-06-26;Iraq;Senegal;1X2;-;gana_B;-;FT;1,4;1,45;0,6693;15
+IRQ_SEN;2026-06-26;Iraq;Senegal;goles;TOTAL;over;2.5;FT;1,87;1,91;0,5007;8
+IRQ_SEN;2026-06-26;Iraq;Senegal;goles;TOTAL;under;2.5;FT;1,875;1,98;0,4993;8
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;1X2;-;gana_A;-;FT;2,62;2,86;0,3516;15
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;1X2;-;empate;-;FT;3,4;4,0;0,2709;15
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;1X2;-;gana_B;-;FT;2,44;2,55;0,3775;15
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;goles;TOTAL;over;2.5;FT;2,095;2,18;0,4494;6
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;goles;TOTAL;under;2.5;FT;1,71;1,76;0,5506;6
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;goles;TOTAL;over;2.25;FT;1,86;1,93;0,5144;2
+KSA_CPV;2026-06-27;Saudi Arabia;Cabo Verde;goles;TOTAL;under;2.25;FT;1,97;2,01;0,4856;2
+URU_ESP;2026-06-27;Uruguay;Spain;1X2;-;gana_A;-;FT;5,25;5,95;0,1787;15
+URU_ESP;2026-06-27;Uruguay;Spain;1X2;-;empate;-;FT;3,87;4,02;0,2424;15
+URU_ESP;2026-06-27;Uruguay;Spain;1X2;-;gana_B;-;FT;1,62;1,66;0,579;15
+URU_ESP;2026-06-27;Uruguay;Spain;goles;TOTAL;over;2.5;FT;1,86;1,93;0,5033;8
+URU_ESP;2026-06-27;Uruguay;Spain;goles;TOTAL;under;2.5;FT;1,885;1,93;0,4967;8
+NZL_BEL;2026-06-27;New Zealand;Belgium;1X2;-;gana_A;-;FT;9,5;10,5;0,0985;15
+NZL_BEL;2026-06-27;New Zealand;Belgium;1X2;-;empate;-;FT;5,5;6,0;0,1702;15
+NZL_BEL;2026-06-27;New Zealand;Belgium;1X2;-;gana_B;-;FT;1,28;1,32;0,7313;15
+NZL_BEL;2026-06-27;New Zealand;Belgium;goles;TOTAL;over;2.5;FT;1,66;1,68;0,5643;5
+NZL_BEL;2026-06-27;New Zealand;Belgium;goles;TOTAL;under;2.5;FT;2,15;2,2;0,4357;5
+NZL_BEL;2026-06-27;New Zealand;Belgium;goles;TOTAL;over;2.75;FT;1,885;1,93;0,5072;2
+NZL_BEL;2026-06-27;New Zealand;Belgium;goles;TOTAL;under;2.75;FT;1,94;1,95;0,4928;2
+NZL_BEL;2026-06-27;New Zealand;Belgium;goles;TOTAL;over;3.0;FT;2,06;2,06;0,4492;1
+NZL_BEL;2026-06-27;New Zealand;Belgium;goles;TOTAL;under;3.0;FT;1,68;1,68;0,5508;1
+IRN_EGY;2026-06-27;Iran;Egypt;1X2;-;gana_A;-;FT;3,53;3,7;0,2652;15
+IRN_EGY;2026-06-27;Iran;Egypt;1X2;-;empate;-;FT;2,99;3,15;0,3131;15
+IRN_EGY;2026-06-27;Iran;Egypt;1X2;-;gana_B;-;FT;2,22;2,38;0,4217;15
+IRN_EGY;2026-06-27;Iran;Egypt;goles;TOTAL;over;1.5;FT;1,5;1,53;0,6301;4
+IRN_EGY;2026-06-27;Iran;Egypt;goles;TOTAL;under;1.5;FT;2,555;2,6;0,3699;4
+IRN_EGY;2026-06-27;Iran;Egypt;goles;TOTAL;over;2.0;FT;1,92;1,97;0,4934;3
+IRN_EGY;2026-06-27;Iran;Egypt;goles;TOTAL;under;2.0;FT;1,87;1,88;0,5066;3
+IRN_EGY;2026-06-27;Iran;Egypt;goles;TOTAL;over;2.5;FT;2,5;2,5;0,3655;1
+IRN_EGY;2026-06-27;Iran;Egypt;goles;TOTAL;under;2.5;FT;1,44;1,44;0,6345;1
+GHA_CRO;2026-06-27;Ghana;Croatia;1X2;-;gana_A;-;FT;5,4;6,0;0,1729;15
+GHA_CRO;2026-06-27;Ghana;Croatia;1X2;-;empate;-;FT;3,72;3,9;0,2509;15
+GHA_CRO;2026-06-27;Ghana;Croatia;1X2;-;gana_B;-;FT;1,62;1,74;0,5762;15
+GHA_CRO;2026-06-27;Ghana;Croatia;goles;TOTAL;over;2.5;FT;2,05;2,1;0,457;6
+GHA_CRO;2026-06-27;Ghana;Croatia;goles;TOTAL;under;2.5;FT;1,725;1,78;0,543;6
+GHA_CRO;2026-06-27;Ghana;Croatia;goles;TOTAL;over;2.25;FT;1,82;1,85;0,5254;2
+GHA_CRO;2026-06-27;Ghana;Croatia;goles;TOTAL;under;2.25;FT;2,015;2,02;0,4746;2
+PAN_ENG;2026-06-27;Panama;England;1X2;-;gana_A;-;FT;9,22;11,0;0,1006;15
+PAN_ENG;2026-06-27;Panama;England;1X2;-;empate;-;FT;5,5;6,75;0,1687;15
+PAN_ENG;2026-06-27;Panama;England;1X2;-;gana_B;-;FT;1,27;1,32;0,7306;15
+PAN_ENG;2026-06-27;Panama;England;goles;TOTAL;over;2.5;FT;1,62;1,68;0,5759;5
+PAN_ENG;2026-06-27;Panama;England;goles;TOTAL;under;2.5;FT;2,2;2,28;0,4241;5
+PAN_ENG;2026-06-27;Panama;England;goles;TOTAL;over;2.75;FT;1,815;1,85;0,5261;2
+PAN_ENG;2026-06-27;Panama;England;goles;TOTAL;under;2.75;FT;2,015;2,02;0,4739;2
+PAN_ENG;2026-06-27;Panama;England;goles;TOTAL;over;3.0;FT;1,99;1,99;0,4665;1
+PAN_ENG;2026-06-27;Panama;England;goles;TOTAL;under;3.0;FT;1,74;1,74;0,5335;1
+COL_POR;2026-06-28;Colombia;Portugal;1X2;-;gana_A;-;FT;3,5;3,7;0,2676;15
+COL_POR;2026-06-28;Colombia;Portugal;1X2;-;empate;-;FT;3,27;3,4;0,2864;15
+COL_POR;2026-06-28;Colombia;Portugal;1X2;-;gana_B;-;FT;2,1;2,2;0,446;15
+COL_POR;2026-06-28;Colombia;Portugal;goles;TOTAL;over;2.5;FT;2,055;2,1;0,4549;6
+COL_POR;2026-06-28;Colombia;Portugal;goles;TOTAL;under;2.5;FT;1,715;1,76;0,5451;6
+COL_POR;2026-06-28;Colombia;Portugal;goles;TOTAL;over;2.25;FT;1,85;1,87;0,5163;2
+COL_POR;2026-06-28;Colombia;Portugal;goles;TOTAL;under;2.25;FT;1,975;1,99;0,4837;2
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;1X2;-;gana_A;-;FT;2,3;2,36;0,4048;15
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;1X2;-;empate;-;FT;3,2;3,35;0,2909;15
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;1X2;-;gana_B;-;FT;3,06;3,3;0,3043;15
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;goles;TOTAL;over;2.5;FT;2,23;2,25;0,4223;5
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;goles;TOTAL;under;2.5;FT;1,63;1,66;0,5777;5
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;goles;TOTAL;over;2.25;FT;2,02;2,09;0,474;2
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;goles;TOTAL;under;2.25;FT;1,82;1,84;0,526;2
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;goles;TOTAL;over;2.0;FT;1,64;1,64;0,5638;1
+COD_UZB;2026-06-28;DR Congo;Uzbekistan;goles;TOTAL;under;2.0;FT;2,12;2,12;0,4362;1
+AUT_ALG;2026-06-28;Austria;Algeria;1X2;-;gana_A;-;FT;2,15;2,23;0,4355;15
+AUT_ALG;2026-06-28;Austria;Algeria;1X2;-;empate;-;FT;3,12;3,35;0,3001;15
+AUT_ALG;2026-06-28;Austria;Algeria;1X2;-;gana_B;-;FT;3,54;3,85;0,2645;15
+AUT_ALG;2026-06-28;Austria;Algeria;goles;TOTAL;over;2.5;FT;2,12;2,18;0,4428;6
+AUT_ALG;2026-06-28;Austria;Algeria;goles;TOTAL;under;2.5;FT;1,685;1,71;0,5572;6
+AUT_ALG;2026-06-28;Austria;Algeria;goles;TOTAL;over;2.25;FT;1,875;1,93;0,5098;2
+AUT_ALG;2026-06-28;Austria;Algeria;goles;TOTAL;under;2.25;FT;1,95;1,97;0,4902;2
+ARG_JOR;2026-06-28;Argentina;Jordan;1X2;-;gana_A;-;FT;1,18;1,22;0,7914;15
+ARG_JOR;2026-06-28;Argentina;Jordan;1X2;-;empate;-;FT;6,6;7,5;0,1415;15
+ARG_JOR;2026-06-28;Argentina;Jordan;1X2;-;gana_B;-;FT;13,92;16,0;0,0671;15
+ARG_JOR;2026-06-28;Argentina;Jordan;goles;TOTAL;over;2.5;FT;1,545;1,56;0,6023;2
+ARG_JOR;2026-06-28;Argentina;Jordan;goles;TOTAL;under;2.5;FT;2,34;2,38;0,3977;2
+ARG_JOR;2026-06-28;Argentina;Jordan;goles;TOTAL;over;3.0;FT;1,9;2,04;0,4906;3
+ARG_JOR;2026-06-28;Argentina;Jordan;goles;TOTAL;under;3.0;FT;1,83;1,87;0,5094;3
+ARG_JOR;2026-06-28;Argentina;Jordan;goles;TOTAL;over;3.5;FT;2,38;2,43;0,3959;3
+ARG_JOR;2026-06-28;Argentina;Jordan;goles;TOTAL;under;3.5;FT;1,56;1,57;0,6041;3

@@ -5,14 +5,15 @@ import { MatchMarkets } from "@/components/MatchMarkets";
 import type { OULine } from "@/components/OverUnderTable";
 import { ScoreHeatmap } from "@/components/ScoreHeatmap";
 import { outcome, pred1x2 } from "@/lib/accuracy";
-import { bestBets } from "@/lib/best-bets";
+import { todasLasApuestas } from "@/lib/best-bets";
 import { SECTIONS } from "@/lib/markets-ui";
 import { PLAYER_MARKETS } from "@/lib/player-markets";
 import { ProbBar } from "@/components/ProbBar";
 import { flag } from "@/lib/flags";
-import { formatFecha, pct } from "@/lib/format";
+import { formatFecha, formatHora, pct } from "@/lib/format";
 import { teamES } from "@/lib/teams";
 import {
+  getConvocatoria,
   getMatch,
   getMatchIds,
   getPlayerMarkets,
@@ -41,14 +42,19 @@ export async function generateMetadata({
   };
 }
 
-function ouLinesByScope(markets: MarketRow[], mercado: string) {
+function ouLinesByScope(
+  markets: MarketRow[],
+  mercado: string,
+  periodo = "FT",
+) {
   const byScope = (ambito: string): OULine[] =>
     markets
       .filter(
         (m) =>
           m.mercado === mercado &&
           m.ambito === ambito &&
-          m.evento === "over",
+          m.evento === "over" &&
+          (m.periodo ?? "FT") === periodo,
       )
       .map((m) => ({ linea: m.linea, over: m.probabilidad }))
       .sort((a, b) => parseFloat(a.linea) - parseFloat(b.linea));
@@ -63,8 +69,14 @@ function evento(
   markets: MarketRow[],
   mercado: string,
   ev: string,
+  periodo = "FT",
 ): number | null {
-  const m = markets.find((x) => x.mercado === mercado && x.evento === ev);
+  const m = markets.find(
+    (x) =>
+      x.mercado === mercado &&
+      x.evento === ev &&
+      (x.periodo ?? "FT") === periodo,
+  );
   return m ? m.probabilidad : null;
 }
 
@@ -95,15 +107,37 @@ export default async function MatchPage({
     },
   };
 
-  const secciones = SECTIONS.map((section) => ({
-    key: section.key,
-    titulo: section.titulo,
-    mercados: section.mercados.map(({ mercado, label }) => ({
-      mercado,
-      label,
-      ...ouLinesByScope(markets, mercado),
-    })),
-  }));
+  const seccionesDe = (periodo: string) =>
+    SECTIONS.map((section) => ({
+      key: section.key,
+      titulo: section.titulo,
+      mercados: section.mercados.map(({ mercado, label }) => ({
+        mercado,
+        label,
+        ...ouLinesByScope(markets, mercado, periodo),
+      })),
+    }));
+  const secciones = seccionesDe("FT");
+  // Por periodo: solo se ofrecen FT/1H/2H para las métricas viables por mitad.
+  const seccionesPorPeriodo = {
+    FT: secciones,
+    "1H": seccionesDe("1H"),
+    "2H": seccionesDe("2H"),
+  };
+  // ¿Hay datos por mitad? (algún mercado 1H/2H con líneas)
+  const hayMitades = ["1H", "2H"].some((p) =>
+    seccionesPorPeriodo[p as "1H" | "2H"].some((s) =>
+      s.mercados.some((m) => m.total.length || m.teamA.length || m.teamB.length),
+    ),
+  );
+  // Resultado de 1ª parte (1X2 + BTTS HT).
+  const resultado1h = {
+    p1: evento(markets, "1X2", "gana_A", "1H"),
+    pX: evento(markets, "1X2", "empate", "1H"),
+    p2: evento(markets, "1X2", "gana_B", "1H"),
+    bttsSi: evento(markets, "btts", "si", "1H"),
+    bttsNo: evento(markets, "btts", "no", "1H"),
+  };
 
   // Agrupar mercados de jugador por jugador.
   const ouJugador = (rows: PlayerMarketRow[], mercado: string): OULine[] =>
@@ -114,8 +148,12 @@ export default async function MatchPage({
   const siJugador = (rows: PlayerMarketRow[], mercado: string): number | null =>
     rows.find((r) => r.mercado === mercado && r.evento === "si")
       ?.probabilidad ?? null;
+  // "otro_jugador" y "ninguno" son cajones del mercado de primer goleador (que
+  // otro/nadie marque), no jugadores reales: no se listan como tales.
+  const NO_JUGADORES = new Set(["otro_jugador", "ninguno"]);
   const porJugador = new Map<string, PlayerMarketRow[]>();
   for (const pm of playerMarkets) {
+    if (NO_JUGADORES.has(pm.player)) continue;
     if (!porJugador.has(pm.player)) porJugador.set(pm.player, []);
     porJugador.get(pm.player)!.push(pm);
   }
@@ -135,18 +173,18 @@ export default async function MatchPage({
         (a.binarios["anytime_scorer"] ?? 0),
     );
 
-  const topScorer =
-    jugadores[0]?.binarios["anytime_scorer"] != null
-      ? {
-          player: jugadores[0].player,
-          prob: jugadores[0].binarios["anytime_scorer"]!,
-        }
-      : null;
-  const destacadas = bestBets(
+  // Convocados SIN telemetría → se listan como "sin datos" (plantilla completa).
+  const conMercado = new Set(jugadores.map((j) => j.player));
+  const conv = await getConvocatoria([match.teamAName, match.teamBName]);
+  const sinDatos = conv
+    .filter((c) => !conMercado.has(c.jugador))
+    .map((c) => ({ player: c.jugador, team: c.equipo }));
+
+  const apuestas = todasLasApuestas(
     markets,
+    jugadores,
     teamES(match.teamAName),
     teamES(match.teamBName),
-    topScorer,
   );
 
   return (
@@ -162,6 +200,7 @@ export default async function MatchPage({
       <div className="mt-4 rounded-3xl bg-white p-6 ring-1 ring-slate-200 sm:p-8">
         <p className="text-sm font-medium text-slate-400">
           {formatFecha(match.date)}
+          {formatHora(match.kickoff) && ` · ${formatHora(match.kickoff)} (hora España)`}
         </p>
         <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
           <TeamHead
@@ -190,6 +229,32 @@ export default async function MatchPage({
         </div>
       </div>
 
+      {/* Árbitro designado */}
+      <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-200">
+        <span className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+          Árbitro
+        </span>
+        {match.refereeSofaId ? (
+          <Link
+            href={`/arbitros/${match.refereeSofaId}`}
+            className="flex items-center gap-2 text-sm font-bold text-indigo-600 hover:underline"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://img.sofascore.com/api/v1/referee/${match.refereeSofaId}/image`}
+              alt={match.refereeName ?? "Árbitro"}
+              width={28}
+              height={28}
+              className="h-7 w-7 rounded-full bg-slate-100 object-cover ring-1 ring-slate-200"
+              style={{ height: 28, width: 28 }}
+            />
+            {match.refereeName ?? "Ver ficha"}
+          </Link>
+        ) : (
+          <span className="text-sm font-medium text-slate-400">Por designar</span>
+        )}
+      </div>
+
       {match.settled && match.scoreA != null && match.scoreB != null && (
         <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-slate-200">
           <div className="flex items-center justify-between gap-3">
@@ -209,24 +274,6 @@ export default async function MatchPage({
         </div>
       )}
 
-      {destacadas.length > 0 && (
-        <section className="mt-4">
-          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
-            Apuestas destacadas
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {destacadas.map((d, i) => (
-              <span
-                key={i}
-                className="rounded-full bg-white px-3 py-1.5 text-sm ring-1 ring-slate-200"
-              >
-                {d.label}{" "}
-                <span className="font-bold text-indigo-600">{pct(d.prob)}</span>
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
 
       {scoreProbs.length > 0 && (
         <section className="mt-6">
@@ -244,7 +291,12 @@ export default async function MatchPage({
       <MatchMarkets
         principales={principales}
         secciones={secciones}
+        seccionesPorPeriodo={seccionesPorPeriodo}
+        resultado1h={resultado1h}
+        hayMitades={hayMitades}
         jugadores={jugadores}
+        sinDatos={sinDatos}
+        apuestas={apuestas}
         flagA={flag(match.teamAName)}
         flagB={flag(match.teamBName)}
       />

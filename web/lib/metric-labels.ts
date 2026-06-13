@@ -2,18 +2,31 @@
 // la tabla de perfiles y el historial.
 
 export const METRIC_LABELS: Record<string, string> = {
+  // Mercados de resultado (no son métricas de conteo, pero comparten lookup).
+  "1X2": "Resultado (1X2)",
+  doble_oportunidad: "Doble oportunidad",
+  btts: "Ambos marcan",
+  // Métricas de equipo / mercados O/U.
   goles: "Goles",
   expected_goals: "Goles esperados (xG)",
   total_shots: "Tiros totales",
   shots_on_target: "Tiros a puerta",
+  shots_off_target: "Tiros fuera",
+  shots_inside_box: "Tiros dentro del área",
+  shots_outside_box: "Tiros desde fuera del área",
+  blocked_shots: "Tiros bloqueados",
   ball_possession: "Posesión (%)",
   corner_kicks: "Córners",
+  free_kicks: "Tiros libres",
+  goal_kicks: "Saques de puerta",
+  "throw-ins": "Saques de banda",
   fouls: "Faltas",
   yellow_cards: "Tarjetas amarillas",
+  red_cards: "Tarjetas rojas",
+  offsides: "Fueras de juego",
   passes: "Pases",
   accurate_passes: "Pases precisos",
   tackles: "Entradas",
-  offsides: "Fueras de juego",
   goalkeeper_saves: "Paradas del portero",
 };
 

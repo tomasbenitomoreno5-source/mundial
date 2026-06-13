@@ -28,6 +28,10 @@ model Match {
   stage       String? // "grupos" | "eliminatoria" (fase)
   kickoff     Int? // startTimestamp (epoch s) del partido real en SofaScore
   sofaEventId Int? // id de evento real en SofaScore (para bajar el resultado)
+  // Árbitro designado (de calendario.csv; null = "Por designar"). El enlace a
+  // la ficha es por refereeSofaId; refereeName se guarda por si no hay ficha.
+  refereeSofaId Int?
+  refereeName   String?
   teamA     Team   @relation("MatchTeamA", fields: [teamAName], references: [name])
   teamB     Team   @relation("MatchTeamB", fields: [teamBName], references: [name])
 
@@ -70,8 +74,35 @@ model Market {
   evento       String // gana_A, over, under, si, no, ...
   linea        String // linea_o_target (string: "-", "2.5", ...)
   probabilidad Float
+  periodo      String @default("FT") // FT (todo el partido) | 1H | 2H
 
   @@index([matchId, mercado])
+}
+
+// Rendimiento del modelo por mercado (calibración + Brier). Lo genera
+// predictor/rendimiento.py sobre el backtest y lo carga el seed. Alimenta la
+// pestaña de rendimiento de la web.
+// Convocatoria oficial por selección (de convocatorias.csv). Permite mostrar la
+// plantilla COMPLETA en la web, marcando como "sin datos" a los jugadores sin
+// telemetría (que el modelo no puede modelar todavía).
+model Convocatoria {
+  id      Int    @id @default(autoincrement())
+  equipo  String
+  jugador String
+
+  @@index([equipo])
+}
+
+model MarketPerformance {
+  id       Int     @id @default(autoincrement())
+  mercado  String  @unique
+  fuente   String // backtest | live
+  n        Int
+  brier    Float
+  acierto  Float
+  ece      Float
+  cob80    Float?
+  binsJson String // JSON: [{lo,hi,pred,real,n}] para la curva de calibración
 }
 
 // --- Datos por selección (cargados de los CSV del motor; ver seed.ts) ---
@@ -209,4 +240,75 @@ model TournamentOdds {
   p1Grupo   Float  @default(0)
   p2Grupo   Float  @default(0)
   ptsGrupo  Float  @default(0)
+}
+
+// Árbitro del plantel del Mundial 2026. De data/arbitros.csv (lista FIFA +
+// perfil de carrera de SofaScore + stats reales de nuestro pool si hay backfill).
+// La foto se sirve desde img.sofascore.com/api/v1/referee/{sofaId}/image.
+model Referee {
+  id            Int     @id @default(autoincrement())
+  sofaId        Int     @unique
+  name          String
+  country       String?
+  countryCode   String? // alpha2, para la bandera
+  confederation String?
+  // Carrera (de referee/{id}).
+  games         Int
+  yellow        Int
+  red           Int
+  yellowRed     Int // dobles amarillas
+  // Pool histórico (del backfill; 0/null si no se hizo).
+  poolGames      Int    @default(0)
+  poolYellow     Int    @default(0)
+  poolYellowHome Int    @default(0)
+  poolYellowAway Int    @default(0)
+  poolRed        Int    @default(0)
+  poolFouls      Float? // faltas/partido medias en el pool
+  poolGoals      Float? // goles/partido medios en el pool
+  poolPenalties  Int    @default(0) // penaltis pitados en el pool
+  poolYellow1h   Int    @default(0) // amarillas en 1ª parte (pool)
+  poolYellow2h   Int    @default(0) // amarillas en 2ª parte (pool)
+  matches       RefereeMatch[]
+  teamHistory   RefereeTeamHistory[]
+}
+
+// Historial de un árbitro frente a una selección del Mundial (de nuestro pool):
+// partidos arbitrados y amarillas totales de esos partidos.
+model RefereeTeamHistory {
+  id            Int     @id @default(autoincrement())
+  refereeSofaId Int
+  team          String
+  games         Int
+  yellow        Int
+  referee       Referee @relation(fields: [refereeSofaId], references: [sofaId])
+
+  @@index([refereeSofaId])
+}
+
+// Cruce de eliminatoria aún sin equipos decididos (placeholder "Por
+// determinar"). De data/calendario_completo.csv; solo los que aún no se han
+// promovido a Match real (lo hace actualizar_fixtures.py cuando casan equipos).
+model KnockoutFixture {
+  id          Int     @id @default(autoincrement())
+  sofaEventId Int     @unique
+  kickoff     Int?
+  ronda       String? // etiqueta de ronda en español
+  label       String? // descr del calendario (p.ej. "2A vs 2B")
+}
+
+// Últimos partidos de un árbitro (de referee/{id}/events/last). `yellow` solo
+// es no-null si el partido está en nuestro pool (amarillas reales).
+model RefereeMatch {
+  id            Int     @id @default(autoincrement())
+  refereeSofaId Int
+  ts            Int?
+  tournament    String?
+  home          String
+  away          String
+  scoreHome     Int?
+  scoreAway     Int?
+  yellow        Int?
+  referee       Referee @relation(fields: [refereeSofaId], references: [sofaId])
+
+  @@index([refereeSofaId])
 }
