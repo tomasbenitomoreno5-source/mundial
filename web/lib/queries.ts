@@ -1,4 +1,30 @@
 import { prisma } from "@/lib/prisma";
+import { metricLabel } from "@/lib/metric-labels";
+import type { Bin, MarketPerf } from "@/lib/rendimiento";
+
+/** Rendimiento por mercado (calibración + Brier) desde MarketPerformance. */
+export async function getMarketPerformance(): Promise<MarketPerf[]> {
+  const rows = await prisma.marketPerformance.findMany();
+  return rows.map((r) => {
+    let bins: Bin[] = [];
+    try {
+      bins = JSON.parse(r.binsJson) as Bin[];
+    } catch {
+      bins = [];
+    }
+    return {
+      mercado: r.mercado,
+      etiqueta: metricLabel(r.mercado),
+      fuente: r.fuente,
+      n: r.n,
+      brier: r.brier,
+      acierto: r.acierto,
+      ece: r.ece,
+      cob80: r.cob80,
+      bins,
+    };
+  });
+}
 
 export async function getMatches() {
   return prisma.match.findMany({
@@ -225,6 +251,11 @@ export async function getPlayerMarkets(matchId: string) {
   return prisma.playerMarket.findMany({ where: { matchId } });
 }
 
+/** Convocatoria (jugador, equipo) de las selecciones dadas. */
+export async function getConvocatoria(equipos: string[]) {
+  return prisma.convocatoria.findMany({ where: { equipo: { in: equipos } } });
+}
+
 /** Probabilidades de marcador exacto de un partido. */
 export async function getScoreProbs(matchId: string) {
   return prisma.scoreProb.findMany({ where: { matchId } });
@@ -273,3 +304,43 @@ export type TeamPlayer = Awaited<ReturnType<typeof getTeamPlayers>>[number];
 export type PlayerMarketRow = Awaited<
   ReturnType<typeof getPlayerMarkets>
 >[number];
+
+// --- Árbitros ---------------------------------------------------------------
+
+/** Todos los árbitros del plantel (para el índice). */
+export async function getReferees() {
+  return prisma.referee.findMany({ orderBy: { name: "asc" } });
+}
+
+/** sofaIds del plantel, para generateStaticParams. */
+export async function getRefereeSofaIds() {
+  const rows = await prisma.referee.findMany({ select: { sofaId: true } });
+  return rows.map((r) => r.sofaId);
+}
+
+/** Detalle de un árbitro: perfil + sus últimos partidos (más reciente primero). */
+export async function getRefereeDetail(sofaId: number) {
+  const ref = await prisma.referee.findUnique({ where: { sofaId } });
+  if (!ref) return null;
+  const [matches, teamHistory] = await Promise.all([
+    prisma.refereeMatch.findMany({
+      where: { refereeSofaId: sofaId },
+      orderBy: [{ ts: "desc" }],
+    }),
+    prisma.refereeTeamHistory.findMany({
+      where: { refereeSofaId: sofaId },
+      orderBy: [{ games: "desc" }, { team: "asc" }],
+    }),
+  ]);
+  return { ref, matches, teamHistory };
+}
+
+/** Cruces de eliminatoria aún sin equipos (placeholders "Por determinar"). */
+export async function getKnockoutPlaceholders() {
+  return prisma.knockoutFixture.findMany({ orderBy: { kickoff: "asc" } });
+}
+
+export type RefereeRow = Awaited<ReturnType<typeof getReferees>>[number];
+export type RefereeMatchRow = NonNullable<
+  Awaited<ReturnType<typeof getRefereeDetail>>
+>["matches"][number];

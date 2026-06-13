@@ -8,7 +8,8 @@ import pandas as pd
 from . import config
 
 
-def compute_strength(stats: pd.DataFrame, equipos_mundial: list[str]) -> dict[str, float]:
+def compute_strength(stats: pd.DataFrame, equipos_mundial: list[str],
+                     usar_elo_mundo: bool = True) -> dict[str, float]:
     """Devuelve un mapa equipo -> fuerza (z-score combinado)."""
     agg = stats.groupby("equipo_nombre", sort=False).agg(
         n_partidos=("goles", "size"),
@@ -26,16 +27,22 @@ def compute_strength(stats: pd.DataFrame, equipos_mundial: list[str]) -> dict[st
     sd = agg["raw_shrunk"].std(ddof=1)
     agg["z_interna"] = (agg["raw_shrunk"] - mu) / sd
 
-    # ELO estandarizado sobre los mundialistas con rating
+    # ELO estandarizado sobre los mundialistas con rating (mantiene la escala).
     elo = config.ELO_2026
     mundial_con_elo = [e for e in equipos_mundial if e in elo]
     elo_vals = np.array([elo[e] for e in mundial_con_elo], dtype=float)
     mu_elo = elo_vals.mean()
     sd_elo = elo_vals.std(ddof=1)
 
+    # ELO de todo el mundo (Task 2.4) para dar coordenada no-circular a los
+    # no-mundialistas; ELO_2026 (snapshot mayo) manda para los 48. En legacy
+    # (usar_elo_mundo=False) solo ELO_2026, para reproducir el R.
+    elo_all = dict(config.ELO_MUNDO) if usar_elo_mundo else {}
+    elo_all.update(elo)
+
     def z_elo(equipo: str) -> float:
-        if equipo in elo:
-            return (elo[equipo] - mu_elo) / sd_elo
+        if equipo in elo_all:
+            return (elo_all[equipo] - mu_elo) / sd_elo
         return np.nan
 
     agg["z_elo"] = agg["equipo_nombre"].map(z_elo)

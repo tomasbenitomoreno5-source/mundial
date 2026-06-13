@@ -87,8 +87,13 @@ def _zscore(mat: np.ndarray) -> np.ndarray:
     return z
 
 
-def compute_style_knn(stats: pd.DataFrame, k: int = config.K_KNN) -> StyleKNN:
+def compute_style_knn(stats: pd.DataFrame, k: int = config.K_KNN,
+                      min_partidos: int = config.KNN_MIN_PARTIDOS) -> StyleKNN:
     feats = build_style_features(stats)
+    # Equipos con muestra mínima para ser vecino: ratios de estilo sobre 1-4
+    # partidos son ruido que contamina el componente γ del pool. min_partidos=1
+    # desactiva el filtro (legacy, para reproducir el R).
+    feats = feats[feats["n_partidos"] >= min_partidos].reset_index(drop=True)
     feature_cols = [c for c in feats.columns if c not in ("equipo_nombre", "n_partidos")]
 
     # Imputar NaN/inf de cada feature con su media global (como el R)

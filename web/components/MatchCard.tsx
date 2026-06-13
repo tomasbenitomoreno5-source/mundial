@@ -2,12 +2,13 @@ import Link from "next/link";
 
 import { ProbBar, ProbLegend } from "@/components/ProbBar";
 import { flag } from "@/lib/flags";
-import { formatFecha, pct } from "@/lib/format";
+import { formatFecha, formatHora, pct } from "@/lib/format";
 import { teamES } from "@/lib/teams";
 
 export type MatchLike = {
   id: string;
   date: string;
+  kickoff?: number | null;
   teamAName: string;
   teamBName: string;
   groupLabel: string | null;
@@ -17,6 +18,9 @@ export type MatchLike = {
   bttsSi: number | null;
   golesOver25: number | null;
   cornersOver95: number | null;
+  // Placeholder de eliminatoria (equipos sin decidir): no enlaza a detalle.
+  placeholder?: boolean;
+  ronda?: string | null;
 };
 
 /** Quién es el favorito (mayor de p1/pX/p2). */
@@ -30,6 +34,7 @@ function favorito(m: MatchLike): "A" | "X" | "B" {
 }
 
 export function MatchCard({ m }: { m: MatchLike }) {
+  if (m.placeholder) return <PlaceholderCard m={m} />;
   const fav = favorito(m);
   return (
     <Link
@@ -39,6 +44,7 @@ export function MatchCard({ m }: { m: MatchLike }) {
       <div className="mb-3 flex items-center gap-2">
         <span className="text-xs font-medium text-slate-400">
           {formatFecha(m.date)}
+          {formatHora(m.kickoff) && ` · ${formatHora(m.kickoff)}`}
         </span>
         {m.groupLabel && (
           <span className="rounded bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-600">
@@ -73,6 +79,51 @@ export function MatchCard({ m }: { m: MatchLike }) {
         />
       </div>
     </Link>
+  );
+}
+
+/** Tarjeta de un cruce de eliminatoria aún sin equipos (mismo formato). */
+function PlaceholderCard({ m }: { m: MatchLike }) {
+  return (
+    <div className="block rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5">
+      <div className="mb-3 flex items-center gap-2">
+        <span className="text-xs font-medium text-slate-400">
+          {formatFecha(m.date)}
+          {formatHora(m.kickoff) && ` · ${formatHora(m.kickoff)}`}
+        </span>
+        {m.ronda && (
+          <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-500">
+            {m.ronda}
+          </span>
+        )}
+      </div>
+
+      <div className="mb-4 space-y-2">
+        <PlaceholderRow hint={m.teamAName} />
+        <PlaceholderRow hint={m.teamBName} />
+      </div>
+
+      <div className="h-2 rounded-full bg-slate-200" />
+      <p className="mt-2 text-center text-[11px] text-slate-400">
+        Equipos y mercados por determinar
+      </p>
+    </div>
+  );
+}
+
+function PlaceholderRow({ hint }: { hint: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="flex items-center gap-2.5">
+        <span className="text-xl leading-none">🏳️</span>
+        <span className="text-sm font-medium text-slate-400">
+          Por determinar
+        </span>
+      </span>
+      {hint && hint !== "Por determinar" && (
+        <span className="text-xs tabular-nums text-slate-300">{hint}</span>
+      )}
+    </div>
   );
 }
 

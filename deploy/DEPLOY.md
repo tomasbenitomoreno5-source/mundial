@@ -100,3 +100,37 @@ chmod +x actualizar.sh
 - **Resultados del Mundial:** automático por el cron. No tocas nada.
 - Logs del auto-update: `tail -f /tmp/mundial_update.log`.
 - Logs de la web: `journalctl -u mundial-web -f`.
+
+---
+
+## Notificaciones por Telegram (resumen de cada cron)
+
+`run_actualizacion.py` manda **una notificación por ejecución del cron** con el
+resumen (qué pasos corrieron, OK/fallo, vía API/HTML, resultados nuevos).
+
+**1. Crear el bot:** en Telegram, habla con **@BotFather** → `/newbot` → te da un
+**token** (`123456:ABC...`).
+
+**2. Tu chat_id:** escribe cualquier mensaje a tu bot, luego abre en el navegador
+`https://api.telegram.org/bot<TOKEN>/getUpdates` y copia el `chat.id` (o usa
+**@userinfobot**).
+
+**3. Configurar las credenciales.** `notificar.py` las lee de variables de
+entorno o, si no, del fichero **`telegram.env`** (en la raíz de `mundial/`). Ese
+fichero está en `.gitignore` → **NO viaja con `git pull`**, así que hay que
+crearlo **una vez en cada máquina** (local y servidor). En el servidor:
+```bash
+cd /ruta/al/repo/mundial
+cat > telegram.env <<'EOF'
+MUNDIAL_TG_TOKEN=123456:ABC...
+MUNDIAL_TG_CHAT=<tu chat_id>
+EOF
+```
+Al estar gitignorado, los `git pull` posteriores **no lo pisan** (se crea solo
+una vez). Sin él (ni env vars), el resumen se imprime en el log y el cron sigue
+igual.
+
+> ⚠️ **IP de datacenter (Oracle Cloud):** SofaScore bloquea más agresivamente las
+> IPs de datacenter. Si el scraping (resultados) empieza a fallar con 403 en el
+> servidor, la notificación te avisará — y la solución es correr el cron desde
+> una **IP residencial** (p.ej. tu Mac) en vez del VPS. Verifícalo tras desplegar.

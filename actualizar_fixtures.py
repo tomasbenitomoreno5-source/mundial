@@ -103,7 +103,14 @@ async def main():
         with open(DATA / "partidos_a_predecir.csv", "a", newline="", encoding="utf-8") as f:
             csv.DictWriter(f, fieldnames=["partido_id", "fecha", "equipo_a", "equipo_b", "fase"], delimiter=";").writerows(nuevos_pred)
         with open(DATA / "calendario.csv", "a", newline="", encoding="utf-8") as f:
-            csv.DictWriter(f, fieldnames=["partido_id", "sofa_event_id", "kickoff", "sofa"], delimiter=";").writerows(nuevos_cal)
+            # referee_id/referee_name los rellena extraer_designaciones.py
+            csv.DictWriter(
+                f,
+                fieldnames=["partido_id", "sofa_event_id", "kickoff", "sofa", "referee_id", "referee_name"],
+                delimiter=";",
+                restval="",
+                extrasaction="ignore",
+            ).writerows(nuevos_cal)
     print(f"Fixtures nuevos añadidos: {len(nuevos_pred)}")
     for r in nuevos_pred:
         print(f"  + {r['partido_id']}: {r['equipo_a']} vs {r['equipo_b']} ({r['fecha']})")

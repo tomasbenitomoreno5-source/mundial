@@ -61,6 +61,7 @@ export function PrediccionesBrowser({ matches }: { matches: MatchLike[] }) {
   const equipos = useMemo(() => {
     const set = new Set<string>();
     for (const m of matches) {
+      if (m.placeholder) continue; // los placeholders no tienen equipos reales
       set.add(m.teamAName);
       set.add(m.teamBName);
     }
@@ -110,7 +111,15 @@ export function PrediccionesBrowser({ matches }: { matches: MatchLike[] }) {
       if (!map.has(k)) map.set(k, []);
       map.get(k)!.push(m);
     }
-    return [...map.keys()].sort().map((k) => [k, map.get(k)!] as const);
+    return [...map.keys()].sort().map(
+      (k) =>
+        [
+          k,
+          map
+            .get(k)!
+            .sort((a, b) => (a.kickoff ?? 0) - (b.kickoff ?? 0)),
+        ] as const,
+    );
   }, [filtradas]);
 
   const activo = query !== "" || grupo !== "all" || equipo !== "all" || fecha !== "all";

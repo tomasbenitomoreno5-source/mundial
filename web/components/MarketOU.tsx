@@ -35,11 +35,31 @@ export function MarketOU({
   const opciones = ambitos.filter((o) => o.lineas.length > 0);
 
   const [scope, setScope] = useState<Scope>("TOTAL");
+  const [verTodas, setVerTodas] = useState(false);
 
   if (opciones.length === 0) return null;
 
   const activa = opciones.find((o) => o.scope === scope) ?? opciones[0];
-  const lineas = activa.lineas;
+  // Ordenar por línea y localizar la "principal" (over más cercano a 50%).
+  const ordenadas = [...activa.lineas].sort(
+    (a, b) => parseFloat(a.linea) - parseFloat(b.linea),
+  );
+  let idxEq = 0;
+  let mejor = Infinity;
+  ordenadas.forEach((l, i) => {
+    const d = Math.abs(l.over - 0.5);
+    if (d < mejor) {
+      mejor = d;
+      idxEq = i;
+    }
+  });
+  // Por defecto: 5 líneas centradas en la principal. "Ver todas" las despliega.
+  const N = 5;
+  let ini = Math.max(0, idxEq - Math.floor(N / 2));
+  const fin = Math.min(ordenadas.length, ini + N);
+  ini = Math.max(0, fin - N);
+  const visibles = verTodas ? ordenadas : ordenadas.slice(ini, fin);
+  const hayMas = !verTodas && visibles.length < ordenadas.length;
 
   return (
     <div className="rounded-2xl bg-white p-4 ring-1 ring-slate-200">
@@ -74,19 +94,34 @@ export function MarketOU({
           </tr>
         </thead>
         <tbody>
-          {lineas.map((l) => (
-            <tr key={l.linea} className="border-t border-slate-100">
-              <td className="py-1.5 tabular-nums text-slate-600">{l.linea}</td>
-              <td className="py-1.5 text-right font-medium tabular-nums text-indigo-600">
-                {pct(l.over)}
-              </td>
-              <td className="py-1.5 text-right tabular-nums text-slate-400">
-                {pct(1 - l.over)}
-              </td>
-            </tr>
-          ))}
+          {visibles.map((l) => {
+            return (
+              <tr key={l.linea} className="border-t border-slate-100">
+                <td className="py-1.5 tabular-nums text-slate-600">
+                  {l.linea}
+                </td>
+                <td className="py-1.5 text-right font-medium tabular-nums text-indigo-600">
+                  {pct(l.over)}
+                </td>
+                <td className="py-1.5 text-right tabular-nums text-slate-400">
+                  {pct(1 - l.over)}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      {(hayMas || verTodas) && ordenadas.length > N && (
+        <button
+          type="button"
+          onClick={() => setVerTodas((v) => !v)}
+          className="mt-2 w-full rounded-lg py-1.5 text-xs font-medium text-indigo-600 transition hover:bg-indigo-50"
+        >
+          {verTodas
+            ? "Ver menos"
+            : `Ver todas las líneas (${ordenadas.length})`}
+        </button>
+      )}
     </div>
   );
 }

@@ -9,3 +9,8 @@ dev.db
 # El server genera/actualiza estos; no los versionamos para no pisarlos en el pull
 data/*.jsonl
 data/resultados.csv
+# Credenciales (Telegram, etc.) — nunca al repo
+telegram.env
+data/elo_aplicados.txt
+apifootball.env
+theoddsapi.env

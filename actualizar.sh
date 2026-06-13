@@ -1,28 +1,21 @@
 #!/usr/bin/env bash
-# Actualiza los resultados del Mundial y recarga la DB. Idempotente: se puede
-# correr tantas veces como se quiera. Pensado para un cron cada ~2h durante el
-# torneo (captura cada partido en ≤2h de acabar).
+# Actualiza los resultados del Mundial, re-predice, recarga la DB y NOTIFICA a
+# Telegram el resumen de la ejecución. Idempotente: se puede correr a discreción.
 #
-# Instalar en cron (cada 2h):
-#   crontab -e
-#   0 */2 * * * /Users/xavirodriguez/Desktop/Personal/Proyects/football-analytics/mundial/actualizar.sh >> /tmp/mundial_update.log 2>&1
+# Toda la lógica vive en run_actualizacion.py (orquesta los pasos, captura el
+# resultado de cada uno y manda una notificación por ejecución). Este wrapper
+# solo fija el directorio y el entorno.
 #
-# El sitio web es ISR (revalidate 1800s), así que recoge los datos nuevos solo;
-# no hace falta reconstruir ni reiniciar.
+# Notificaciones (Telegram) — configurar antes (ver deploy/DEPLOY.md):
+#   export MUNDIAL_TG_TOKEN=<token del bot de @BotFather>
+#   export MUNDIAL_TG_CHAT=<tu chat_id>
+# Sin esas variables, el resumen se imprime por stdout (no rompe el cron).
+#
+# Cron (cada 2h):
+#   0 */2 * * * /ruta/al/repo/mundial/actualizar.sh >> /tmp/mundial_update.log 2>&1
+# Recomendación: ejecutar desde IP RESIDENCIAL (SofaScore bloquea datacenter).
 
-set -euo pipefail
+set -uo pipefail
 cd "$(dirname "$0")"
 
-echo "[$(date '+%Y-%m-%d %H:%M')] 1/4 resultados…"
-.venv/bin/python extraer_resultados.py
-
-echo "[$(date '+%Y-%m-%d %H:%M')] 2/4 detectar rondas nuevas (eliminatorias)…"
-.venv/bin/python actualizar_fixtures.py
-
-echo "[$(date '+%Y-%m-%d %H:%M')] 3/4 re-predecir (mercados de los partidos nuevos)…"
-.venv/bin/python -m predictor.cli
-.venv/bin/python -m predictor.tournament
-
-echo "[$(date '+%Y-%m-%d %H:%M')] 4/4 recargar DB…"
-cd web && npm run db:seed >/dev/null
-echo "[$(date '+%Y-%m-%d %H:%M')] OK"
+.venv/bin/python run_actualizacion.py

@@ -19,11 +19,12 @@ from .simulate import MatchSim, dixon_coles_matrix, sample_dc
 
 
 def generar_lineas(mu: float) -> list[float]:
-    """Líneas semienteras alrededor de la media (X+0.5)."""
+    """Líneas semienteras alrededor de la media (X+0.5). El rango (config) es
+    amplio; las líneas triviales se descartan luego por probabilidad."""
     if mu is None or np.isnan(mu) or mu < 0:
         return []
     centro = np.floor(mu)
-    lns = [centro + o + 0.5 for o in range(-3, 6)]
+    lns = [centro + o + 0.5 for o in range(config.LINEA_OFFSET_MIN, config.LINEA_OFFSET_MAX)]
     lns = [round(x, 2) for x in lns if x >= 0.5]
     # unique preservando orden
     seen, out = set(), []
@@ -73,6 +74,7 @@ def calcular_mercados(
     metricas_ou=config.METRICAS_OU,
     rng: np.random.Generator | None = None,
     n_sim: int = config.N_SIM,
+    shares: dict[str, float] | None = None,
 ) -> list[dict]:
     if sims is None:
         return []
@@ -81,13 +83,22 @@ def calcular_mercados(
 
     out: list[dict] = []
 
-    def push(mercado, ambito, evento, linea, prob):
+    def push(mercado, ambito, evento, linea, prob, periodo="FT"):
         out.append({
             "partido_id": pid, "fecha": fecha, "equipo_a": eA, "equipo_b": eB,
             "mercado": mercado, "ambito": ambito, "evento_o_jugador": evento,
             "linea_o_target": linea,
             "probabilidad": round(max(0.0, min(1.0, float(prob))), 4),
+            "periodo": periodo,
         })
+
+    triv = config.LINEA_PROB_TRIVIAL
+
+    def push_ou(mercado, ambito, linea, p_over, periodo="FT"):
+        """Push over+under solo si la línea no es trivial (corta colas inútiles)."""
+        if triv <= p_over <= 1 - triv:
+            push(mercado, ambito, "over", linea, p_over, periodo)
+            push(mercado, ambito, "under", linea, 1 - p_over, periodo)
 
     sA = sims.A.copy()
     sB = sims.B.copy()
@@ -133,15 +144,55 @@ def calcular_mercados(
         fitT = fit_distr(vT) if usar_nb else None
         for L in generar_lineas(vA.mean()):
             p = prob_over(fitA, L) if usar_nb else float((vA > L).mean())
-            push(m, "A", "over", L, p)
-            push(m, "A", "under", L, 1 - p)
+            push_ou(m, "A", L, p)
         for L in generar_lineas(vB.mean()):
             p = prob_over(fitB, L) if usar_nb else float((vB > L).mean())
-            push(m, "B", "over", L, p)
-            push(m, "B", "under", L, 1 - p)
+            push_ou(m, "B", L, p)
         for L in generar_lineas(vT.mean()):
             p = prob_over(fitT, L) if usar_nb else float((vT > L).mean())
-            push(m, "TOTAL", "over", L, p)
-            push(m, "TOTAL", "under", L, 1 - p)
+            push_ou(m, "TOTAL", L, p)
+
+    # --- Mercados por mitad (1ª/2ª parte) -----------------------------------
+    # Se reparte cada conteo simulado del partido completo en mitades por split
+    # binomial con la cuota real de 1ª parte (data/reparto_mitades.csv). Así el
+    # total 1ª+2ª es coherente con el mercado FT y no se toca el motor.
+    if shares:
+        def split(v, share):
+            vi = np.rint(np.clip(v, 0, None)).astype(int)
+            h1 = rng.binomial(vi, share)
+            return h1, vi - h1
+
+        # Goles por mitad (reparto de los goles DC) → O/U + 1X2/BTTS de 1ª parte.
+        gshare = shares.get("goles", config.REPARTO_1H_DEFAULT["goles"])
+        gA1, gA2 = split(gA, gshare)
+        gB1, gB2 = split(gB, gshare)
+        pa1 = float((gA1 > gB1).mean())
+        px1 = float((gA1 == gB1).mean())
+        pb1 = float((gA1 < gB1).mean())
+        push("1X2", "-", "gana_A", "-", pa1, "1H")
+        push("1X2", "-", "empate", "-", px1, "1H")
+        push("1X2", "-", "gana_B", "-", pb1, "1H")
+        pbtts1 = float(((gA1 >= 1) & (gB1 >= 1)).mean())
+        push("btts", "-", "si", "-", pbtts1, "1H")
+        push("btts", "-", "no", "-", 1 - pbtts1, "1H")
+
+        for m in config.METRICAS_OU_MITAD:
+            if m not in sims.metricas:
+                continue
+            j = sims.metricas.index(m)
+            share = shares.get(m, config.REPARTO_1H_DEFAULT.get(m, 0.45))
+            if m == "goles":
+                a1, a2, b1, b2 = gA1, gA2, gB1, gB2
+            else:
+                a1, a2 = split(sA[:, j], share)
+                b1, b2 = split(sB[:, j], share)
+            for periodo, vA_h, vB_h in (("1H", a1, b1), ("2H", a2, b2)):
+                vT_h = vA_h + vB_h
+                for L in generar_lineas(vA_h.mean()):
+                    push_ou(m, "A", L, float((vA_h > L).mean()), periodo)
+                for L in generar_lineas(vB_h.mean()):
+                    push_ou(m, "B", L, float((vB_h > L).mean()), periodo)
+                for L in generar_lineas(vT_h.mean()):
+                    push_ou(m, "TOTAL", L, float((vT_h > L).mean()), periodo)
 
     return out

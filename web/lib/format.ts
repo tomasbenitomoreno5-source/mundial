@@ -22,6 +22,16 @@ export function formatFecha(fecha: string): string {
   });
 }
 
+/** Hora de inicio (kickoff epoch s) en horario de España (Europe/Madrid). */
+export function formatHora(ts: number | null | undefined): string | null {
+  if (!ts) return null;
+  return new Date(ts * 1000).toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Madrid",
+  });
+}
+
 /** Clave de fecha ordenable (ISO) para agrupar. */
 export function fechaKey(fecha: string): string {
   if (/^\d{2}\/\d{2}\/\d{4}$/.test(fecha)) {

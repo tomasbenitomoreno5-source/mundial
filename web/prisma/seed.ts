@@ -3,7 +3,6 @@ import { join } from "node:path";
 
 import { PrismaClient } from "@prisma/client";
 
-import { PLAYER_MARKETS } from "../lib/player-markets";
 
 const prisma = new PrismaClient();
 
@@ -117,12 +116,22 @@ async function main() {
   });
 
   // Calendario real (id de evento + hora) y resultados (si existen).
-  const cal = new Map<string, { eventId: number | null; kickoff: number | null }>();
+  const cal = new Map<
+    string,
+    {
+      eventId: number | null;
+      kickoff: number | null;
+      refereeSofaId: number | null;
+      refereeName: string | null;
+    }
+  >();
   if (existsSync(join(ROOT, "calendario.csv"))) {
     for (const r of parseCsv("calendario.csv")) {
       cal.set(r.partido_id, {
         eventId: r.sofa_event_id ? parseInt(r.sofa_event_id, 10) : null,
         kickoff: r.kickoff ? parseInt(r.kickoff, 10) : null,
+        refereeSofaId: r.referee_id ? parseInt(r.referee_id, 10) : null,
+        refereeName: r.referee_name || null,
       });
     }
   }
@@ -153,6 +162,8 @@ async function main() {
         groupLabel: fase === "grupos" ? (teamToGroup.get(r.equipo_a) ?? null) : null,
         kickoff: c?.kickoff ?? null,
         sofaEventId: c?.eventId ?? null,
+        refereeSofaId: c?.refereeSofaId ?? null,
+        refereeName: c?.refereeName ?? null,
         p1: num(r.p_1),
         pX: num(r.p_X),
         p2: num(r.p_2),
@@ -174,9 +185,27 @@ async function main() {
     evento: r.evento_o_jugador,
     linea: r.linea_o_target,
     probabilidad: num(r.probabilidad) ?? 0,
+    periodo: r.periodo || "FT",
   }));
   for (let i = 0; i < marketData.length; i += 5000) {
     await prisma.market.createMany({ data: marketData.slice(i, i + 5000) });
+  }
+
+  // Rendimiento del modelo por mercado (calibración) — predictor/rendimiento.py.
+  // bins_json viene entrecomillado con comillas dobladas (""); las restauramos.
+  await prisma.marketPerformance.deleteMany();
+  if (existsSync(join(ROOT, "rendimiento_mercados.csv"))) {
+    const perf = parseCsv("rendimiento_mercados.csv").map((r) => ({
+      mercado: r.mercado,
+      fuente: r.fuente || "backtest",
+      n: parseInt(r.n, 10) || 0,
+      brier: num(r.brier) ?? 0,
+      acierto: num(r.acierto) ?? 0,
+      ece: num(r.ece) ?? 0,
+      cob80: r.cob80 ? num(r.cob80) : null,
+      binsJson: (r.bins_json ?? "[]").replace(/""/g, '"'),
+    }));
+    if (perf.length) await prisma.marketPerformance.createMany({ data: perf });
   }
 
   // --- Datos por selección (estilo, perfiles, historial crudo) ---
@@ -299,6 +328,16 @@ async function main() {
     squad.size === 0 ||
     (squad.get(equipoJugador.get(p) ?? "")?.has(p) ?? false);
   const telSquad = tel.filter((r) => jugadorOk(r.jugador));
+
+  // Convocatoria completa a la DB (para mostrar la plantilla entera en la web,
+  // marcando como "sin datos" a quien no tenga telemetría).
+  await prisma.convocatoria.deleteMany();
+  const convData = [...squad.entries()].flatMap(([equipo, js]) =>
+    [...js].map((jugador) => ({ equipo, jugador })),
+  );
+  for (let i = 0; i < convData.length; i += 5000) {
+    await prisma.convocatoria.createMany({ data: convData.slice(i, i + 5000) });
+  }
   console.log(
     `Convocatorias: ${squad.size} selecciones · ${telSquad.length}/${tel.length} filas tras filtrar`,
   );
@@ -335,61 +374,6 @@ async function main() {
     if (vals.length === 0) return null;
     return vals.reduce((a, b) => a + b, 0) / vals.length;
   };
-  const poissonPmf = (k: number, lam: number): number => {
-    let lf = 0;
-    for (let i = 2; i <= k; i++) lf += Math.log(i);
-    return Math.exp(-lam + k * Math.log(lam || 1e-9) - lf);
-  };
-  const poissonOver = (L: number, lam: number): number => {
-    const f = Math.floor(L);
-    let cdf = 0;
-    for (let k = 0; k <= f; k++) cdf += poissonPmf(k, lam);
-    return Math.min(1, Math.max(0, 1 - cdf));
-  };
-  const lineasJugador = (m: number): number[] => {
-    const c = Math.floor(m);
-    const out = new Set<number>();
-    for (let o = -1; o <= 3; o++) {
-      const x = c + o + 0.5;
-      if (x >= 0.5) out.add(Math.round(x * 10) / 10);
-    }
-    return [...out];
-  };
-  const r4 = (x: number) => Math.round(x * 1e4) / 1e4;
-
-  // Media por partido de cada métrica usada por los mercados (config-driven).
-  const METRICAS_MK = [
-    ...new Set(
-      PLAYER_MARKETS.map((m) => m.metric).filter(
-        (m) => m !== "__goal_or_assist__",
-      ),
-    ),
-  ];
-  const statsJugador = new Map<
-    string,
-    { n: number; mean: Record<string, number | null> }
-  >();
-  for (const [p, rows] of filasJugador) {
-    const mean: Record<string, number | null> = {};
-    for (const k of METRICAS_MK) mean[k] = media(rows, k);
-    statsJugador.set(p, { n: rows.length, mean });
-  }
-
-  // Amonestaciones: nº de partidos en que cada jugador vio amarilla.
-  const cardMatches = new Map<string, number>();
-  if (existsSync(join(ROOT, "tarjetas.csv"))) {
-    for (const r of parseCsv("tarjetas.csv")) {
-      cardMatches.set(r.jugador, parseInt(r.partidos_amonestado, 10) || 0);
-    }
-  }
-
-  // Jugadores por selección.
-  const jugadoresPorEquipo = new Map<string, string[]>();
-  for (const [p, t] of equipoJugador) {
-    if (!jugadoresPorEquipo.has(t)) jugadoresPorEquipo.set(t, []);
-    jugadoresPorEquipo.get(t)!.push(p);
-  }
-
   type PMk = {
     matchId: string;
     player: string;
@@ -400,48 +384,21 @@ async function main() {
     probabilidad: number;
   };
   const pmkData: PMk[] = [];
-  type Base = { matchId: string; player: string; team: string };
-  const pushSiNo = (base: Base, mercado: string, pSi: number) => {
-    pmkData.push({ ...base, mercado, evento: "si", linea: "-", probabilidad: r4(pSi) });
-    pmkData.push({ ...base, mercado, evento: "no", linea: "-", probabilidad: r4(1 - pSi) });
-  };
-  const pushOU = (base: Base, mercado: string, lam: number | null) => {
-    if (lam == null || lam <= 0) return;
-    for (const L of lineasJugador(lam)) {
-      const pOver = r4(poissonOver(L, lam));
-      pmkData.push({ ...base, mercado, evento: "over", linea: String(L), probabilidad: pOver });
-      pmkData.push({ ...base, mercado, evento: "under", linea: String(L), probabilidad: r4(1 - pOver) });
-    }
-  };
-  for (const r of resumen) {
-    for (const teamName of [r.equipo_a, r.equipo_b]) {
-      for (const p of jugadoresPorEquipo.get(teamName) ?? []) {
-        const st = statsJugador.get(p);
-        if (!st || st.n < 3) continue;
-        const base: Base = { matchId: r.partido_id, player: p, team: teamName };
-        for (const def of PLAYER_MARKETS) {
-          if (def.tipo === "binary") {
-            if (def.metric === "__yellow_card__") {
-              // Probabilidad empírica de ser amonestado en un partido.
-              const booked = cardMatches.get(p);
-              if (booked != null)
-                pushSiNo(base, def.key, Math.min(0.95, booked / st.n));
-              continue;
-            }
-            let lam: number | null;
-            if (def.metric === "__goal_or_assist__") {
-              const g = st.mean["goals"];
-              const a = st.mean["goalAssist"];
-              lam = g == null && a == null ? null : (g ?? 0) + (a ?? 0);
-            } else {
-              lam = st.mean[def.metric];
-            }
-            if (lam != null) pushSiNo(base, def.key, 1 - Math.exp(-lam));
-          } else {
-            pushOU(base, def.key, st.mean[def.metric]);
-          }
-        }
-      }
+  // Mercados de jugador desde el MOTOR real (predicciones_jugador_py.csv:
+  // bootstrap por jugador + minutos esperados ponderados). Sustituye el Poisson
+  // naíf que se calculaba aquí. La web los renderiza por su `mercado` (keys de
+  // player-markets.ts). Fallback: si no existe el CSV, pmkData queda vacío.
+  if (existsSync(join(ROOT, "predicciones_jugador_py.csv"))) {
+    for (const r of parseCsv("predicciones_jugador_py.csv")) {
+      pmkData.push({
+        matchId: r.partido_id,
+        player: r.jugador,
+        team: r.team,
+        mercado: r.mercado,
+        evento: r.evento,
+        linea: r.linea || "-",
+        probabilidad: num(r.probabilidad) ?? 0,
+      });
     }
   }
   for (let i = 0; i < pmkData.length; i += 5000) {
@@ -554,10 +511,118 @@ async function main() {
     });
   }
 
+  // --- Árbitros del Mundial (plantel FIFA + perfil de carrera + pool) ---
+  await prisma.refereeMatch.deleteMany();
+  await prisma.refereeTeamHistory.deleteMany();
+  await prisma.referee.deleteMany();
+  let nRefs = 0;
+  let nRefMatches = 0;
+  if (existsSync(join(ROOT, "arbitros.csv"))) {
+    const intOr0 = (s: string | undefined) => (s ? parseInt(s, 10) : 0);
+    const refs = parseCsv("arbitros.csv")
+      .filter((r) => r.sofa_id)
+      .map((r) => ({
+        sofaId: parseInt(r.sofa_id, 10),
+        name: r.nombre,
+        country: r.pais || null,
+        countryCode: r.cc || null,
+        confederation: r.confederacion || null,
+        games: intOr0(r.partidos_carrera),
+        yellow: intOr0(r.amarillas),
+        red: intOr0(r.rojas),
+        yellowRed: intOr0(r.dobles_amarillas),
+        poolGames: intOr0(r.partidos_pool),
+        poolYellow: intOr0(r.amarillas_pool),
+        poolYellowHome: intOr0(r.amarillas_pool_local),
+        poolYellowAway: intOr0(r.amarillas_pool_visita),
+        poolRed: intOr0(r.rojas_pool),
+        poolFouls: num(r.faltas_pool),
+        poolGoals: num(r.goles_pool),
+        poolPenalties: intOr0(r.penaltis_pool),
+        poolYellow1h: intOr0(r.amarillas_pool_1h),
+        poolYellow2h: intOr0(r.amarillas_pool_2h),
+      }));
+    await prisma.referee.createMany({ data: refs });
+    nRefs = refs.length;
+
+    // Últimos partidos (arbitro_ultimos.jsonl), solo de árbitros cargados.
+    const known = new Set(refs.map((r) => r.sofaId));
+    if (existsSync(join(ROOT, "arbitro_ultimos.jsonl"))) {
+      const text = readFileSync(join(ROOT, "arbitro_ultimos.jsonl"), "utf8").trim();
+      const rmData = text
+        ? text.split("\n").flatMap((line) => {
+            if (!line.trim()) return [];
+            const rec = JSON.parse(line);
+            if (!known.has(rec.sofa_id)) return [];
+            return (rec.partidos ?? []).map((m: Record<string, unknown>) => ({
+              refereeSofaId: rec.sofa_id as number,
+              ts: (m.ts as number) ?? null,
+              tournament: (m.torneo as string) ?? null,
+              home: (m.home as string) ?? "?",
+              away: (m.away as string) ?? "?",
+              scoreHome: (m.score_home as number) ?? null,
+              scoreAway: (m.score_away as number) ?? null,
+              yellow: (m.amarillas as number) ?? null,
+            }));
+          })
+        : [];
+      for (let i = 0; i < rmData.length; i += 2000) {
+        await prisma.refereeMatch.createMany({ data: rmData.slice(i, i + 2000) });
+      }
+      nRefMatches = rmData.length;
+    }
+
+    // Historial vs selecciones del Mundial (filtra a las 48 mundialistas).
+    if (existsSync(join(ROOT, "arbitro_equipos.csv"))) {
+      const th = parseCsv("arbitro_equipos.csv")
+        .filter((r) => r.sofa_id && teamNames.has(r.equipo) && known.has(parseInt(r.sofa_id, 10)))
+        .map((r) => ({
+          refereeSofaId: parseInt(r.sofa_id, 10),
+          team: r.equipo,
+          games: intOr0(r.partidos),
+          yellow: intOr0(r.amarillas),
+        }));
+      for (let i = 0; i < th.length; i += 2000) {
+        await prisma.refereeTeamHistory.createMany({ data: th.slice(i, i + 2000) });
+      }
+    }
+  }
+
+  // --- Eliminatorias "Por determinar" (placeholders) ---
+  // De calendario_completo.csv: los cruces de eliminatoria cuyo evento aún no
+  // es un Match real (no está en calendario.csv → no se han decidido equipos).
+  await prisma.knockoutFixture.deleteMany();
+  let nKnockout = 0;
+  if (existsSync(join(ROOT, "calendario_completo.csv"))) {
+    const RONDA_ES: Record<string, string> = {
+      "Round of 32": "Dieciseisavos",
+      "Round of 16": "Octavos",
+      Quarterfinals: "Cuartos",
+      Semifinals: "Semifinales",
+      "Match for 3rd place": "Tercer puesto",
+      Final: "Final",
+    };
+    const promovidos = new Set(
+      [...cal.values()].map((c) => c.eventId).filter((e): e is number => e != null),
+    );
+    const kf = parseCsv("calendario_completo.csv")
+      .filter((r) => RONDA_ES[r.ronda]) // solo rondas de eliminatoria
+      .filter((r) => r.sofa_event_id && !promovidos.has(parseInt(r.sofa_event_id, 10)))
+      .map((r) => ({
+        sofaEventId: parseInt(r.sofa_event_id, 10),
+        kickoff: r.kickoff ? parseInt(r.kickoff, 10) : null,
+        ronda: RONDA_ES[r.ronda],
+        label: r.descr || null,
+      }));
+    if (kf.length) await prisma.knockoutFixture.createMany({ data: kf });
+    nKnockout = kf.length;
+  }
+
   console.log(
     `Seed OK: ${teamNames.size} equipos, ${resumen.length} partidos, ${marketData.length} mercados, ` +
       `${knn.length} similares, ${perfiles.length} perfiles, ${statData.length} filas de historial, ` +
-      `${pmsData.length} telemetría jugador, ${pmkData.length} mercados jugador`,
+      `${pmsData.length} telemetría jugador, ${pmkData.length} mercados jugador, ` +
+      `${nRefs} árbitros, ${nRefMatches} partidos de árbitro, ${nKnockout} eliminatorias por determinar`,
   );
 }
 

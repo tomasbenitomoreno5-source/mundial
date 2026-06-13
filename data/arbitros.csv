@@ -1,0 +1,51 @@
+sofa_id;nombre;pais;cc;confederacion;partidos_carrera;amarillas;rojas;dobles_amarillas;partidos_pool;amarillas_pool;amarillas_pool_local;amarillas_pool_visita;rojas_pool;faltas_pool;goles_pool;penaltis_pool;amarillas_pool_1h;amarillas_pool_2h
+786399;Omar Al Ali;United Arab Emirates;ae;AFC;76;247;11;7;1;1;0;1;1;24.0;1.0;0;1;0
+326591;Abdulrahman Al-Jassim;Qatar;qa;AFC;99;369;12;10;8;22;10;12;1;22.0;3.0;0;11;11
+144373;Alireza Faghani;Australia;au;AFC;232;948;15;16;5;22;9;13;2;25.4;2.4;1;3;19
+785164;Ma Ning;China;cn;AFC;250;1087;50;34;5;23;6;17;4;27.8;2.6;2;9;14
+785139;Ilgiz Tantashev;Uzbekistan;uz;AFC;70;272;12;8;4;12;5;7;1;19.0;1.75;0;6;6
+785658;Yusuke Araki;Japan;jp;AFC;198;576;16;13;7;34;14;20;2;20.0;2.0;2;9;25
+789229;Pierre Atcho;Gabon;ga;CAF;11;43;1;1;7;29;12;17;4;28.57;2.86;0;15;14
+787976;Dahane Beida;Mauritania;mr;CAF;18;70;3;2;7;26;14;12;0;33.33;3.57;0;8;18
+787177;Mustapha Ghorbal;Algeria;dz;CAF;24;84;3;0;2;7;4;3;0;29.0;3.5;0;3;4
+789297;Jalal Jayed;Morocco;ma;CAF;10;43;1;1;3;6;0;6;0;29.0;6.0;0;2;4
+787203;Amin Mohamed Omar;Egypt;eg;CAF;14;39;2;2;5;17;8;9;0;23.4;1.6;1;8;9
+786798;Abongile Tom;South Africa;za;CAF;122;499;13;18;4;31;14;17;2;30.0;3.5;1;12;19
+787201;Iván Barton;El Salvador;sv;CONCACAF;64;308;15;7;3;17;11;6;2;28.33;1.0;0;3;14
+787046;Juan Gabriel Calderón;Costa Rica;cr;CONCACAF;40;131;9;2;7;36;22;14;0;25.0;1.57;0;15;21
+316136;Ismail Elfath;USA;us;CONCACAF;267;1029;36;33;3;10;8;2;0;20.67;3.67;1;4;6
+786734;Oshane Nation;Jamaica;jm;CONCACAF;38;145;2;1;9;38;20;18;0;25.44;2.78;2;11;27
+316122;Drew Fischer;Canada;ca;CONCACAF;255;891;29;15;;;;;;;;;;
+788258;Katia Itzel García;Mexico;mx;CONCACAF;51;199;4;1;6;15;7;8;2;28.0;4.33;1;8;7
+787045;Saíd Martínez;Honduras;hn;CONCACAF;49;209;5;5;2;12;6;6;0;43.0;2.0;0;10;2
+787522;Tori Penso;USA;us;CONCACAF;94;346;3;7;3;17;12;5;0;27.0;5.67;5;6;11
+313242;César Arturo Ramos;Mexico;mx;CONCACAF;358;1568;92;60;5;18;2;16;2;27.6;4.6;0;4;14
+787576;Ramon Abatti;Brazil;br;CONMEBOL;162;765;39;11;3;9;3;6;0;27.33;3.0;0;0;9
+786595;Juan Gabriel Benítez;Paraguay;py;CONMEBOL;276;1284;55;32;8;30;13;17;8;22.25;1.62;1;10;20
+243495;Raphael Claus;Brazil;br;CONMEBOL;384;1667;56;30;8;24;12;12;0;22.25;1.0;1;14;10
+787023;Yael Falcón Pérez;Argentina;ar;CONMEBOL;210;1152;31;24;2;6;2;4;0;26.0;2.0;0;0;6
+786553;Cristián Garay;Chile;cl;CONMEBOL;197;867;51;22;9;24;15;9;1;23.0;1.78;6;11;13
+322839;Darío Herrera;Argentina;ar;CONMEBOL;466;2534;99;79;5;10;7;3;0;23.4;2.6;2;2;8
+786583;Kevin Ortega;Peru;pe;CONMEBOL;232;1280;52;37;3;13;8;5;0;26.33;5.33;0;6;7
+786086;Andrés Rojas;Colombia;co;CONMEBOL;264;1509;58;36;6;44;26;18;4;29.33;2.33;0;18;26
+243701;Wilton Sampaio;Brazil;br;CONMEBOL;397;2028;52;42;4;6;4;2;0;20.5;4.5;0;4;2
+786563;Gustavo Tejera;Uruguay;uy;CONMEBOL;262;1318;37;37;3;6;2;4;0;28.67;0.33;0;0;6
+789071;Facundo Tello;Argentina;ar;CONMEBOL;341;1839;74;55;9;38;14;24;0;25.0;3.22;0;15;23
+592616;Jesús Valenzuela;Venezuela;ve;CONMEBOL;130;634;15;19;5;26;16;10;0;24.8;2.2;0;5;21
+788925;Campbell-Kirk Kawana-Waugh;New Zealand;nz;OFC;6;9;0;0;1;2;1;1;0;18.0;6.0;1;1;1
+92295;Espen Eskås;Norway;no;UEFA;323;1112;15;24;9;30;13;17;2;23.0;3.11;6;7;23
+86571;Alejandro Hernández Hernández;Spain;es;UEFA;367;1951;46;50;4;16;7;9;2;22.75;4.5;0;4;12
+69579;István Kovács;Romania;ro;UEFA;442;2352;61;71;6;47;16;31;4;29.0;3.17;0;20;27
+785114;François Letexier;France;fr;UEFA;338;1358;64;35;4;9;5;4;0;22.25;4.25;0;2;7
+72792;Danny Makkelie;Netherlands;nl;UEFA;575;1959;58;58;5;17;7;10;0;22.4;2.8;2;6;11
+72926;Szymon Marciniak;Poland;pl;UEFA;568;2425;56;59;7;33;11;22;2;25.29;4.57;6;14;19
+130916;Maurizio Mariani;Italy;it;UEFA;346;1609;58;38;8;24;13;11;0;25.38;3.25;2;9;15
+96648;Glenn Nyberg;Sweden;se;UEFA;373;1229;20;23;10;38;19;19;3;23.9;3.0;3;20;18
+65702;Michael Oliver;England;en;UEFA;652;2284;50;40;11;54;17;37;0;25.73;5.82;5;17;37
+222742;João Pinheiro;Portugal;pt;UEFA;380;1795;46;30;2;6;2;4;0;27.0;2.0;0;4;2
+137333;Sandro Schärer;Switzerland;ch;UEFA;347;1570;33;49;6;32;13;19;0;24.5;3.33;1;9;23
+69853;Anthony Taylor;England;en;UEFA;655;2481;67;49;10;51;27;24;2;24.3;2.2;2;18;33
+52599;Clément Turpin;France;fr;UEFA;520;1763;103;36;12;49;32;17;6;23.42;5.58;9;9;40
+68557;Slavko Vinčić;Slovenia;si;UEFA;373;1561;36;40;9;33;13;20;1;23.0;3.44;4;8;25
+52417;Felix Zwayer;Germany;de;UEFA;524;2404;50;57;12;68;37;31;3;20.75;2.5;4;27;41
+785206;Adham Makhadmeh;Jordan;jo;AFC;99;362;7;6;6;16;9;7;0;28.0;5.33;2;7;9

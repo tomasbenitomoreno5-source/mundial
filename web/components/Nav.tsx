@@ -6,8 +6,10 @@ import { usePathname } from "next/navigation";
 const LINKS = [
   { href: "/", label: "Inicio" },
   { href: "/predicciones", label: "Predicciones" },
-  { href: "/grupos", label: "Grupos" },
+  // Grupos oculto temporalmente (pendiente de mejora; la página sigue existiendo).
+  // { href: "/grupos", label: "Grupos" },
   { href: "/selecciones", label: "Selecciones" },
+  { href: "/arbitros", label: "Árbitros" },
   { href: "/rendimiento", label: "Rendimiento" },
   { href: "/metodologia", label: "Metodología" },
 ];

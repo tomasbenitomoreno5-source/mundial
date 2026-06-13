@@ -11,11 +11,8 @@ Idempotente: reescribe el CSV completo en cada ejecución.
 
 import asyncio
 import csv
-import json
 import time
 from pathlib import Path
-
-from playwright.async_api import async_playwright
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -57,33 +54,15 @@ async def main():
     print(f"Partidos en calendario: {len(partidos)} | ya iniciados: {len(jugados)}")
 
     filas = []
+    via = {}
     if jugados:
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"])
-            page = await (
-                await browser.new_context(
-                    user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
-                )
-            ).new_page()
+        # SofaScoreClient: API→fallback HTML (la API está bloqueada por Cloudflare;
+        # el marcador y el status sí viajan en el HTML __NEXT_DATA__).
+        from predictor.sofascore import SofaScoreClient
 
-            async def get(url):
-                try:
-                    r = await page.goto(url, wait_until="domcontentloaded")
-                    if r and r.status == 200:
-                        return json.loads(
-                            await page.evaluate(
-                                "()=>document.querySelector('pre')?.innerText ?? document.body.innerText"
-                            )
-                        )
-                except Exception:
-                    return None
-                return None
-
+        async with SofaScoreClient(rate_limit_s=1.0) as cli:
             for pmatch in jugados:
-                data = await get(
-                    f"https://api.sofascore.com/api/v1/event/{pmatch['event_id']}"
-                )
-                ev = (data or {}).get("event", {})
+                ev = await cli.fetch_event(pmatch["event_id"]) or {}
                 status = ev.get("status", {}).get("type")  # "finished" | "inprogress" | ...
                 home = ev.get("homeTeam", {}).get("name")
                 hs = ev.get("homeScore", {}).get("current")
@@ -101,8 +80,7 @@ async def main():
                         "finished": 1 if status == "finished" else 0,
                     }
                 )
-                time.sleep(1.5)
-            await browser.close()
+            via = dict(cli.via)
 
     with open(DATA / "resultados.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(
@@ -111,7 +89,8 @@ async def main():
         w.writeheader()
         w.writerows(filas)
     fin = sum(1 for r in filas if r["finished"] == 1)
-    print(f"OK: {len(filas)} con datos, {fin} finalizados -> resultados.csv")
+    via_txt = f" vía API/HTML={via.get('api',0)}/{via.get('html',0)}" if via else ""
+    print(f"OK: {len(filas)} con datos, {fin} finalizados{via_txt} -> resultados.csv")
 
 
 if __name__ == "__main__":
