@@ -132,6 +132,7 @@ export default async function PlayerPage({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={`https://img.sofascore.com/api/v1/player/${bio.sofaId}/image`}
+            referrerPolicy="no-referrer"
             alt={agg.player}
             width={72}
             height={72}

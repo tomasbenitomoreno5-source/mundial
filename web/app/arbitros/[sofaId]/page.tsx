@@ -118,6 +118,7 @@ export default async function RefereePage({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`https://img.sofascore.com/api/v1/referee/${ref.sofaId}/image`}
+          referrerPolicy="no-referrer"
           alt={ref.name}
           width={72}
           height={72}

@@ -242,6 +242,7 @@ export default async function MatchPage({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`https://img.sofascore.com/api/v1/referee/${match.refereeSofaId}/image`}
+              referrerPolicy="no-referrer"
               alt={match.refereeName ?? "Árbitro"}
               width={28}
               height={28}
