@@ -295,6 +295,14 @@ async def run_normal():
             print(f"  ficha {nombre}: {row['partidos_carrera']}p, {row['amarillas']}am")
         await b.close()
 
+    # NO sobreescribir si el scraping no resolvió nada (p.ej. Cloudflare bloquea
+    # la IP del servidor): dejaría arbitros.csv vacío y el seed cargaría 0
+    # árbitros, borrando el plantel. Mejor conservar los CSV commiteados.
+    if not rows:
+        print("[arbitros] 0 árbitros resueltos (scraping bloqueado?) -> NO "
+              "sobreescribo arbitros.csv/.jsonl/equipos (conservo lo previo)")
+        return
+
     with open(OUT_CSV, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=OUT_FIELDS, delimiter=";")
         w.writeheader()
