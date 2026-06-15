@@ -8,6 +8,7 @@ node_modules/
 dev.db
 # El server genera/actualiza estos; no los versionamos para no pisarlos en el pull
 data/*.jsonl
+!data/arbitro_ultimos.jsonl
 data/resultados.csv
 # Credenciales (Telegram, etc.) — nunca al repo
 telegram.env

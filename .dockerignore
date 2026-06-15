@@ -7,5 +7,6 @@
 *.egg-info
 **/dev.db
 data/*.jsonl
+!data/arbitro_ultimos.jsonl
 data/resultados.csv
 .git
