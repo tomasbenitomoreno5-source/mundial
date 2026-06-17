@@ -49,18 +49,48 @@ def enviar(texto: str) -> bool:
         return False
 
 
+_MARCA = {"ok": "✅", "warn": "⚠️", "fail": "❌"}
+
+
+def _estado(p: dict) -> str:
+    """Estado del paso: 'ok' | 'warn' | 'fail'.
+
+    Compatibilidad: si el paso solo trae el bool `ok`, se mapea a ok/fail.
+    """
+    est = p.get("estado")
+    if est in _MARCA:
+        return est
+    return "ok" if p.get("ok", True) else "fail"
+
+
 def formatear_resumen(pasos: list[dict], ts: str) -> str:
     """Construye el resumen de una ejecución del cron.
 
-    pasos: lista de {nombre, ok: bool, detalle: str}.
-    Encabezado ✅ si todo OK, ⚠️ si hubo algún fallo.
+    pasos: lista de {nombre, estado: 'ok'|'warn'|'fail', detalle: str}
+    (también acepta el antiguo {ok: bool}).
+
+    Encabezado: ✅ todo OK · ⚠️ algún paso degradado (p.ej. fuente bloqueada)
+    · ❌ algún fallo duro. El ❌/⚠️ del encabezado hace imposible confundir una
+    ejecución con problemas con una correcta.
     """
-    hay_fallo = any(not p["ok"] for p in pasos)
-    cab = "⚠️" if hay_fallo else "✅"
-    lineas = [f"{cab} Mundial · cron {ts}"]
-    for p in pasos:
-        marca = "·" if p["ok"] else "✗"
+    estados = [_estado(p) for p in pasos]
+    n = len(pasos)
+    n_fail = estados.count("fail")
+    n_warn = estados.count("warn")
+    n_ok = n - n_fail - n_warn
+
+    # Semáforo: salud global de un vistazo (primera línea).
+    if n_fail:
+        sem, palabra = "🔴", "REVISAR"
+    elif n_warn:
+        sem, palabra = "🟠", "AVISOS"
+    else:
+        sem, palabra = "🟢", "TODO OK"
+
+    lineas = [f"{sem} {palabra} · {n_ok}/{n}", f"Mundial · cron {ts}"]
+    # Una línea por extractor: icono + nombre + dato clave (si lo hay).
+    for p, e in zip(pasos, estados):
         detalle = p.get("detalle", "").strip()
-        lineas.append(f"  {marca} {p['nombre']}: {detalle}" if detalle
-                      else f"  {marca} {p['nombre']}")
+        lineas.append(f"{_MARCA[e]} {p['nombre']} — {detalle}" if detalle
+                      else f"{_MARCA[e]} {p['nombre']}")
     return "\n".join(lineas)

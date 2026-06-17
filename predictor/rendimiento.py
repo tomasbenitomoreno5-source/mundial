@@ -47,10 +47,11 @@ ETIQUETAS = {
 }
 
 
-def resolver_backtest(desde: str, n_sim: int) -> tuple[list[dict], list[dict]]:
+def resolver_backtest(desde: str, n_sim: int,
+                      solo_torneo: str | None = None) -> tuple[list[dict], list[dict]]:
     """Corre el backtest y devuelve (predicciones binarias, datos de conteo)."""
     met: list[dict] = []
-    df = backtest(desde, n_sim=n_sim, metricas_out=met)
+    df = backtest(desde, n_sim=n_sim, metricas_out=met, solo_torneo=solo_torneo)
     preds: list[dict] = []
 
     for _, r in df.iterrows():
@@ -149,10 +150,12 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--desde", default="2023-06-01")
     ap.add_argument("--n-sim", type=int, default=4000)
+    ap.add_argument("--torneo", default=None,
+                    help="filtrar a partidos cuyo torneo contenga este texto (p.ej. 'World Cup')")
     ap.add_argument("--out", default=str(config.DATA_DIR / "rendimiento_mercados.csv"))
     args = ap.parse_args()
 
-    preds, met = resolver_backtest(args.desde, args.n_sim)
+    preds, met = resolver_backtest(args.desde, args.n_sim, args.torneo)
     ev = evaluar(preds)
     cob = cobertura(met)
     print(f"(backtest track record · {len(ev)} mercados · "

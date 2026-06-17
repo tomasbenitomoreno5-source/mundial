@@ -19,7 +19,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WRAPPER = ROOT / "deploy" / "actualizar_docker.sh"
 LOG = "/tmp/mundial_update.log"
-OFFSETS_MIN = [60, 150]  # 1h y 2.5h tras el inicio de cada partido
+# Relativo al inicio de cada partido: 2.5h y 1h ANTES (fijar árbitro + re-predecir
+# con lo más fresco) y 1h y 2.5h DESPUÉS (recoger marcador/stats/telemetría/árbitro).
+OFFSETS_MIN = [-150, -60, 60, 150]
 
 
 def main():
@@ -27,7 +29,7 @@ def main():
     out.append("# Mundial 2026 - auto-update (generado por generar_crontab.py)")
     out.append("# Red de seguridad cada 6h")
     out.append("0 */6 * * * %s >> %s 2>&1" % (WRAPPER, LOG))
-    out.append("# Post-partido: kickoff +1h y +2.5h")
+    out.append("# Relativo al partido: kickoff -2.5h, -1h, +1h, +2.5h")
 
     triggers = []
     # calendario_completo.csv = los 104 partidos (grupos + eliminatorias).

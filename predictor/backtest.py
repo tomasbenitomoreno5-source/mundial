@@ -63,7 +63,8 @@ def _probs_desde_matriz(M: np.ndarray) -> tuple[float, float, float, float, floa
 def backtest(desde: str, n_sim: int = N_SIM_BACKTEST, seed: int = config.SEED,
              half_life: float = config.RECENCIA_HALF_LIFE_DIAS,
              params: dict | None = None,
-             metricas_out: list | None = None) -> pd.DataFrame:
+             metricas_out: list | None = None,
+             solo_torneo: str | None = None) -> pd.DataFrame:
     """params: dict opcional con w_fifa/rho/total_esperado/bandwidth para calibrar.
 
     metricas_out: si se pasa una lista, se rellena (en sitio) con un dict por
@@ -105,6 +106,9 @@ def backtest(desde: str, n_sim: int = N_SIM_BACKTEST, seed: int = config.SEED,
         if len(pasado) < 200:
             continue
         mes_df = partidos[partidos["mes"] == mes]
+        if solo_torneo and "torneo" in mes_df.columns:
+            mes_df = mes_df[mes_df["torneo"].astype(str)
+                            .str.contains(solo_torneo, case=False, na=False)]
         n_prev = pasado.groupby("equipo_nombre").size()
 
         knn = compute_style_knn(pasado)

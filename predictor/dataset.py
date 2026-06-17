@@ -41,7 +41,13 @@ def _limpia_nombre(s: pd.Series) -> pd.Series:
 def _to_numeric(df: pd.DataFrame, cols: list[str]) -> None:
     for c in cols:
         if c in df.columns:
-            df[c] = pd.to_numeric(df[c], errors="coerce")
+            # El CSV usa coma decimal (','). Con dtype=str la lectura no la
+            # convierte, así que normalizamos coma->punto antes de to_numeric
+            # (si no, los decimales como expected_goals quedan NaN y se imputan).
+            df[c] = pd.to_numeric(
+                df[c].astype(str).str.replace(",", ".", regex=False),
+                errors="coerce",
+            )
 
 
 @dataclass
@@ -195,12 +201,35 @@ def _clean_stats(stats: pd.DataFrame, legacy: bool = False) -> list[str]:
     else:
         stats["stats_completas"] = stats[core].notna().any(axis=1)
 
+    # Antes de imputar: qué celdas de las familias QOO eran NA (para 2.7). Solo
+    # en no-legacy (legacy reproduce el R, que no capaba → preserva el golden_R).
+    qoo_hijos = ([h for hh in config.FAMILIAS_QOO.values()
+                  for h in hh if h in stats.columns] if not legacy else [])
+    era_na = {h: stats[h].isna().to_numpy() for h in qoo_hijos}
+
     # 2.6 Imputar NAs con la mediana del propio equipo (fallback: mediana global)
     for m in metricas:
         global_med = stats[m].median(skipna=True)
         team_med = stats.groupby("equipo_nombre")[m].transform("median")
         team_med = team_med.fillna(global_med)
         stats[m] = stats[m].fillna(team_med)
+
+    # 2.7 Coherencia de familias QOO SOLO en celdas IMPUTADAS: un hijo imputado
+    # (p.ej. shots_inside_box, que ESPN no da) no puede superar a su total_shots
+    # (rompía P(hijo>L)<=P(total>L)). Los valores REALES no se tocan (preserva el
+    # golden). Verdad lógica (subconjunto ≤ superconjunto), no inventa dato.
+    for parent, hijos in (config.FAMILIAS_QOO.items() if not legacy else []):
+        if parent not in stats.columns:
+            continue
+        pvals = pd.to_numeric(stats[parent], errors="coerce").to_numpy()
+        for h in hijos:
+            if h not in stats.columns:
+                continue
+            hvals = pd.to_numeric(stats[h], errors="coerce").to_numpy(copy=True)
+            mask = era_na[h] & (hvals > pvals)
+            if mask.any():
+                hvals[mask] = pvals[mask]
+                stats[h] = hvals
 
     return metricas
 

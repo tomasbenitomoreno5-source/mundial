@@ -47,8 +47,23 @@ def test_torneo_rondas_no_monotonas():
     assert validar_torneo(df)
 
 
-def test_formato_notificacion_marca_fallo():
+def test_formato_notificacion_semaforo():
+    # Todo OK -> semáforo verde + recuento; cada paso con ✅.
     ok = formatear_resumen([{"nombre": "a", "ok": True, "detalle": "5 nuevos"}], "13/06 20:00")
-    assert ok.startswith("✅")
+    assert ok.startswith("🟢 TODO OK · 1/1") and "✅ a — 5 nuevos" in ok
+    # Fallo duro (compat bool ok=False) -> rojo + recuento + línea ❌.
     mal = formatear_resumen([{"nombre": "a", "ok": False, "detalle": "403"}], "13/06 20:00")
-    assert mal.startswith("⚠️") and "✗ a" in mal
+    assert mal.startswith("🔴 REVISAR · 0/1") and "❌ a — 403" in mal
+
+
+def test_formato_notificacion_estados():
+    # warn (sin fallos) -> naranja AVISOS.
+    warn = formatear_resumen([{"nombre": "a", "estado": "warn", "detalle": "bloqueado"}], "13/06 20:00")
+    assert warn.startswith("🟠 AVISOS · 0/1") and "⚠️ a — bloqueado" in warn
+    # fail manda sobre warn -> rojo, recuento correcto, nombres en sus líneas.
+    mixto = formatear_resumen(
+        [{"nombre": "stats", "estado": "ok"},
+         {"nombre": "xg", "estado": "warn", "detalle": "xgscore no disponible"},
+         {"nombre": "arbitros", "estado": "fail", "detalle": "timeout"}], "13/06 20:00")
+    assert mixto.startswith("🔴 REVISAR · 1/3")
+    assert "⚠️ xg — xgscore no disponible" in mixto and "❌ arbitros — timeout" in mixto

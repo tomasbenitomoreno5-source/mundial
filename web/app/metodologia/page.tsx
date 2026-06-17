@@ -52,7 +52,12 @@ export default function MetodologiaPage() {
         <Block
           n="8"
           title="Acierto del modelo"
-          body="A medida que se juegan los partidos comparamos lo predicho con lo real: porcentaje de aciertos del 1X2 y de los mercados clave, más el Brier score (mide la calidad de las probabilidades, no solo el acierto binario). Se actualiza solo según avanza el Mundial."
+          body="A medida que se juegan los partidos comparamos lo predicho con lo real: porcentaje de aciertos del 1X2 y de los mercados clave, más el Brier score (mide la calidad de las probabilidades, no solo el acierto binario). Se mide únicamente sobre los partidos del Mundial."
+        />
+        <Block
+          n="9"
+          title="Cada cuánto se actualiza"
+          body="Los datos se refrescan en torno a cada partido: el sistema se ejecuta 2,5 h y 1 h antes del inicio (para fijar el árbitro designado y dejar la predicción final con lo más fresco) y 1 h y 2,5 h después (para recoger el marcador, las estadísticas, la telemetría de los jugadores y el árbitro ya con el partido acabado), más cada 6 horas como red de seguridad. Tras cada actualización el modelo vuelve a predecir los partidos por jugar; las predicciones de los partidos ya disputados quedan congeladas y no se recalculan con información posterior."
         />
       </div>
 

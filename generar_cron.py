@@ -19,7 +19,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 LABEL = "com.mundial.actualizar"
-OFFSET_MIN = 150  # 2.5h tras el inicio (partido + descanso + margen)
+# Relativo al inicio de cada partido: 2.5h y 1h ANTES + 1h y 2.5h DESPUÉS.
+OFFSETS_MIN = [-150, -60, 60, 150]
 
 
 def main():
@@ -28,10 +29,11 @@ def main():
         for r in csv.DictReader(f, delimiter=";"):
             if not r.get("kickoff"):
                 continue
-            t = dt.datetime.fromtimestamp(int(r["kickoff"]) + OFFSET_MIN * 60)
-            triggers.append(
-                {"Month": t.month, "Day": t.day, "Hour": t.hour, "Minute": t.minute}
-            )
+            for off in OFFSETS_MIN:
+                t = dt.datetime.fromtimestamp(int(r["kickoff"]) + off * 60)
+                triggers.append(
+                    {"Month": t.month, "Day": t.day, "Hour": t.hour, "Minute": t.minute}
+                )
 
     # PATH para que launchd encuentre npm/node (no hereda el shell).
     npm = shutil.which("npm")

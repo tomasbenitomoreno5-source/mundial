@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -203,6 +205,28 @@ def build_resumen(largo: pd.DataFrame) -> pd.DataFrame:
             "btts_si", "btts_no", "goles_over_2_5", "goles_under_2_5",
             "corners_over_9_5", "corners_under_9_5"]
     return res[[c for c in cols if c in res.columns]]
+
+
+def congelar_jugados(nuevo: pd.DataFrame, path_existente, finished_pids: set) -> pd.DataFrame:
+    """Conserva la predicción PREVIA (pre-partido) de los partidos ya jugados.
+
+    El motor recalcula todos los partidos; para uno ya jugado, su resultado está
+    en el pool y contaminaría la predicción (haría 'trampa'). Para integridad y
+    rendimiento honesto, NO se sobrescribe: se mantiene la última predicción de
+    cuando aún no se había jugado. Los partidos por jugar SÍ se actualizan.
+    """
+    if not finished_pids:
+        return nuevo
+    p = Path(path_existente)
+    if not p.exists():
+        return nuevo
+    viejo = pd.read_csv(p, sep=";", decimal=",", encoding="utf-8-sig",
+                        dtype={"partido_id": str})
+    fp = {str(x) for x in finished_pids}
+    vid = viejo["partido_id"].astype(str)
+    nid = nuevo["partido_id"].astype(str)
+    # filas previas de los jugados (congeladas) + filas nuevas de los no jugados
+    return pd.concat([viejo[vid.isin(fp)], nuevo[~nid.isin(fp)]], ignore_index=True)
 
 
 def write_outputs(largo: pd.DataFrame, prefix: str = "predicciones") -> tuple[str, str]:

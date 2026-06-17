@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 *.egg-info/
+logs/
 node_modules/
 .next/
 dev.db
@@ -15,3 +16,12 @@ telegram.env
 data/elo_aplicados.txt
 apifootball.env
 theoddsapi.env
+
+# Migración de fuentes: caché HTTP, backup del cutover y scratch obsoletos
+data/.http_cache/
+data/_backup_cutover/
+data/stats_espn_nuevos.csv
+data/resultados_espn.csv
+data/calendario_espn.csv
+data/calendario_wiki.csv
+data/arbitros_wr.csv
