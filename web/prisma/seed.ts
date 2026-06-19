@@ -93,6 +93,23 @@ async function main() {
     resumen.filter((r) => (faseMap.get(r.partido_id) ?? "grupos") === "grupos"),
   );
 
+  // GUARDRAIL: no vaciar la BD si el resumen viene corto. partidos_a_predecir.csv
+  // es la lista-fuente de fixtures; el motor debe predecir TODOS. Si faltan en el
+  // resumen (p.ej. el bug de congelar_jugados que tiró 18 finalizados, jun-2026),
+  // seedear borraría partidos de la web y el cron lo reportaría como ✅. Abortamos
+  // ANTES de cualquier deleteMany → la BD vieja se conserva y el cron sale ❌.
+  if (faseMap.size > 0) {
+    const presentes = new Set(resumen.map((r) => r.partido_id));
+    const faltan = [...faseMap.keys()].filter((pid) => !presentes.has(pid));
+    if (faltan.length > 0) {
+      throw new Error(
+        `Seed ABORTADO: ${faltan.length} partido(s) de partidos_a_predecir ` +
+          `(${faseMap.size}) faltan en predicciones_resumen_py.csv ` +
+          `(${presentes.size}). No se toca la BD. Faltan: ${faltan.join(", ")}`,
+      );
+    }
+  }
+
   // Reset idempotente (orden por las FK)
   await prisma.market.deleteMany();
   await prisma.match.deleteMany();
