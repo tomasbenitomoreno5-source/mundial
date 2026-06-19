@@ -130,7 +130,6 @@ def predict_all(
             eA, eB, rng, n_sim=n_sim, w_fifa=w_fifa,
             factor_a=fbajas.get(eA, 1.0), factor_b=fbajas.get(eB, 1.0),
             sharp_k=1.0 if d.legacy else config.LAMBDA_SHARP_K,
-            w_xg_pool=0.0 if d.legacy else config.W_XG_POOL,
         )
         # Efecto del árbitro designado: escala amarillas y faltas simuladas.
         fa = farb.get(str(pid))
@@ -226,12 +225,6 @@ def congelar_jugados(nuevo: pd.DataFrame, path_existente, finished_pids: set) ->
     fp = {str(x) for x in finished_pids}
     vid = viejo["partido_id"].astype(str)
     nid = nuevo["partido_id"].astype(str)
-    # Solo se congela un jugado si EXISTE en el viejo (hay predicción pre-partido
-    # que conservar). Un jugado ausente del viejo cae al `nuevo`: recalcularlo es
-    # menos honesto que su pre-partido, pero infinitamente mejor que perderlo. Si
-    # se tomara solo `viejo[isin(fp)] + nuevo[~isin(fp)]`, ese partido no lo
-    # aportaría ninguno de los dos y desaparecería del output —y, al seguir
-    # finalizado, no volvería nunca (pérdida acumulativa). Ver tests/test_congelar.py.
     # Solo se congela un jugado si EXISTE en el viejo (hay predicción pre-partido
     # que conservar). Un jugado ausente del viejo cae al `nuevo`: recalcularlo es
     # menos honesto que su pre-partido, pero infinitamente mejor que perderlo. Si
