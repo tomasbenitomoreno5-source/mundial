@@ -639,9 +639,28 @@ async function main() {
     const promovidos = new Set(
       [...cal.values()].map((c) => c.eventId).filter((e): e is number => e != null),
     );
+    // Los cruces añadidos tras la migración llevan event id de ESPN, que no casa
+    // con el sofa_event_id del cuadro: se retiran también los slots cuyo kickoff
+    // ya está cubierto por tantos partidos reales como slots haya a esa hora.
+    const realesPorKickoff = new Map<number, number>();
+    for (const c of cal.values()) {
+      if (c.kickoff != null) {
+        realesPorKickoff.set(c.kickoff, (realesPorKickoff.get(c.kickoff) ?? 0) + 1);
+      }
+    }
     const kf = parseCsv("calendario_completo.csv")
       .filter((r) => RONDA_ES[r.ronda]) // solo rondas de eliminatoria
       .filter((r) => r.sofa_event_id && !promovidos.has(parseInt(r.sofa_event_id, 10)))
+      .filter((r) => {
+        const k = r.kickoff ? parseInt(r.kickoff, 10) : null;
+        if (k == null) return true;
+        const n = realesPorKickoff.get(k) ?? 0;
+        if (n > 0) {
+          realesPorKickoff.set(k, n - 1);
+          return false;
+        }
+        return true;
+      })
       .map((r) => ({
         sofaEventId: parseInt(r.sofa_event_id, 10),
         kickoff: r.kickoff ? parseInt(r.kickoff, 10) : null,
