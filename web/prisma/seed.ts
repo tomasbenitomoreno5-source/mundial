@@ -225,6 +225,23 @@ async function main() {
     if (perf.length) await prisma.marketPerformance.createMany({ data: perf });
   }
 
+  // Rendimiento de mercados de JUGADOR — predictor/rendimiento_jugador.py.
+  await prisma.playerMarketPerformance.deleteMany();
+  if (existsSync(join(ROOT, "rendimiento_jugador_mercados.csv"))) {
+    const perfJ = parseCsv("rendimiento_jugador_mercados.csv").map((r) => ({
+      mercado: r.mercado,
+      fuente: r.fuente || "backtest",
+      n: parseInt(r.n, 10) || 0,
+      brier: num(r.brier) ?? 0,
+      acierto: num(r.acierto) ?? 0,
+      ece: num(r.ece) ?? 0,
+      cob80: r.cob80 ? num(r.cob80) : null,
+      binsJson: (r.bins_json ?? "[]").replace(/""/g, '"'),
+    }));
+    if (perfJ.length)
+      await prisma.playerMarketPerformance.createMany({ data: perfJ });
+  }
+
   // --- Datos por selección (estilo, perfiles, historial crudo) ---
   await prisma.teamSimilar.deleteMany();
   await prisma.teamMetricProfile.deleteMany();

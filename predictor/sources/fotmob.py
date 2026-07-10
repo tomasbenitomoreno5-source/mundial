@@ -43,6 +43,7 @@ _MAP = {
     "dispossessed": ("possessionLostCtrl", False),
     "interceptions": ("interceptions", False),
     "expected_goals": ("expected_goals", False),
+    "expected_assists": ("expected_assists", False),
     "dribbles_succeeded": ("dribbles", False),
 }
 

@@ -68,6 +68,27 @@ ELO_TOTAL_ESPERADO = 2.65  # calibrado por backtest (2026-06-14): 2.65 mejora el
 ELO_GOLES_POR_100PTS = 0.3  # 100 pts ELO ≈ 0.3 goles en venue neutral
 ELO_DEFAULT = 1400  # ELO efectivo para equipos sin rating
 
+# --- xG en la estimación de goles del pool ---------------------------------
+# El pool estima λ con la media de GOLES observados (ruidosos). El xG es una
+# señal menos ruidosa de la calidad de las ocasiones; W_XG_POOL mezcla ambos:
+#   lam_pool = (1 - w)·media(goles_pool) + w·media(xG_pool)
+# w=0 → comportamiento previo (xG ignorado). OJO: el xG histórico (amistosos
+# pre-2026) viene imputado en ~52% de filas, así que un w alto mete ruido.
+# Calibrado por backtest (2026-06-18, 425 partidos desde 2025): mínimo interior
+# limpio en 0.50 → logloss 1X2 0.9229→0.9213, brier 0.5459→0.5448, O2.5
+# 0.2530→0.2509, BTTS 0.2392→0.2375 (todas mejoran; 0.70 ya empeora el logloss).
+# La ganancia es modesta en histórico y mayor en el Mundial (xG real de FotMob).
+W_XG_POOL = 0.5
+
+# xG/xA de JUGADOR en los mercados "marca gol" y "asistencia": mezcla la prob del
+# bootstrap (goles/asistencias observados, ruidosa en muestras pequeñas) con un
+# Poisson sobre el xG/xA-por-minuto del jugador. Fallback a goles donde no hay xG.
+# Calibrado por backtest de jugador (2026-06-19, 14.536 predicciones): en el
+# subconjunto con histórico de xG (delanteros) el log-loss cae de 1.08 a 0.41 a
+# w=0.5 (mejora monótona; 0.5 captura casi todo). w=0 → sin efecto.
+W_XG_JUGADOR = 0.5
+W_XG_JUGADOR_MIN_POOL = 3  # filas con xG en el pool para activar el brazo xG
+
 # --- Dixon-Coles -----------------------------------------------------------
 RHO_DC = -0.08
 MAX_GOLES_DC = 6

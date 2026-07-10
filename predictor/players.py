@@ -261,6 +261,26 @@ def _ratio(stats: pd.DataFrame, equipo: str, num: str, den: str, default: float)
     return float(s_num / s_den) if s_den > 0 else default
 
 
+def _blend_xg_jugador(p_event: float, pool: pd.DataFrame, col_xg: str,
+                      minutos: float, w: float = config.W_XG_JUGADOR) -> float:
+    """Mezcla P(evento>=1) del bootstrap con un Poisson sobre el xG/xA-por-minuto
+    del jugador (señal menos ruidosa). Fallback a p_event si no hay xG en el pool."""
+    if w <= 0 or minutos <= 0 or col_xg not in pool.columns:
+        return p_event
+    xg = pd.to_numeric(pool[col_xg], errors="coerce").to_numpy(dtype=float)
+    mn = pd.to_numeric(pool["minutesPlayed"], errors="coerce").to_numpy(dtype=float)
+    pe = pool["peso"].to_numpy(dtype=float)
+    ok = ~np.isnan(xg) & ~np.isnan(mn) & (mn > 0)
+    if ok.sum() < config.W_XG_JUGADOR_MIN_POOL or (pe[ok] * mn[ok]).sum() <= 0:
+        return p_event
+    rate_min = (pe[ok] * xg[ok]).sum() / (pe[ok] * mn[ok]).sum()
+    p_xg = 1.0 - np.exp(-max(0.0, rate_min * minutos))
+    return (1 - w) * p_event + w * p_xg
+
+
+_XG_COL = {"goals": "expectedGoals", "goalAssist": "expectedAssists"}
+
+
 def _lineas_jugador(mu: float) -> list[float]:
     """5 líneas semienteras alrededor de la media (floor-1 .. +3), como la web."""
     if mu is None or np.isnan(mu) or mu < 0:
@@ -310,6 +330,9 @@ def mercados_jugador_partido(pid, fecha, eA, eB, sel_jug, tel, knn, stats,
                         p = float((1 - np.exp(-sim["fouls"] * ratio_yf)).mean())
                     elif metric in sim:
                         p = float((sim[metric] >= 1).mean())
+                        if metric in _XG_COL:  # marca gol (xG) / asistencia (xA)
+                            p = _blend_xg_jugador(p, pool, _XG_COL[metric],
+                                                  minutos_esp.get(j, 0.0))
                     else:
                         continue
                     if key in _CAP_KEYS:

@@ -109,6 +109,7 @@ def simular_partido_bootstrap(
     factor_a: float = 1.0,
     factor_b: float = 1.0,
     sharp_k: float = config.LAMBDA_SHARP_K,
+    w_xg_pool: float = config.W_XG_POOL,
 ) -> MatchSim | None:
     if pool_A is None or pool_B is None or len(pool_A) == 0 or len(pool_B) == 0:
         return None
@@ -137,6 +138,14 @@ def simular_partido_bootstrap(
     jg = metricas.index("goles")
     lam_a_pool = sim_A[:, jg].mean()
     lam_b_pool = sim_B[:, jg].mean()
+    # xG: mezcla la media de goles del pool con la media de xG del pool (señal
+    # menos ruidosa de calidad de ocasión). w_xg_pool=0 → sin efecto.
+    if w_xg_pool > 0 and "expected_goals" in metricas:
+        jxg = metricas.index("expected_goals")
+        xa, xb = sim_A[:, jxg].mean(), sim_B[:, jxg].mean()
+        if np.isfinite(xa) and np.isfinite(xb):
+            lam_a_pool = (1 - w_xg_pool) * lam_a_pool + w_xg_pool * xa
+            lam_b_pool = (1 - w_xg_pool) * lam_b_pool + w_xg_pool * xb
     el_a, el_b = elo_lambdas(get_elo(eA), get_elo(eB), total_esperado=total_esperado)
     # factor_a/b: ajuste por bajas (Task 4.2); 1.0 = plantilla completa.
     lam_a_blend = ((1 - w_fifa) * lam_a_pool + w_fifa * el_a) * factor_a

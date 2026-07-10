@@ -35,7 +35,7 @@ _MAP = {
     "touches": "touches", "totalClearance": "totalClearance", "totalTackle": "totalTackle",
     "fouls": "fouls", "possessionLostCtrl": "possessionLostCtrl",
     "interceptionWon": "interceptions", "wonContest": "dribbles",
-    "expectedGoals": "expected_goals",
+    "expectedGoals": "expected_goals", "expectedAssists": "expected_assists",
 }
 
 log = logging.getLogger("extraer_plantillas_espn")

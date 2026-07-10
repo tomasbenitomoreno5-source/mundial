@@ -105,6 +105,21 @@ model MarketPerformance {
   binsJson String // JSON: [{lo,hi,pred,real,n}] para la curva de calibración
 }
 
+// Rendimiento de mercados de JUGADOR (marca gol, asistencia, tiros, ...).
+// Tabla aparte porque algunas keys coinciden con las de equipo
+// (shots_on_target, passes, tackles...). Mismo esquema.
+model PlayerMarketPerformance {
+  id       Int     @id @default(autoincrement())
+  mercado  String  @unique
+  fuente   String
+  n        Int
+  brier    Float
+  acierto  Float
+  ece      Float
+  cob80    Float?
+  binsJson String
+}
+
 // --- Datos por selección (cargados de los CSV del motor; ver seed.ts) ---
 
 // Vecinos de estilo (KNN) por selección. De debug_knn.csv.

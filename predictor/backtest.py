@@ -78,6 +78,7 @@ def backtest(desde: str, n_sim: int = N_SIM_BACKTEST, seed: int = config.SEED,
     total_esperado = p.get("total_esperado", config.ELO_TOTAL_ESPERADO)
     bandwidth = p.get("bandwidth", config.POOL_BANDWIDTH)
     sharp_k = p.get("sharp_k", config.LAMBDA_SHARP_K)
+    w_xg_pool = p.get("w_xg_pool", config.W_XG_POOL)
     d = load_dataset()
     stats = d.stats.copy()
     stats = stats[stats["fecha"].notna()]
@@ -135,7 +136,7 @@ def backtest(desde: str, n_sim: int = N_SIM_BACKTEST, seed: int = config.SEED,
             sims = simular_partido_bootstrap(
                 pool_A, pool_B, d.metricas_equipo, cols_shrink, gmeans, eA, eB, rng,
                 n_sim=n_sim, w_fifa=w_fifa, total_esperado=total_esperado,
-                sharp_k=sharp_k,
+                sharp_k=sharp_k, w_xg_pool=w_xg_pool,
             )
             if sims is None or not (np.isfinite(sims.lam_a_blend) and np.isfinite(sims.lam_b_blend)):
                 continue

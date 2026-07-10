@@ -1,6 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { metricLabel } from "@/lib/metric-labels";
+import { PLAYER_MARKETS } from "@/lib/player-markets";
 import type { Bin, MarketPerf } from "@/lib/rendimiento";
+
+const PLAYER_LABEL: Record<string, string> = Object.fromEntries(
+  PLAYER_MARKETS.map((m) => [m.key, m.label]),
+);
 
 /** Rendimiento por mercado (calibración + Brier) desde MarketPerformance. */
 export async function getMarketPerformance(): Promise<MarketPerf[]> {
@@ -15,6 +20,30 @@ export async function getMarketPerformance(): Promise<MarketPerf[]> {
     return {
       mercado: r.mercado,
       etiqueta: metricLabel(r.mercado),
+      fuente: r.fuente,
+      n: r.n,
+      brier: r.brier,
+      acierto: r.acierto,
+      ece: r.ece,
+      cob80: r.cob80,
+      bins,
+    };
+  });
+}
+
+/** Rendimiento por mercado de JUGADOR (calibración) desde PlayerMarketPerformance. */
+export async function getPlayerMarketPerformance(): Promise<MarketPerf[]> {
+  const rows = await prisma.playerMarketPerformance.findMany();
+  return rows.map((r) => {
+    let bins: Bin[] = [];
+    try {
+      bins = JSON.parse(r.binsJson) as Bin[];
+    } catch {
+      bins = [];
+    }
+    return {
+      mercado: r.mercado,
+      etiqueta: PLAYER_LABEL[r.mercado] ?? r.mercado,
       fuente: r.fuente,
       n: r.n,
       brier: r.brier,
@@ -44,11 +73,13 @@ export async function getMatchIds() {
   return rows.map((r) => r.id);
 }
 
-/** Partidos ya jugados (con marcador), para el rendimiento del modelo. */
+/** Partidos ya jugados (con marcador), para el rendimiento del modelo.
+ *  Orden descendente: el más reciente primero (la lista de la web muestra
+ *  solo los primeros y el resto con "mostrar más"). */
 export async function getSettledMatches() {
   return prisma.match.findMany({
     where: { settled: true },
-    orderBy: [{ kickoff: "asc" }, { date: "asc" }],
+    orderBy: [{ kickoff: "desc" }, { date: "desc" }],
   });
 }
 

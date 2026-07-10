@@ -131,6 +131,7 @@ def predict_all(
             eA, eB, rng, n_sim=n_sim, w_fifa=w_fifa,
             factor_a=fbajas.get(eA, 1.0), factor_b=fbajas.get(eB, 1.0),
             sharp_k=1.0 if d.legacy else config.LAMBDA_SHARP_K,
+            w_xg_pool=0.0 if d.legacy else config.W_XG_POOL,
         )
         # Efecto del árbitro designado: escala amarillas y faltas simuladas.
         fa = farb.get(str(pid))

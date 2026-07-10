@@ -122,6 +122,24 @@ export function PrediccionesBrowser({ matches }: { matches: MatchLike[] }) {
     );
   }, [filtradas]);
 
+  // Al abrir (sin filtros en la URL), salta a la primera fecha con algún
+  // partido por jugar, en vez de empezar siempre por el primero (jugado).
+  const sectionRefs = useRef(new Map<string, HTMLElement>());
+  const autoScrolled = useRef(false);
+  useEffect(() => {
+    if (autoScrolled.current || window.location.search) return;
+    const futura =
+      grupos_render.find(([, lista]) => lista.some((m) => !m.settled)) ??
+      grupos_render[grupos_render.length - 1];
+    const key = futura?.[0];
+    const el = key ? sectionRefs.current.get(key) : null;
+    if (el) {
+      autoScrolled.current = true;
+      const y = el.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }
+  }, [grupos_render]);
+
   const activo = query !== "" || grupo !== "all" || equipo !== "all" || fecha !== "all";
   const limpiar = () => {
     setQuery("");
@@ -201,7 +219,12 @@ export function PrediccionesBrowser({ matches }: { matches: MatchLike[] }) {
       ) : (
         <div className="space-y-10">
           {grupos_render.map(([fk, lista]) => (
-            <section key={fk}>
+            <section
+              key={fk}
+              ref={(el) => {
+                if (el) sectionRefs.current.set(fk, el);
+              }}
+            >
               <h2 className="mb-4 flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-slate-400">
                 <span className="h-px flex-1 bg-slate-200" />
                 {formatFecha(fk)}

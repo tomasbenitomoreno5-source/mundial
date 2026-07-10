@@ -1,11 +1,12 @@
-import Link from "next/link";
-
 import { Donut } from "@/components/Donut";
+import { PartidoAPartidoLista } from "@/components/PartidoAPartidoLista";
 import { RendimientoMercadosLista } from "@/components/RendimientoMercadosLista";
 import { outcome, pred1x2 } from "@/lib/accuracy";
-import { flag } from "@/lib/flags";
-import { getMarketPerformance, getSettledMatches } from "@/lib/queries";
-import { teamES } from "@/lib/teams";
+import {
+  getMarketPerformance,
+  getPlayerMarketPerformance,
+  getSettledMatches,
+} from "@/lib/queries";
 
 export const revalidate = 60; // ISR: se refresca con el re-seed del cron
 
@@ -16,8 +17,9 @@ const notaDe = (ece: number) =>
   Math.round(Math.max(0, Math.min(1, 1 - ece / 0.15)) * 100);
 
 export default async function RendimientoPage() {
-  const [rows, settled] = await Promise.all([
+  const [rows, rowsJugador, settled] = await Promise.all([
     getMarketPerformance(),
+    getPlayerMarketPerformance(),
     getSettledMatches(),
   ]);
   const x2 = rows.find((r) => r.mercado === "1X2");
@@ -108,51 +110,7 @@ export default async function RendimientoPage() {
             Aquí verás cada partido: lo que predijo el modelo vs el resultado real.
           </div>
         ) : (
-          <div className="divide-y divide-slate-100 overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
-            {settled.map((m) => {
-              const real = outcome(m.scoreA ?? 0, m.scoreB ?? 0);
-              const pick = pred1x2(m.p1, m.pX, m.p2);
-              const ok = pick === real;
-              const prob = pick === "A" ? m.p1 : pick === "B" ? m.p2 : m.pX;
-              const pickTxt =
-                pick === "A"
-                  ? `gana ${teamES(m.teamAName)}`
-                  : pick === "B"
-                    ? `gana ${teamES(m.teamBName)}`
-                    : "empate";
-              return (
-                <Link
-                  key={m.id}
-                  href={`/predicciones/${m.id}`}
-                  className="group flex items-center gap-3 px-4 py-3 transition hover:bg-slate-50"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate font-medium text-slate-900">
-                      {flag(m.teamAName)} {teamES(m.teamAName)} –{" "}
-                      {teamES(m.teamBName)} {flag(m.teamBName)}
-                    </div>
-                    <div className="text-xs text-slate-400">
-                      El modelo dijo: {pickTxt}
-                      {prob != null && ` · ${Math.round(prob * 100)}%`}
-                    </div>
-                  </div>
-                  <span className="shrink-0 text-lg font-bold tabular-nums text-slate-900">
-                    {m.scoreA}–{m.scoreB}
-                  </span>
-                  <span
-                    className={`w-20 shrink-0 text-right text-sm font-medium ${
-                      ok ? "text-emerald-600" : "text-rose-500"
-                    }`}
-                  >
-                    {ok ? "✓ acertó" : "✗ falló"}
-                  </span>
-                  <span className="shrink-0 text-slate-300 transition group-hover:text-slate-500">
-                    ›
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
+          <PartidoAPartidoLista settled={settled} />
         )}
       </section>
 
@@ -196,6 +154,25 @@ export default async function RendimientoPage() {
           Mundial se van sumando los resultados de cada partido.
         </p>
       </section>
+
+      {/* === Fiabilidad por mercado — jugadores === */}
+      {rowsJugador.length > 0 && (
+        <section className="mt-8">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+            Fiabilidad por mercado — jugadores
+          </h2>
+          <p className="mb-3 mt-1 text-sm text-slate-500">
+            Lo mismo para los <b>{rowsJugador.length} mercados de jugador</b>{" "}
+            (marcar, asistir, tiros, pases…). Los mercados de marcar/asistir son
+            los más fiables; los de conteo (pases, toques…) bastante menos.
+          </p>
+          <RendimientoMercadosLista rows={rowsJugador} />
+          <p className="mt-3 text-xs text-slate-400">
+            Backtest temporal sobre la telemetría de jugador (2024-2026). “Marca
+            gol” y “asistencia” usan el xG/xA del jugador.
+          </p>
+        </section>
+      )}
     </div>
   );
 }

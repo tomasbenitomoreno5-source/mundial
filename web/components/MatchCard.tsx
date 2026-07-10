@@ -18,6 +18,10 @@ export type MatchLike = {
   bttsSi: number | null;
   golesOver25: number | null;
   cornersOver95: number | null;
+  // Partido ya jugado: marcador real para mostrarlo en la tarjeta.
+  settled?: boolean | null;
+  scoreA?: number | null;
+  scoreB?: number | null;
   // Placeholder de eliminatoria (equipos sin decidir): no enlaza a detalle.
   placeholder?: boolean;
   ronda?: string | null;
@@ -36,6 +40,16 @@ function favorito(m: MatchLike): "A" | "X" | "B" {
 export function MatchCard({ m }: { m: MatchLike }) {
   if (m.placeholder) return <PlaceholderCard m={m} />;
   const fav = favorito(m);
+  const jugado =
+    !!m.settled && m.scoreA != null && m.scoreB != null;
+  const realFav = jugado
+    ? m.scoreA! > m.scoreB!
+      ? "A"
+      : m.scoreA! < m.scoreB!
+        ? "B"
+        : "X"
+    : null;
+  const acerto = jugado ? fav === realFav : null;
   return (
     <Link
       href={`/predicciones/${m.id}`}
@@ -49,6 +63,18 @@ export function MatchCard({ m }: { m: MatchLike }) {
         {m.groupLabel && (
           <span className="rounded bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-600">
             Grupo {m.groupLabel}
+          </span>
+        )}
+        {jugado && (
+          <span
+            className={`ml-auto flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums ${
+              acerto
+                ? "bg-emerald-50 text-emerald-700"
+                : "bg-rose-50 text-rose-600"
+            }`}
+            title={acerto ? "El modelo acertó el 1X2" : "El modelo falló el 1X2"}
+          >
+            {acerto ? "✓" : "✗"} {m.scoreA}–{m.scoreB}
           </span>
         )}
       </div>
