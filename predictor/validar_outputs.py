@@ -93,9 +93,28 @@ def validar_torneo(torneo: pd.DataFrame) -> list[str]:
     return errores
 
 
+def _finished_pids() -> set[str]:
+    """Partidos finalizados: su predicción está congelada (pre-partido, quizá de
+    una versión anterior del motor) y no se recalcula, así que no se valida —
+    el validador vigila lo que el motor produce HOY."""
+    import csv
+    p = config.DATA_DIR / "resultados.csv"
+    if not p.exists():
+        return set()
+    with open(p, encoding="utf-8-sig") as f:
+        return {r["partido_id"] for r in csv.DictReader(f, delimiter=";")
+                if str(r.get("finished", "")).strip() == "1"}
+
+
 def main() -> None:
     largo = pd.read_csv(config.DATA_DIR / "predicciones_largo_py.csv",
                         sep=";", decimal=",", encoding="utf-8-sig")
+    fin = _finished_pids()
+    if fin:
+        n0 = largo["partido_id"].nunique()
+        largo = largo[~largo["partido_id"].astype(str).isin(fin)]
+        print(f"({n0 - largo['partido_id'].nunique()} partidos congelados "
+              f"excluidos de la validación)")
     errores = validar_largo(largo)
     tpath = config.DATA_DIR / "probabilidades_torneo.csv"
     if tpath.exists():

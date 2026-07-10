@@ -381,7 +381,9 @@ def predict_players(dataset, knn: StyleKNN, lambdas: dict[str, tuple[float, floa
 
 
 def write_players(largo: pd.DataFrame) -> str:
+    from .pipeline import to_csv_atomic
     config.DATA_DIR.mkdir(exist_ok=True)
     fout = str(config.DATA_DIR / "predicciones_jugador_py.csv")
-    largo.to_csv(fout, sep=";", decimal=",", index=False, encoding="utf-8-sig")
+    to_csv_atomic(largo, fout, sep=";", decimal=",", index=False,
+                  encoding="utf-8-sig")
     return fout

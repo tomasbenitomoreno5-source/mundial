@@ -43,3 +43,19 @@ def test_nunca_reduce_la_cobertura(tmp_path):
     viejo = _escribe_viejo(tmp_path, _nuevo(["P0", "P1"], 0.9))
     out = congelar_jugados(nuevo, viejo, finished_pids={"P0", "P5", "P9"})
     assert out["partido_id"].nunique() == 72
+
+
+def test_viejo_con_decimales_de_punto_vuelve_a_float(tmp_path):
+    # Regresión (server, jul-2026): un CSV previo con probabilidades "0.9" (punto)
+    # se leía como texto, el concat contaminaba la columna y el output se
+    # reescribía con punto para siempre (validar_outputs dejaba de parsear).
+    nuevo = _nuevo(["A", "B"], 0.5)
+    p = tmp_path / "predicciones_largo_py.csv"
+    p.write_text(
+        "partido_id;mercado;evento_o_jugador;probabilidad\n"
+        "A;1X2;gana_A;0.9\n",
+        encoding="utf-8-sig",
+    )
+    out = congelar_jugados(nuevo, p, finished_pids={"A"})
+    assert out["probabilidad"].dtype.kind == "f"
+    assert out.loc[out["partido_id"] == "A", "probabilidad"].iloc[0] == 0.9

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import numpy as np
@@ -222,6 +223,11 @@ def congelar_jugados(nuevo: pd.DataFrame, path_existente, finished_pids: set) ->
         return nuevo
     viejo = pd.read_csv(p, sep=";", decimal=",", encoding="utf-8-sig",
                         dtype={"partido_id": str})
+    for c in ("probabilidad", "linea", "n_apariciones"):
+        if c in viejo.columns and not pd.api.types.is_numeric_dtype(viejo[c]):
+            viejo[c] = pd.to_numeric(
+                viejo[c].astype(str).str.replace(",", ".", regex=False),
+                errors="coerce")
     fp = {str(x) for x in finished_pids}
     vid = viejo["partido_id"].astype(str)
     nid = nuevo["partido_id"].astype(str)
@@ -236,15 +242,23 @@ def congelar_jugados(nuevo: pd.DataFrame, path_existente, finished_pids: set) ->
                       nuevo[~nid.isin(congelables)]], ignore_index=True)
 
 
+def to_csv_atomic(df: pd.DataFrame, path, **kw) -> None:
+    """Escritura atómica (tmp + os.replace): sin filas intercaladas si dos
+    procesos escriben a la vez, y ningún lector ve un fichero a medias."""
+    tmp = f"{path}.tmp.{os.getpid()}"
+    df.to_csv(tmp, **kw)
+    os.replace(tmp, str(path))
+
+
 def write_outputs(largo: pd.DataFrame, prefix: str = "predicciones") -> tuple[str, str]:
     """Escribe largo y resumen (sufijo _py para no pisar el golden del R)."""
     config.DATA_DIR.mkdir(exist_ok=True)
     fout_largo = str(config.DATA_DIR / f"{prefix}_largo_py.csv")
     fout_res = str(config.DATA_DIR / f"{prefix}_resumen_py.csv")
-    largo.to_csv(fout_largo, sep=";", decimal=",", index=False,
-                 encoding="utf-8-sig")
-    build_resumen(largo).to_csv(fout_res, sep=";", decimal=",", index=False,
-                                encoding="utf-8-sig")
+    to_csv_atomic(largo, fout_largo, sep=";", decimal=",", index=False,
+                  encoding="utf-8-sig")
+    to_csv_atomic(build_resumen(largo), fout_res, sep=";", decimal=",",
+                  index=False, encoding="utf-8-sig")
     return fout_largo, fout_res
 
 
@@ -252,7 +266,8 @@ def write_scores(scores: list[dict]) -> str:
     """Escribe las probabilidades de marcador exacto por partido."""
     config.DATA_DIR.mkdir(exist_ok=True)
     fout = str(config.DATA_DIR / "marcadores_py.csv")
-    pd.DataFrame(scores, columns=["partido_id", "a", "b", "prob"]).to_csv(
-        fout, sep=";", decimal=",", index=False, encoding="utf-8-sig"
+    to_csv_atomic(
+        pd.DataFrame(scores, columns=["partido_id", "a", "b", "prob"]),
+        fout, sep=";", decimal=",", index=False, encoding="utf-8-sig",
     )
     return fout

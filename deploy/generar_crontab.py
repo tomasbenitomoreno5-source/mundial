@@ -17,7 +17,8 @@ import datetime as dt
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-WRAPPER = ROOT / "deploy" / "actualizar_docker.sh"
+WRAPPER = "flock -w 900 /tmp/mundial_cron.lock %s" % (
+    ROOT / "deploy" / "actualizar_docker.sh")
 LOG = "/tmp/mundial_update.log"
 # Relativo al inicio de cada partido: 2.5h y 1h ANTES (fijar árbitro + re-predecir
 # con lo más fresco) y 1h y 2.5h DESPUÉS (recoger marcador/stats/telemetría/árbitro).
