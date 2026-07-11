@@ -25,7 +25,7 @@ from .rendimiento import evaluar
 ETIQUETAS = {
     "anytime_scorer": "Marca gol", "assist": "Da asistencia",
     "goal_or_assist": "Gol o asistencia", "big_chance_created": "Crea ocasión clara",
-    "penalty_won": "Provoca penalti", "shots": "Tiros O/U",
+    "shots": "Tiros O/U",
     "shots_on_target": "Tiros a puerta O/U", "shots_off_target": "Tiros fuera O/U",
     "shots_blocked": "Tiros bloqueados O/U", "big_chances_missed": "Ocasiones falladas O/U",
     "passes": "Pases O/U", "accurate_passes": "Pases precisos O/U",
@@ -42,7 +42,7 @@ ETIQUETAS = {
 }
 # Orden de presentación: gol/asistencia primero, luego el resto.
 ORDEN = ["anytime_scorer", "assist", "goal_or_assist", "big_chance_created",
-         "penalty_won", "shots", "shots_on_target", "key_passes", "passes",
+         "shots", "shots_on_target", "key_passes", "passes",
          "accurate_passes", "dribbles", "tackles", "interceptions", "duels_won",
          "aerials_won", "touches", "recoveries", "clearances", "fouls", "fouled"]
 

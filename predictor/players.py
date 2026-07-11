@@ -27,7 +27,10 @@ MERCADOS_JUGADOR = [
     ("assist", "goalAssist", "binary"),
     ("goal_or_assist", "__goal_or_assist__", "binary"),
     ("big_chance_created", "bigChanceCreated", "binary"),
-    ("penalty_won", "penaltyWon", "binary"),
+    # penalty_won fuera (jul-2026): evento tan raro que el bootstrap por-90 en
+    # pools pequeños daba probabilidades absurdas (68% de "provoca penalti");
+    # el backtest lo confirmó (estimó 80-100% -> ocurrió 0/9). Re-añadible con
+    # shrinkage hacia la tasa base validado por backtest.
     ("yellow_card", "__yellow_card__", "binary"),
     ("shots", "totalShots", "ou"),
     ("shots_on_target", "onTargetScoringAttempt", "ou"),

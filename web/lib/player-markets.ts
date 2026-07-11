@@ -32,7 +32,6 @@ export const PLAYER_MARKETS: PlayerMarketDef[] = [
   { key: "assist", metric: "goalAssist", label: "Da asistencia", tipo: "binary" },
   { key: "goal_or_assist", metric: "__goal_or_assist__", label: "Gol o asistencia", tipo: "binary" },
   { key: "big_chance_created", metric: "bigChanceCreated", label: "Crea ocasión clara", tipo: "binary" },
-  { key: "penalty_won", metric: "penaltyWon", label: "Provoca penalti", tipo: "binary" },
   { key: "yellow_card", metric: "__yellow_card__", label: "Ve amarilla", tipo: "binary" },
 
   // --- Ataque ---
