@@ -37,7 +37,7 @@ _MAP_EQUIPO = {
     "totalPasses": "passes",
     "totalCrosses": "crosses",
     "totalLongBalls": "long_balls",
-    "effectiveTackles": "tackles",
+    "effectiveTackles": "tackles_won",
     "totalTackles": "total_tackles",
     "interceptions": "interceptions",
     "totalClearance": "clearances",
@@ -134,6 +134,10 @@ def team_stats(summary_obj: dict) -> dict:
         ts, sot, bl = d.get("total_shots"), d.get("shots_on_target"), d.get("blocked_shots")
         if None not in (ts, sot, bl):
             d["shots_off_target"] = max(0, ts - sot - bl)
+        # El `tackles` histórico (SofaScore) eran entradas TOTALES (idéntico a
+        # total_tackles); el effectiveTackles de ESPN son las ganadas.
+        if "total_tackles" in d:
+            d["tackles"] = d["total_tackles"]
     res["home"]["goles"] = h["home_score"]
     res["away"]["goles"] = h["away_score"]
     return res
