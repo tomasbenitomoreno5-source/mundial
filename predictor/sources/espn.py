@@ -80,9 +80,19 @@ def scoreboard(dates: str | None = None) -> list[dict]:
     return out
 
 
+def _summary_terminado(s: dict) -> bool:
+    try:
+        return bool(s["header"]["competitions"][0]["status"]["type"].get("completed"))
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
 def summary(event_id: int | str, *, cache: bool = False) -> dict:
-    """JSON crudo del resumen de un partido. cache=True solo si ya terminó."""
-    return base.get_json(f"{BASE}/summary?event={event_id}", cache=cache)
+    """JSON crudo del resumen de un partido. La caché solo persiste partidos
+    TERMINADOS: un summary cacheado en vivo dejaría stats/eventos congelados a
+    mitad de partido para todos los consumidores posteriores."""
+    return base.get_json(f"{BASE}/summary?event={event_id}", cache=cache,
+                         cacheable=_summary_terminado)
 
 
 def header(summary_obj: dict) -> dict:

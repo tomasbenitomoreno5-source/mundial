@@ -48,10 +48,16 @@ _MAP = {
 }
 
 
+def _details_terminado(d: dict) -> bool:
+    return bool(d.get("general", {}).get("finished"))
+
+
 def match_details(match_id: int | str, *, cache: bool = False) -> dict:
-    """JSON crudo de un partido. cache=True solo si ya terminó."""
+    """JSON crudo de un partido. La caché solo persiste partidos TERMINADOS
+    (uno en vivo dejaría xG/telemetría congelados a mitad de partido)."""
     return base.get_json(f"{API}/matchDetails?matchId={match_id}",
-                         headers=_HEADERS, cache=cache)
+                         headers=_HEADERS, cache=cache,
+                         cacheable=_details_terminado)
 
 
 def league_matches(league_id: int = 77) -> list[dict]:

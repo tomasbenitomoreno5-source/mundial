@@ -69,19 +69,27 @@ def fetch(url: str, *, headers: dict | None = None, timeout: float = 30.0,
 
 
 def get_json(url: str, *, headers: dict | None = None, cache: bool = False,
-             **kw: Any) -> Any:
+             cacheable=None, **kw: Any) -> Any:
     """GET que devuelve JSON. Si cache=True, lee/escribe en disco (inmutable).
 
     Usar cache=True SOLO para datos que no cambian (partidos terminados).
+    `cacheable`: predicado sobre el JSON; si se pasa, la caché solo se usa y
+    escribe cuando cacheable(obj) es True. Protege de cachear un partido EN
+    VIVO (p.ej. el summary pedido a kickoff+1h dejaría las stats congeladas a
+    mitad de partido para todos los consumidores posteriores).
     """
     if cache:
         cp = _cache_path(url)
         if cp.exists():
-            log.debug("cache hit %s", url)
-            return json.loads(cp.read_text(encoding="utf-8"))
+            obj = json.loads(cp.read_text(encoding="utf-8"))
+            if cacheable is None or cacheable(obj):
+                log.debug("cache hit %s", url)
+                return obj
+            log.info("cache invalidada (contenido no cacheable): %s", url)
+            cp.unlink()
     data = fetch(url, headers=headers, **kw)
     obj = json.loads(data.decode("utf-8"))
-    if cache:
+    if cache and (cacheable is None or cacheable(obj)):
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         _cache_path(url).write_text(json.dumps(obj), encoding="utf-8")
     return obj
